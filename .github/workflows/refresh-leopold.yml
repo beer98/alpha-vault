@@ -1,0 +1,61 @@
+name: refresh-leopold
+
+# 每个工作日云端刷新 Leopold 行情数据 → 有变化就提交并部署。
+on:
+  schedule:
+    - cron: '0 12 * * 1-5'      # 工作日 UTC 12:00（北京 20:00 / 美东盘前 08:00）
+  workflow_dispatch:
+
+permissions:
+  contents: write                # 需要把刷新后的数据 push 回仓库
+
+concurrency:
+  group: leopold-refresh
+  cancel-in-progress: false
+
+env:
+  PROJECT: alpha-vault-wen98
+  CF_TOKEN_RAW: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CF_ACCT_RAW: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 刷新行情数据（SEC EDGAR 缓存 + CNBC 实时报价）
+        run: python3 follow-leopold/scripts/refresh.py
+
+      - name: 提交数据变更
+        id: commit
+        run: |
+          git config user.name "leopold-refresh-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add follow-leopold/data
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "数据无变化，跳过。"
+          else
+            git commit -m "chore(leopold): 每日刷新行情数据"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 部署到 Cloudflare Pages（仅数据有变化时）
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          set -e
+          TOKEN=$(printf '%s' "$CF_TOKEN_RAW" | LC_ALL=C tr -cd '[:graph:]')
+          if [ -z "$TOKEN" ]; then echo "::notice::无 CLOUDFLARE_API_TOKEN，跳过部署。"; exit 0; fi
+          echo "::add-mask::$TOKEN"; export CLOUDFLARE_API_TOKEN="$TOKEN"
+          ACCT=$(printf '%s' "$CF_ACCT_RAW" | LC_ALL=C tr -cd '[:graph:]' | tr 'A-Z' 'a-z')
+          if [ -z "$ACCT" ]; then echo "::error::无 Account ID。"; exit 1; fi
+          echo "::add-mask::$ACCT"; export CLOUDFLARE_ACCOUNT_ID="$ACCT"
+          npx --yes wrangler@4 pages deploy . --project-name "$PROJECT" --branch main --commit-dirty=true
