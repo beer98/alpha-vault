@@ -3,302 +3,264 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ALPHA VAULT · 投研档案库</title>
-<meta name="description" content="把每一条 alpha 钉在纸上，按日期归档，不再丢失。@zmyroy 的投资研究档案库。" />
+<title>ALPHA VAULT — 一条信号，挖到能下单的那一层</title>
+<meta name="description" content="独立投研。拆开一句话——谁说的、为什么、该买什么。一篇一页，只留结论。" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#E7E8E3;
-    --paper-2:#DCDED7;
-    --paper-3:#D2D4CC;
-    --ink:#1B1D1B;
-    --ink-dim:rgba(27,29,27,.60);
-    --grey:#83867F;
-    --green:#15543A;
-    --green-deep:#0E3A28;
-    --green-line:#1E6645;
-    --bone:#ECEDE7;
-    --bone-dim:rgba(236,237,231,.74);
-    --line:rgba(27,29,27,.16);
-    --line-soft:rgba(27,29,27,.09);
-    --cjk-d:'Noto Serif SC',serif;
-    --cjk-b:'Noto Sans SC',sans-serif;
-    --lat:'Space Grotesk',system-ui,sans-serif;
-    --mono:'Space Mono',ui-monospace,monospace;
-    --maxw:1080px;
+    --paper:#F1EDE3;
+    --paper-2:#E8E3D6;
+    --paper-3:#DED8C8;
+    --ink:#19170F;
+    --ink-2:#403B2D;
+    --ink-dim:rgba(25,23,15,.56);
+    --grey:#8C8773;
+    --line:rgba(25,23,15,.18);
+    --line-soft:rgba(25,23,15,.10);
+    --red:#D23A19;
+    --red-deep:#A82D10;
+    --green:#1E5A3B;
+    --disp:'Fraunces','Noto Serif SC',Georgia,serif;
+    --cjk-d:'Noto Serif SC','Fraunces',serif;
+    --sans:'Archivo','Noto Sans SC',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --maxw:1120px;
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
-  body{margin:0;color:var(--ink);font-family:var(--cjk-b);line-height:1.6;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
-    background-color:var(--paper);
-    background-image:
-      linear-gradient(var(--line-soft) 1px,transparent 1px),
-      linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
-    background-size:34px 34px;
-    background-position:-1px -1px;}
-  ::selection{background:var(--green);color:var(--bone);}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden;}
+  ::selection{background:var(--red);color:var(--paper);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,4.5vw,56px);}
   a{color:inherit;text-decoration:none;}
+  .mono{font-family:var(--mono);}
+
+  /* ── TOP BAR ──────────────────────────── */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:20px 0 0;font-family:var(--mono);font-size:.72rem;font-weight:500;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);}
+  .topbar .l span{color:var(--red);font-weight:700;}
+  .topbar .r{white-space:nowrap;}
 
   /* ── MASTHEAD ─────────────────────────── */
-  .masthead{padding:clamp(40px,7vh,86px) 0 0;}
-  .topline{display:flex;justify-content:space-between;align-items:baseline;gap:18px;flex-wrap:wrap;
-    font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-dim);}
-  .topline .stamp{font-family:var(--mono);font-weight:700;letter-spacing:.12em;color:var(--green);}
-  .wordmark{font-family:var(--mono);font-weight:700;font-size:clamp(3rem,12.5vw,8rem);
-    line-height:.9;letter-spacing:-.03em;margin:18px 0 0;color:var(--ink);}
-  .wordmark .dot{color:var(--green);}
-  .wordmark .v{color:var(--green);}
-  .deck{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:22px 0 0;}
-  .deck .cn{font-family:var(--cjk-d);font-weight:700;font-size:clamp(1.15rem,3vw,1.6rem);color:var(--ink);letter-spacing:.04em;}
-  .deck .tag{font-family:var(--cjk-b);font-size:.96rem;color:var(--ink-dim);max-width:34em;line-height:1.6;}
+  .mast{position:relative;padding:clamp(36px,7vh,72px) 0 clamp(26px,4vh,44px);overflow:hidden;}
+  .mast .glyph{position:absolute;top:-.18em;right:-.04em;font-family:var(--disp);font-style:italic;
+    font-weight:900;font-size:clamp(16rem,34vw,30rem);line-height:.8;color:var(--red);opacity:.07;
+    pointer-events:none;user-select:none;z-index:0;}
+  .mast > *{position:relative;z-index:1;}
+  .eyebrow{font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ink-dim);}
+  .eyebrow b{color:var(--ink);font-weight:700;}
+  .title{font-family:var(--disp);font-weight:900;font-size:clamp(3.4rem,12vw,8.2rem);
+    line-height:.9;letter-spacing:-.025em;margin:16px 0 0;font-optical-sizing:auto;}
+  .title em{font-style:italic;color:var(--red);font-weight:900;}
+  .manifesto{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.5rem,4.4vw,2.85rem);
+    line-height:1.18;letter-spacing:-.01em;margin:clamp(26px,4vh,40px) 0 0;max-width:18em;}
+  .manifesto .r{color:var(--red);}
+  .subdeck{margin:18px 0 0;max-width:34em;font-size:clamp(1rem,1.6vw,1.12rem);
+    color:var(--ink-dim);line-height:1.62;}
+  .subdeck b{color:var(--ink-2);font-weight:600;}
 
-  /* 头框 / framed banner plate */
-  .plate{position:relative;margin:clamp(30px,5vh,46px) 0 0;border:1.5px solid var(--ink);
-    background:var(--paper-2);padding:9px;}
-  .plate::after{content:"";position:absolute;inset:4px;border:1px solid var(--line);pointer-events:none;}
-  .plate-tab{position:absolute;top:-1px;right:22px;transform:translateY(-100%);
-    background:var(--green);color:var(--bone);font-family:var(--mono);font-weight:700;font-size:.64rem;
-    letter-spacing:.18em;padding:5px 11px 4px;}
-  .plate svg{display:block;width:100%;height:auto;}
+  /* ── 头框: TICKER TAPE FRAME ──────────── */
+  .tapeframe{position:relative;margin:clamp(30px,5vh,46px) 0 0;border:1.5px solid var(--ink);
+    background:var(--paper-2);}
+  .tapeframe .tab{position:absolute;top:0;left:0;transform:translateY(-100%);
+    background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:700;font-size:.64rem;
+    letter-spacing:.2em;text-transform:uppercase;padding:5px 12px 4px;}
+  .tapeframe .tab .dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--red);margin-right:7px;vertical-align:middle;}
+  .tape{overflow:hidden;white-space:nowrap;padding:13px 0;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
+  .tape-inner{display:inline-block;will-change:transform;animation:tape 38s linear infinite;}
+  .tape .sym{font-family:var(--mono);font-weight:700;font-size:.96rem;letter-spacing:.06em;color:var(--ink);
+    padding:0 2px;}
+  .tape .sep{color:var(--red);margin:0 1.1em;font-weight:400;}
+  @keyframes tape{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-  .mast-rule{height:1px;background:var(--line);margin:clamp(30px,5vh,50px) 0 0;}
+  /* ── CONTENTS HEAD ────────────────────── */
+  .chead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+    padding:clamp(46px,7vh,80px) 0 20px;border-bottom:1.5px solid var(--ink);}
+  .chead .ttl{font-family:var(--disp);font-weight:900;font-size:clamp(1.9rem,4vw,2.7rem);
+    line-height:1;display:flex;align-items:baseline;gap:14px;}
+  .chead .ttl .en{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--grey);}
+  .chead .ttl .ct{font-family:var(--mono);font-size:.9rem;font-weight:700;color:var(--red);}
+  .modes{display:flex;align-items:stretch;font-family:var(--mono);font-size:.74rem;
+    letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);}
+  .modes .m{padding:8px 15px;color:var(--ink-dim);border-left:1px solid var(--line);}
+  .modes .m:first-child{border-left:none;}
+  .modes .m.on{background:var(--ink);color:var(--paper);font-weight:700;}
+  .modes .m.soon{color:var(--grey);}
+  .modes .m.soon::after{content:" ·待开";font-size:.66em;letter-spacing:.04em;}
 
-  /* ── INDEX BAR ────────────────────────── */
-  .indexbar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
-    padding:clamp(34px,5vh,52px) 0 18px;}
-  .indexbar .lbl{font-family:var(--cjk-d);font-weight:900;font-size:1.7rem;letter-spacing:.06em;}
-  .indexbar .lbl .en{font-family:var(--lat);font-size:.7rem;font-weight:600;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--grey);display:block;margin-top:6px;}
-  .modes{display:flex;align-items:center;gap:4px;font-family:var(--lat);font-size:.78rem;}
-  .modes .m{padding:7px 14px;border:1px solid var(--line);color:var(--ink-dim);letter-spacing:.04em;}
-  .modes .m.on{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:600;}
-  .modes .m.soon{color:var(--grey);border-style:dashed;cursor:not-allowed;}
-  .modes .m.soon::after{content:" soon";font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;opacity:.7;}
+  /* ── MONTH DIVIDER ────────────────────── */
+  .month{display:flex;align-items:center;gap:16px;padding:clamp(30px,4vh,42px) 0 4px;}
+  .month .no{font-family:var(--mono);font-weight:700;font-size:.92rem;letter-spacing:.08em;color:var(--ink);}
+  .month .en{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);}
+  .month .rule{flex:1;height:1px;background:var(--line);}
+  .month .ct{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--grey);}
 
-  /* ── DATE GROUP ───────────────────────── */
-  .group{padding:14px 0 0;}
-  .group-head{display:flex;align-items:center;gap:16px;margin:0 0 22px;}
-  .group-head .yr{font-family:var(--mono);font-weight:700;font-size:1.05rem;letter-spacing:.06em;color:var(--green);white-space:nowrap;}
-  .group-head .ln{height:1px;background:var(--line);flex:1;}
-  .group-head .ct{font-family:var(--lat);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);white-space:nowrap;}
+  /* ── ENTRY ROW ────────────────────────── */
+  .entry{display:grid;grid-template-columns:96px 1fr 280px;gap:clamp(20px,3vw,40px);
+    align-items:start;padding:clamp(28px,3.5vh,40px) 12px;border-top:1px solid var(--line);
+    position:relative;color:var(--ink);
+    transition:background .3s ease,padding-left .35s cubic-bezier(.2,.7,.2,1);
+    opacity:0;transform:translateY(16px);}
+  .entry.in{opacity:1;transform:none;}
+  .entry:first-of-type{border-top:none;}
+  .entry::before{content:"";position:absolute;left:0;top:-1px;height:calc(100% + 1px);width:0;
+    background:var(--red);transition:width .3s ease;}
+  .entry:hover{background:var(--paper-2);padding-left:24px;}
+  .entry:hover::before{width:3px;}
+  .entry:focus-visible{outline:2.5px solid var(--red);outline-offset:-2px;}
 
-  /* ── DOSSIER CARD ─────────────────────── */
-  .dossier{display:grid;grid-template-columns:280px 1fr;gap:0;border:1.5px solid var(--ink);
-    background:var(--paper);margin:0 0 26px;text-decoration:none;color:var(--ink);
-    transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s;
-    opacity:0;transform:translateY(20px);}
-  .dossier.in{opacity:1;transform:none;}
-  .dossier:hover{transform:translateY(-4px);border-color:var(--green-deep);
-    box-shadow:14px 16px 0 -2px rgba(14,58,40,.14);}
-  .dossier:focus-visible{outline:2.5px solid var(--green);outline-offset:4px;}
+  .e-no{display:flex;flex-direction:column;gap:7px;padding-top:5px;}
+  .e-no .num{font-family:var(--disp);font-weight:900;font-style:italic;font-size:clamp(1.9rem,3.2vw,2.6rem);
+    line-height:.8;color:var(--red);letter-spacing:-.02em;}
+  .e-no .date{font-family:var(--mono);font-weight:500;font-size:.78rem;letter-spacing:.06em;color:var(--ink-dim);}
 
-  .dcover{position:relative;border-right:1.5px solid var(--ink);background:var(--paper-2);overflow:hidden;}
-  .dcover svg{display:block;width:100%;height:100%;}
-  .dossier:hover .dcover .sink-mini{transform:translateY(3px);}
-  .dcover .sink-mini{transition:transform .4s ease;}
+  .e-main .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.5rem,3vw,2.35rem);
+    line-height:1.22;letter-spacing:-.005em;margin:0;}
+  .e-main .take{margin:15px 0 0;font-size:1.04rem;line-height:1.6;color:var(--ink-2);max-width:40em;}
+  .e-main .take b{color:var(--ink);font-weight:600;}
+  .e-main .src{margin:14px 0 0;font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
+    color:var(--ink-dim);line-height:1.5;}
+  .e-main .src .q{color:var(--ink-2);}
 
-  .dbody{padding:26px 30px 28px;display:flex;flex-direction:column;}
-  .dmeta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-    font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--ink-dim);}
-  .dmeta .no{color:var(--green);font-weight:700;}
-  .dmeta .dot{color:var(--grey);}
-  .dmeta .kind{font-family:var(--lat);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--grey);border:1px solid var(--line);padding:3px 9px;}
-  .dtitle{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.4rem,3vw,1.92rem);line-height:1.22;
-    letter-spacing:-.005em;margin:16px 0 0;}
-  .dsum{margin:13px 0 0;font-size:1rem;line-height:1.66;color:var(--ink-dim);max-width:46em;}
-  .dsum b{color:var(--ink);font-weight:500;}
-  .dtick{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:18px 0 0;
-    font-family:var(--mono);font-weight:700;font-size:.92rem;color:var(--ink);}
-  .dtick .t{padding:2px 0;}
-  .dtick .sep{color:var(--grey);margin:0 .5em;font-weight:400;}
-  .denter{margin:auto 0 0;padding-top:20px;display:flex;align-items:center;gap:9px;
-    font-family:var(--lat);font-weight:600;font-size:.92rem;letter-spacing:.04em;color:var(--green);}
-  .denter .arw{transition:transform .3s ease;}
-  .dossier:hover .denter .arw{transform:translateX(6px);}
+  .e-side{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-top:6px;}
+  .e-tag{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--green);border:1px solid var(--green);padding:4px 9px;}
+  .e-tickers{font-family:var(--mono);font-weight:700;font-size:.92rem;line-height:1.75;
+    letter-spacing:.02em;color:var(--ink);}
+  .e-tickers .s{color:var(--grey);font-weight:400;margin:0 .15em;}
+  .e-cta{margin-top:2px;font-family:var(--mono);font-size:.8rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:8px;}
+  .e-cta i{font-style:normal;transition:transform .3s ease;}
+  .entry:hover .e-cta i{transform:translateX(6px);}
 
-  /* ── FOOTER ───────────────────────────── */
-  .endnote{margin:40px 0 0;padding:22px 0 0;border-top:1px solid var(--line);
-    font-size:.92rem;color:var(--ink-dim);line-height:1.7;max-width:50em;}
-  .endnote b{color:var(--ink);font-weight:500;}
-  footer{border-top:1px solid var(--line);margin-top:clamp(40px,7vh,76px);padding:30px 0 64px;}
-  .foot{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;
-    font-family:var(--lat);font-size:.8rem;color:var(--ink-dim);line-height:1.7;}
-  .foot .meta{font-family:var(--mono);font-size:.72rem;white-space:nowrap;}
+  /* ── ENDNOTE + FOOTER ─────────────────── */
+  .endnote{border-top:1.5px solid var(--ink);margin-top:8px;padding:26px 12px 0;
+    font-family:var(--cjk-d);font-weight:700;font-size:clamp(1.1rem,2vw,1.4rem);line-height:1.5;
+    color:var(--ink);max-width:24em;}
+  .endnote .r{color:var(--red);}
+  footer{margin-top:clamp(46px,8vh,90px);border-top:1px solid var(--line);padding:26px 0 70px;}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;color:var(--ink-dim);line-height:1.7;}
+  .foot .cite{max-width:42em;}
+  .foot .meta{white-space:nowrap;color:var(--grey);}
 
-  @media (max-width:680px){
-    .dossier{grid-template-columns:1fr;}
-    .dcover{border-right:none;border-bottom:1.5px solid var(--ink);min-height:150px;}
-    .wordmark{font-size:clamp(1.95rem,11.6vw,3rem);}
-    .deck{margin-top:18px;}
+  @media (max-width:760px){
+    .entry{grid-template-columns:64px 1fr;gap:16px 18px;}
+    .e-side{grid-column:1 / -1;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 18px;
+      padding-top:4px;margin-top:4px;}
+    .e-no .num{font-size:2rem;}
+    .entry:hover{padding-left:12px;}
+  }
+  @media (max-width:480px){
+    .entry{grid-template-columns:1fr;}
+    .e-no{flex-direction:row;align-items:baseline;gap:12px;}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto;}
-    .dossier{opacity:1!important;transform:none!important;transition:none!important;}
-    .chev-mini{animation:none!important;}
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .chev-mini{animation:bobm 1.8s ease-in-out infinite;}
-    @keyframes bobm{0%,100%{transform:translate(0,0);}50%{transform:translate(0,3px);}}
+    .entry{opacity:1!important;transform:none!important;transition:none!important;}
+    .tape-inner{animation:none!important;}
   }
 </style>
 </head>
 <body>
 
-<header class="masthead">
+<div class="wrap">
+  <div class="topbar">
+    <span class="l"><span>●</span> 独立投研 · 持续归档</span>
+    <span class="r">更新 2026.06.16 · BY @beer98</span>
+  </div>
+</div>
+
+<header class="mast">
+  <span class="glyph" aria-hidden="true">α</span>
   <div class="wrap">
-    <div class="topline">
-      <span>投研档案库 · Investment Research Vault</span>
-      <span class="stamp">EST. 2026 · @zmyroy</span>
+    <div class="eyebrow"><b>独立投研</b> · 信号到标的 · Independent Equity Research</div>
+    <h1 class="title">ALPHA <em>VAULT</em></h1>
+    <p class="manifesto">一条信号，<br>挖到能下单的<span class="r">那一层</span>。</p>
+    <p class="subdeck">拆开一句话 —— <b>谁说的、为什么、该买什么</b>。一篇一页，只留结论，不留废话。</p>
+  </div>
+
+  <div class="wrap">
+    <div class="tapeframe">
+      <span class="tab"><span class="dot"></span>在看 · WATCHLIST</span>
+      <div class="tape" role="img" aria-label="在看标的：COHR LITE AXTI SIVE RDDT INOD MSFT">
+        <div class="tape-inner">
+          <span class="sym">COHR</span><span class="sep">/</span><span class="sym">LITE</span><span class="sep">/</span><span class="sym">AXTI</span><span class="sep">/</span><span class="sym">SIVE</span><span class="sep">/</span><span class="sym">RDDT</span><span class="sep">/</span><span class="sym">INOD</span><span class="sep">/</span><span class="sym">MSFT</span><span class="sep">/</span><span class="sym">COHR</span><span class="sep">/</span><span class="sym">LITE</span><span class="sep">/</span><span class="sym">AXTI</span><span class="sep">/</span><span class="sym">SIVE</span><span class="sep">/</span><span class="sym">RDDT</span><span class="sep">/</span><span class="sym">INOD</span><span class="sep">/</span><span class="sym">MSFT</span><span class="sep">/</span>
+        </div>
+      </div>
     </div>
-
-    <h1 class="wordmark">ALPHA<span class="dot">·</span><span class="v">VAULT</span></h1>
-
-    <div class="deck">
-      <span class="cn">阿尔法金库</span>
-      <span class="tag">把每一条 alpha 钉在纸上 —— 按日期归档，一页一论点，不再随手丢失。</span>
-    </div>
-
-    <!-- 头框 / framed strata banner -->
-    <div class="plate" role="img" aria-label="地层勘探横剖面：价值从会商品化的模型层，下沉到算力、数据、平台三层基岩。">
-      <span class="plate-tab">SURVEY · 横剖面</span>
-      <svg viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="0" y2="7" stroke="#1B1D1B" stroke-opacity="0.12" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect x="0" y="0" width="1200" height="300" fill="#DCDED7"/>
-        <!-- 模型层 surface (dashed = commoditizing) -->
-        <rect x="0" y="0" width="1200" height="58" fill="url(#hatch)"/>
-        <line x1="0" y1="58" x2="1200" y2="58" stroke="#83867F" stroke-width="1.5" stroke-dasharray="9 7"/>
-        <text x="28" y="36" font-family="'Space Grotesk',sans-serif" font-size="14" letter-spacing="3" fill="#83867F">MODEL · 模型 · 会商品化</text>
-        <!-- bedrock layers -->
-        <rect x="0" y="58"  width="1200" height="80" fill="#1E6645"/>
-        <rect x="0" y="138" width="1200" height="80" fill="#15543A"/>
-        <rect x="0" y="218" width="1200" height="82" fill="#0E3A28"/>
-        <text x="28" y="105" font-family="'Noto Serif SC',serif" font-weight="700" font-size="30" fill="#ECEDE7">算力</text>
-        <text x="28" y="185" font-family="'Noto Serif SC',serif" font-weight="700" font-size="30" fill="#ECEDE7">数据</text>
-        <text x="28" y="266" font-family="'Noto Serif SC',serif" font-weight="700" font-size="30" fill="#ECEDE7">平台</text>
-        <text x="92" y="105" font-family="'Space Grotesk',sans-serif" font-size="12" letter-spacing="3" fill="rgba(236,237,231,.6)">COMPUTE</text>
-        <text x="92" y="185" font-family="'Space Grotesk',sans-serif" font-size="12" letter-spacing="3" fill="rgba(236,237,231,.6)">DATA</text>
-        <text x="92" y="266" font-family="'Space Grotesk',sans-serif" font-size="12" letter-spacing="3" fill="rgba(236,237,231,.6)">PLATFORM</text>
-        <!-- drill core + depth ticks -->
-        <g stroke="#ECEDE7" stroke-opacity="0.55">
-          <line x1="980" y1="58" x2="980" y2="300" stroke-width="1.5"/>
-          <line x1="970" y1="98"  x2="990" y2="98"  stroke-width="1.5"/>
-          <line x1="970" y1="178" x2="990" y2="178" stroke-width="1.5"/>
-          <line x1="970" y1="258" x2="990" y2="258" stroke-width="1.5"/>
-        </g>
-        <g font-family="'Space Mono',monospace" font-size="12" fill="rgba(236,237,231,.7)" text-anchor="start">
-          <text x="1000" y="102">01 ▸ 激光 / 铟磷</text>
-          <text x="1000" y="182">02 ▸ 真人数据</text>
-          <text x="1000" y="262">03 ▸ 过路费</text>
-        </g>
-        <!-- sink arrow -->
-        <g transform="translate(720,18)">
-          <text x="0" y="14" font-family="'Space Grotesk',sans-serif" font-size="12" letter-spacing="4" fill="#83867F">价值下沉 ▾</text>
-        </g>
-      </svg>
-    </div>
-
-    <div class="mast-rule"></div>
   </div>
 </header>
 
-<main>
-  <section class="wrap" aria-label="研究索引">
-    <div class="indexbar">
-      <div class="lbl">索引<span class="en">The Index</span></div>
-      <div class="modes" role="group" aria-label="排序方式">
-        <span class="m on">按日期</span>
-        <span class="m soon" aria-disabled="true" title="以后按板块归类">按板块</span>
-      </div>
+<main class="wrap">
+  <div class="chead">
+    <div class="ttl">目录 <span class="en">Contents</span> <span class="ct">／ 01</span></div>
+    <div class="modes" role="group" aria-label="排序">
+      <span class="m on">时间序</span>
+      <span class="m soon" aria-disabled="true" title="以后按板块归类">板块</span>
     </div>
+  </div>
 
-    <!-- ════════ DATE GROUP ════════ -->
-    <div class="group">
-      <div class="group-head">
-        <span class="yr">2026 · 六月</span>
-        <span class="ln"></span>
-        <span class="ct">1 篇</span>
-      </div>
+  <!-- ════════ 2026 · 06 ════════ -->
+  <div class="month">
+    <span class="no">2026 · 06</span><span class="en">June</span>
+    <span class="rule"></span><span class="ct">1 篇</span>
+  </div>
 
-      <!-- ░░ ENTRY No.001 ░░ -->
-      <a class="dossier" href="r/2026-06-14-nadella-ecosystem/">
-        <div class="dcover">
-          <svg viewBox="0 0 280 280" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-            <rect width="280" height="280" fill="#DCDED7"/>
-            <!-- model band -->
-            <rect x="26" y="34" width="228" height="40" fill="none" stroke="#83867F" stroke-width="1.4" stroke-dasharray="7 6"/>
-            <text x="140" y="59" text-anchor="middle" font-family="'Noto Serif SC',serif" font-weight="700" font-size="17" fill="#83867F">模型</text>
-            <!-- sink -->
-            <g class="sink-mini">
-              <g class="chev-mini">
-                <path d="M133 88 l7 7 l7 -7" fill="none" stroke="#15543A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </g>
-              <!-- three layers -->
-              <rect x="26" y="112" width="228" height="46" fill="#1E6645"/>
-              <rect x="26" y="160" width="228" height="46" fill="#15543A"/>
-              <rect x="26" y="208" width="228" height="46" fill="#0E3A28"/>
-              <text x="140" y="141" text-anchor="middle" font-family="'Noto Serif SC',serif" font-weight="700" font-size="18" fill="#ECEDE7">算力</text>
-              <text x="140" y="189" text-anchor="middle" font-family="'Noto Serif SC',serif" font-weight="700" font-size="18" fill="#ECEDE7">数据</text>
-              <text x="140" y="237" text-anchor="middle" font-family="'Noto Serif SC',serif" font-weight="700" font-size="18" fill="#ECEDE7">平台</text>
-            </g>
-          </svg>
-        </div>
+  <a class="entry" href="r/2026-06-14-nadella-ecosystem/" aria-label="No.001 模型会沦为大宗商品，钱沉到它脚下三层">
+    <div class="e-no">
+      <span class="num">001</span>
+      <span class="date">06.14</span>
+    </div>
+    <div class="e-main">
+      <h2 class="thesis">模型会沦为大宗商品，<br>钱沉到它脚下三层。</h2>
+      <p class="take">别买会被换掉的<b>模型</b> —— 买每个 AI 都甩不掉的底座：<b>算力、数据、平台</b>。三层逐一挖到卡脖子的那家。</p>
+      <p class="src">读自 Satya Nadella（微软 CEO） · <span class="q">「A frontier without an ecosystem is not stable」</span> · X，约 2,800 万阅</p>
+    </div>
+    <div class="e-side">
+      <span class="e-tag">AI 基建</span>
+      <div class="e-tickers">COHR<span class="s">·</span>LITE<span class="s">·</span>AXTI<span class="s">·</span>SIVE<br>RDDT<span class="s">·</span>INOD<span class="s">·</span>MSFT</div>
+      <span class="e-cta">读全文 <i>→</i></span>
+    </div>
+  </a>
 
-        <div class="dbody">
-          <div class="dmeta">
-            <span class="no">No.001</span>
-            <span class="dot">·</span>
-            <span>2026.06.14</span>
-            <span class="kind">X 长文解读</span>
-          </div>
-          <h2 class="dtitle">模型会变成大宗商品，<br>钱沉到它底下的三层。</h2>
-          <p class="dsum">读微软 CEO <b>纳德拉</b>那条「frontier without an ecosystem is not stable」——别买会被替换的<b>模型</b>，买每个 AI 都甩不掉的三层基建：<b>算力、数据、平台</b>。逐层挑出卡点标的。</p>
-          <div class="dtick">
-            <span class="t">COHR</span><span class="sep">·</span><span class="t">LITE</span><span class="sep">·</span><span class="t">AXTI</span><span class="sep">·</span><span class="t">SIVE</span><span class="sep">·</span><span class="t">RDDT</span><span class="sep">·</span><span class="t">INOD</span><span class="sep">·</span><span class="t">MSFT</span>
-          </div>
-          <span class="denter">进入卷宗 <span class="arw">→</span></span>
-        </div>
-      </a>
-
-    </div><!-- /group -->
-
-    <p class="endnote"><b>这是档案库的第一份卷宗。</b> 往后每做一份投研，就在这里多压一张按日期归档的卡片；以后篇数多了，再开「按板块」那一栏。每一页都是基于公开信息的思考框架，非投资建议，标的请自行实时验证。</p>
-  </section>
+  <p class="endnote">№001 起步。<br>往后每挖到一条，<span class="r">这儿就多一行。</span></p>
 </main>
 
 <footer>
   <div class="wrap foot">
-    <span>ALPHA VAULT · 投研档案库 · 把每条 alpha 钉在纸上，按日期归档。</span>
-    <span class="meta">2026 · @zmyroy · alpha-vault</span>
+    <span class="cite">ALPHA VAULT · 把一句话拆成能下单的标的。全部基于公开信息，是思考框架、<b>非投资建议</b>，标的请自行实时核验。</span>
+    <span class="meta">beer98 / alpha-vault / 2026</span>
   </div>
 </footer>
 
 <script>
   (function(){
-    var cards = document.querySelectorAll('.dossier');
-    if(!('IntersectionObserver' in window) ||
-       (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)){
-      cards.forEach(function(c){c.classList.add('in');});return;
+    var rows = document.querySelectorAll('.entry');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!('IntersectionObserver' in window) || reduce){
+      rows.forEach(function(r){r.classList.add('in');});return;
     }
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
         if(e.isIntersecting){
-          var idx = Array.prototype.indexOf.call(cards, e.target);
-          e.target.style.transitionDelay = (idx*0.08)+'s';
+          var idx = Array.prototype.indexOf.call(rows, e.target);
+          e.target.style.transitionDelay = (idx*0.07)+'s';
           e.target.classList.add('in');
           io.unobserve(e.target);
         }
       });
-    },{threshold:0.18});
-    cards.forEach(function(c){io.observe(c);});
+    },{threshold:0.15});
+    rows.forEach(function(r){io.observe(r);});
   })();
 </script>
 </body>
