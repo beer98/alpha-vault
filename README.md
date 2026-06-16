@@ -42,4 +42,4 @@ cd ~/alpha-vault && python3 -m http.server 8080
 # 浏览器开 http://localhost:8080
 ```
 
-— @beer98
+— wen98
