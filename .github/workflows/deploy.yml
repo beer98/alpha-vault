@@ -1,0 +1,50 @@
+name: deploy
+
+# 每次 push 到 main 自动部署到 Cloudflare Pages；也可手动触发。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+env:
+  PROJECT: alpha-vault-wen98          # Cloudflare Pages 项目名 → 网址 alpha-vault-wen98.pages.dev
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 没配 Cloudflare 密钥前，干净跳过（不报红），配好后自动生效
+      - name: 检查密钥
+        id: chk
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::尚未配置 CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID，先跳过部署。配好两个密钥后重跑即自动上线。"
+          fi
+
+      - name: 装 Node
+        if: steps.chk.outputs.ok == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 确保 Pages 项目存在（已存在则忽略）
+        if: steps.chk.outputs.ok == 'true'
+        run: npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main || true
+
+      - name: 部署
+        if: steps.chk.outputs.ok == 'true'
+        run: npx --yes wrangler@4 pages deploy . --project-name "$PROJECT" --branch main --commit-dirty=true
