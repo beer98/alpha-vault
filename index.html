@@ -98,15 +98,15 @@
   .modes .m.soon::after{content:" ·待开";font-size:.66em;letter-spacing:.04em;}
 
   /* ── MONTH DIVIDER ────────────────────── */
-  .month{display:flex;align-items:center;gap:16px;padding:clamp(30px,4vh,42px) 0 4px;}
+  .month{display:flex;align-items:center;gap:16px;padding:clamp(20px,3vh,30px) 0 4px;}
   .month .no{font-family:var(--mono);font-weight:700;font-size:.92rem;letter-spacing:.08em;color:var(--ink);}
   .month .en{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);}
   .month .rule{flex:1;height:1px;background:var(--line);}
   .month .ct{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--grey);}
 
   /* ── ENTRY ROW ────────────────────────── */
-  .entry{display:grid;grid-template-columns:96px 1fr 280px;gap:clamp(20px,3vw,40px);
-    align-items:start;padding:clamp(28px,3.5vh,40px) 12px;border-top:1px solid var(--line);
+  .entry{display:grid;grid-template-columns:74px 1fr 230px;gap:clamp(14px,2.2vw,28px);
+    align-items:start;padding:clamp(16px,2.1vh,21px) 12px;border-top:1px solid var(--line);
     position:relative;color:var(--ink);
     transition:background .3s ease,padding-left .35s cubic-bezier(.2,.7,.2,1);
     opacity:0;transform:translateY(16px);}
@@ -118,27 +118,27 @@
   .entry:hover::before{width:3px;}
   .entry:focus-visible{outline:2.5px solid var(--red);outline-offset:-2px;}
 
-  .e-no{display:flex;flex-direction:column;gap:7px;padding-top:5px;}
-  .e-no .num{font-family:var(--disp);font-weight:900;font-style:italic;font-size:clamp(1.9rem,3.2vw,2.6rem);
+  .e-no{display:flex;flex-direction:column;gap:4px;padding-top:3px;}
+  .e-no .num{font-family:var(--disp);font-weight:900;font-style:italic;font-size:clamp(1.4rem,2.2vw,1.75rem);
     line-height:.8;color:var(--red);letter-spacing:-.02em;}
-  .e-no .date{font-family:var(--mono);font-weight:500;font-size:.78rem;letter-spacing:.06em;color:var(--ink-dim);}
+  .e-no .date{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.06em;color:var(--ink-dim);}
 
-  .e-main .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.5rem,3vw,2.35rem);
-    line-height:1.22;letter-spacing:-.005em;margin:0;}
-  .e-main .take{margin:15px 0 0;font-size:1.04rem;line-height:1.6;color:var(--ink-2);max-width:40em;}
+  .e-main .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.18rem,2vw,1.5rem);
+    line-height:1.28;letter-spacing:-.005em;margin:0;}
+  .e-main .take{margin:8px 0 0;font-size:.92rem;line-height:1.55;color:var(--ink-2);max-width:42em;}
   .e-main .take b{color:var(--ink);font-weight:600;}
-  .e-main .src{margin:14px 0 0;font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
+  .e-main .src{margin:9px 0 0;font-family:var(--mono);font-size:.72rem;letter-spacing:.02em;
     color:var(--ink-dim);line-height:1.5;}
   .e-main .src .q{color:var(--ink-2);}
 
-  .e-side{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-top:6px;}
-  .e-tag{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--green);border:1px solid var(--green);padding:4px 9px;}
-  .e-tickers{font-family:var(--mono);font-weight:700;font-size:.92rem;line-height:1.75;
+  .e-side{display:flex;flex-direction:column;align-items:flex-start;gap:9px;padding-top:3px;}
+  .e-tag{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--green);border:1px solid var(--green);padding:3px 8px;}
+  .e-tickers{font-family:var(--mono);font-weight:700;font-size:.82rem;line-height:1.7;
     letter-spacing:.02em;color:var(--ink);}
   .e-tickers .s{color:var(--grey);font-weight:400;margin:0 .15em;}
-  .e-cta{margin-top:2px;font-family:var(--mono);font-size:.8rem;font-weight:700;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:8px;}
+  .e-cta{margin-top:1px;font-family:var(--mono);font-size:.74rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:7px;}
   .e-cta i{font-style:normal;transition:transform .3s ease;}
   .entry:hover .e-cta i{transform:translateX(6px);}
 
@@ -157,7 +157,7 @@
     .entry{grid-template-columns:64px 1fr;gap:16px 18px;}
     .e-side{grid-column:1 / -1;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 18px;
       padding-top:4px;margin-top:4px;}
-    .e-no .num{font-size:2rem;}
+    .e-no .num{font-size:1.5rem;}
     .entry:hover{padding-left:12px;}
   }
   @media (max-width:480px){
@@ -222,7 +222,7 @@
       <span class="date">06.14</span>
     </div>
     <div class="e-main">
-      <h2 class="thesis">模型会沦为大宗商品，<br>钱沉到它脚下三层。</h2>
+      <h2 class="thesis">模型会沦为大宗商品，钱沉到它脚下三层。</h2>
       <p class="take">别买会被换掉的<b>模型</b> —— 买每个 AI 都甩不掉的底座：<b>算力、数据、平台</b>。三层逐一挖到卡脖子的那家。</p>
       <p class="src">读自 Satya Nadella（微软 CEO） · <span class="q">「A frontier without an ecosystem is not stable」</span> · X，约 2,800 万阅</p>
     </div>
