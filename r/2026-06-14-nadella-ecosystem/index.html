@@ -6,235 +6,244 @@
 <title>模型会变成大宗商品 — 钱沉到它底下的三层</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#E7E8E3;
-    --paper-2:#DCDED7;
-    --ink:#1B1D1B;
-    --ink-dim:rgba(27,29,27,.60);
-    --grey:#83867F;
-    --green:#15543A;
-    --green-deep:#0E3A28;
-    --green-line:#1E6645;
-    --bone:#ECEDE7;
-    --bone-dim:rgba(236,237,231,.74);
-    --line:rgba(27,29,27,.16);
-    --cjk-d:'Noto Serif SC',serif;
-    --cjk-b:'Noto Sans SC',sans-serif;
-    --lat:'Space Grotesk',system-ui,sans-serif;
-    --mono:'Space Mono',ui-monospace,monospace;
-    --maxw:980px;
+    --paper:#EBE8DF;--paper-2:#E3DFD3;--ink:#221F1A;--ink-soft:#6E6659;
+    --ink-faint:rgba(34,31,26,.46);--red:#BC3328;--red-deep:#9C2A21;
+    --line:rgba(34,31,26,.18);--line-soft:rgba(34,31,26,.10);
+    --cjk-d:'Noto Serif SC',serif;--cjk-b:'Noto Sans SC',sans-serif;
+    --lat:'Fraunces',Georgia,serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+    --maxw:1000px;
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font-family:var(--cjk-b);line-height:1.6;-webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;overflow-x:hidden;}
-  ::selection{background:var(--green);color:var(--bone);}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;}
-  a{color:var(--green-line);text-decoration:none;border-bottom:1px solid rgba(30,102,69,.35);transition:border-color .2s;}
-  a:hover{border-color:var(--green-line);}
-  a:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:2px;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--cjk-b);font-weight:400;
+    line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;}
+  ::selection{background:var(--red);color:var(--paper);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(26px,5vw,64px);}
+  a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .2s,color .2s;}
+  a:hover{color:var(--red-deep);border-color:var(--red-deep);}
+  a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:1px;}
 
-  /* ── BACK TO VAULT ────────────────────── */
-  .backlink{display:inline-flex;align-items:center;gap:9px;border:none;margin:clamp(26px,4vh,40px) 0 0;
-    font-family:var(--lat);font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);}
-  .backlink:hover{color:var(--green);border:none;}
+  .backlink{display:inline-flex;align-items:center;gap:9px;border:none;margin:0 0 22px;
+    font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);}
+  .backlink:hover{color:var(--red-deep);border:none;}
   .backlink .arw{transition:transform .25s ease;}
   .backlink:hover .arw{transform:translateX(-4px);}
-  .backlink .mk{font-family:var(--mono);font-weight:700;color:var(--green);letter-spacing:.02em;}
+  .backlink .mk{font-weight:600;color:var(--red);letter-spacing:.04em;}
 
-  /* ── MASTHEAD ─────────────────────────── */
-  .masthead{padding:0 0 0;}
-  .eyebrow{font-family:var(--lat);font-size:.74rem;font-weight:500;letter-spacing:.26em;
-    text-transform:uppercase;color:var(--ink-dim);margin-top:clamp(30px,5vh,54px);}
-  .datestamp{font-family:var(--mono);font-weight:700;font-size:clamp(2.9rem,11vw,6rem);
-    line-height:.96;letter-spacing:-.02em;margin:14px 0 0;color:var(--ink);}
-  .datestamp .sep{color:var(--grey);font-weight:400;}
-  .source{margin:18px 0 0;font-family:var(--lat);font-size:.94rem;color:var(--ink-dim);max-width:42em;}
-  .source .ttl{font-style:italic;}
-  .mast-rule{height:1px;background:var(--line);margin:clamp(30px,5vh,52px) 0 0;}
+  .mast{padding:clamp(40px,7vh,82px) 0 0;}
+  .kicker{font-family:var(--mono);font-size:.74rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);}
+  .date{font-family:var(--mono);font-weight:600;font-size:clamp(3rem,12vw,6.4rem);line-height:.94;letter-spacing:-.03em;margin:16px 0 0;}
+  .date .d{color:var(--ink-faint);font-weight:400;}
+  .src{margin:20px 0 0;font-family:var(--lat);font-size:1rem;color:var(--ink-soft);max-width:44em;line-height:1.55;}
+  .src .t{font-style:italic;color:var(--ink);}
+  .mast-rule{height:2px;background:var(--ink);margin:clamp(30px,5vh,50px) 0 0;width:100%;}
 
-  /* ── HERO ─────────────────────────────── */
-  .hero{padding:clamp(44px,7vh,84px) 0 clamp(36px,5vh,60px);}
-  .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(2.5rem,7.4vw,4.9rem);
-    line-height:1.08;letter-spacing:-.01em;margin:0;}
-  .thesis .g{color:var(--green);}
-  .sub{margin:30px 0 0;max-width:30em;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink-dim);line-height:1.62;}
+  .hero{padding:clamp(46px,7vh,86px) 0 clamp(40px,6vh,72px);}
+  .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(2.5rem,7.6vw,5.1rem);line-height:1.06;letter-spacing:-.01em;margin:0;}
+  .sub{margin:30px 0 0;max-width:31em;font-size:clamp(1.06rem,2.2vw,1.32rem);color:var(--ink-soft);line-height:1.6;}
   .sub b{color:var(--ink);font-weight:500;}
 
-  /* ── STRATIGRAPHY (signature) ─────────── */
-  .strata{padding:0 0 clamp(20px,4vh,40px);}
-  .strata-head{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--grey);margin:0 0 18px;}
+  .arg{padding:clamp(20px,3vh,36px) 0 clamp(40px,6vh,64px);border-top:1px solid var(--line-soft);}
+  .arg-tag{font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 clamp(28px,4vh,44px);}
+  .step{display:grid;grid-template-columns:84px 1fr;gap:clamp(18px,3vw,40px);padding:clamp(26px,4vh,40px) 0;border-top:1px solid var(--line-soft);align-items:start;}
+  .step:first-of-type{border-top:none;}
+  .step .n{font-family:var(--lat);font-weight:400;font-size:1.5rem;color:var(--red);line-height:1;padding-top:.28em;font-variant-numeric:tabular-nums;}
+  .step .h{font-family:var(--cjk-d);font-weight:700;font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--ink);margin:0 0 12px;letter-spacing:.005em;line-height:1.32;}
+  .step .p{margin:0;font-size:clamp(1.02rem,1.9vw,1.14rem);color:var(--ink);line-height:1.72;max-width:38em;}
+  .step .p b{font-weight:700;}
+  .step .p .soft{color:var(--ink-soft);}
 
-  .model-band{border:1px dashed var(--grey);background:var(--paper-2);
-    padding:16px 22px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;}
-  .model-band .mb-cjk{font-family:var(--cjk-d);font-weight:700;font-size:1.25rem;color:var(--grey);}
-  .model-band .mb-en{font-family:var(--lat);font-size:.68rem;font-weight:600;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--grey);}
-  .model-band .mb-note{font-size:.9rem;color:var(--grey);margin-left:auto;}
+  .layers{margin:22px 0 0;border-top:1px solid var(--line);}
+  .lyr{display:grid;grid-template-columns:128px 1fr;gap:clamp(14px,2vw,28px);padding:22px 0;border-bottom:1px solid var(--line-soft);align-items:start;}
+  .lyr .ln{font-family:var(--cjk-d);font-weight:700;font-size:1.32rem;color:var(--ink);padding-top:.1em;}
+  .lyr .ln .en{display:block;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;}
+  .lyr .lr{margin:0;font-size:1rem;color:var(--ink-soft);line-height:1.64;}
+  .lyr .lr b{color:var(--ink);font-weight:500;}
+  .lyr .lr p{margin:0;}
+  .lyr .lr p + *{margin-top:11px;}
+  .deep{margin:11px 0 0;padding:0;list-style:none;}
+  .deep li{position:relative;padding:0 0 0 24px;margin:0 0 9px;line-height:1.6;color:var(--ink);}
+  .deep li:last-child{margin-bottom:0;}
+  .deep li .mk{position:absolute;left:0;top:0;font-family:var(--lat);color:var(--red);}
+  .deep li b{font-weight:700;}
+  .note-line{font-size:.97rem;color:var(--ink-soft);line-height:1.62;}
+  .note-line b{color:var(--ink);font-weight:600;}
+  .tkw{margin-top:13px;}
+  .tk{font-family:var(--mono);font-weight:600;font-size:1rem;color:var(--ink);letter-spacing:.02em;display:inline-block;}
+  .tk .s{color:var(--ink-faint);margin:0 .25em;font-weight:400;}
 
-  .sink{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 0 10px;}
-  .sink .txt{font-family:var(--lat);font-size:.66rem;font-weight:500;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--grey);}
-  .sink .chev{width:14px;height:14px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);
-    transform:rotate(45deg);}
+  /* price snapshot */
+  .snap{margin:34px 0 0;border:1px solid var(--line);background:var(--paper-2);padding:22px 24px 20px;}
+  .snap .sh{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 16px;line-height:1.6;}
+  .snap .sh b{color:var(--ink);font-weight:600;}
+  .qrow{display:grid;grid-template-columns:70px 1fr;gap:16px;padding:10px 0;border-top:1px solid var(--line-soft);font-size:.9rem;align-items:baseline;}
+  .qrow:first-of-type{border-top:none;}
+  .qrow .qt{font-family:var(--mono);font-weight:600;color:var(--ink);}
+  .qrow .qd{color:var(--ink-soft);line-height:1.55;}
+  .qrow .qd .px{font-family:var(--mono);color:var(--ink);}
+  .qrow .qd .flag{color:var(--red-deep);font-weight:500;}
+  .qfoot{margin:15px 0 0;font-size:.78rem;color:var(--ink-faint);font-family:var(--lat);font-style:italic;line-height:1.5;}
 
-  .bedrock{border:1px solid var(--green-deep);}
-  .layer{background:var(--green);color:var(--bone);
-    display:grid;grid-template-columns:200px 1fr;gap:20px;
-    padding:30px 30px 32px;border-top:1px solid var(--green-line);
-    opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
-  .layer:first-child{border-top:none;}
-  .layer.in{opacity:1;transform:none;}
-  .layer .lname{display:flex;flex-direction:column;}
-  .layer .lname .cjk{font-family:var(--cjk-d);font-weight:900;font-size:2.1rem;line-height:1;letter-spacing:.02em;}
-  .layer .lname .en{font-family:var(--lat);font-size:.7rem;font-weight:600;letter-spacing:.24em;
-    text-transform:uppercase;color:var(--bone-dim);margin-top:10px;}
-  .layer .lbody .why{margin:0;font-size:1.04rem;line-height:1.62;color:var(--bone);}
-  .layer .lbody .why b{font-weight:700;}
-  .layer .lbody .tickers{margin-top:18px;padding-top:16px;border-top:1px solid var(--green-line);}
-  .layer .lbody .tickers .t{font-family:var(--mono);font-weight:700;font-size:1.18rem;color:var(--bone);letter-spacing:.02em;}
-  .layer .lbody .tickers .t .sep{color:var(--bone-dim);margin:0 .3em;font-weight:400;}
-  .layer .lbody .tickers .note{display:block;font-family:var(--cjk-b);font-size:.84rem;color:var(--bone-dim);margin-top:10px;line-height:1.6;}
+  .close{padding:clamp(60px,10vh,128px) 0;border-top:2px solid var(--ink);position:relative;}
+  .close-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+  .close .big{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.9rem,5.2vw,3.2rem);line-height:1.3;letter-spacing:-.005em;max-width:13em;margin:0;}
+  .seal{width:104px;height:104px;flex:0 0 auto;background:var(--red);border-radius:5px;position:relative;display:flex;align-items:center;justify-content:center;transform:rotate(-4deg) scale(1.35);opacity:0;box-shadow:0 1px 0 rgba(0,0,0,.06);}
+  .seal.in{animation:stamp .42s cubic-bezier(.2,.8,.2,1) forwards;}
+  @keyframes stamp{0%{opacity:0;transform:rotate(-4deg) scale(1.35);}60%{opacity:1;transform:rotate(-4deg) scale(.96);}100%{opacity:1;transform:rotate(-4deg) scale(1);}}
+  .seal::before{content:"";position:absolute;inset:7px;border:1.5px solid rgba(235,232,223,.85);border-radius:3px;}
+  .seal .chars{font-family:var(--cjk-d);font-weight:900;font-size:2rem;color:var(--paper);line-height:.98;text-align:center;letter-spacing:.04em;position:relative;}
 
-  .strata-cap{margin:26px 0 0;max-width:28em;font-size:1.02rem;color:var(--ink);}
-  .strata-cap b{color:var(--green);font-weight:700;}
-
-  /* ── CLOSE ────────────────────────────── */
-  .close{padding:clamp(56px,10vh,120px) 0;border-top:1px solid var(--line);margin-top:clamp(36px,6vh,64px);}
-  .close .big{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.9rem,5vw,3.1rem);
-    line-height:1.3;letter-spacing:-.005em;max-width:15em;margin:0;}
-  .close .big .g{color:var(--green);}
-
-  /* ── FOOTER ───────────────────────────── */
   footer{border-top:1px solid var(--line);padding:30px 0 60px;}
-  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
-    font-family:var(--lat);font-size:.82rem;color:var(--ink-dim);line-height:1.7;}
-  .foot .cite{max-width:36em;}
-  .foot .cite .ttl{font-style:italic;}
-  .foot .meta{font-family:var(--mono);font-size:.74rem;white-space:nowrap;}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-family:var(--lat);font-size:.86rem;color:var(--ink-soft);line-height:1.65;}
+  .foot .cite{max-width:38em;}
+  .foot .cite .t{font-style:italic;color:var(--ink);}
+  .foot .meta{font-family:var(--mono);font-size:.74rem;white-space:nowrap;color:var(--ink-faint);}
 
-  @media (max-width:680px){
-    .layer{grid-template-columns:1fr;gap:14px;}
-    .model-band .mb-note{margin-left:0;width:100%;}
+  @media (max-width:640px){
+    .step{grid-template-columns:1fr;gap:8px;}
+    .step .n{padding-top:0;}
+    .lyr{grid-template-columns:1fr;gap:6px;}
+    .qrow{grid-template-columns:60px 1fr;gap:12px;}
+    .close-grid{align-items:flex-start;}
+    .seal{width:88px;height:88px;}
+    .seal .chars{font-size:1.7rem;}
   }
   @media (prefers-reduced-motion:reduce){
-    .layer{opacity:1!important;transform:none!important;transition:none!important;}
-    .sink .chev{animation:none!important;}
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .sink .chev{animation:bob 1.6s ease-in-out infinite;}
-    @keyframes bob{0%,100%{transform:rotate(45deg) translate(0,0);}50%{transform:rotate(45deg) translate(3px,3px);}}
+    .seal{opacity:1!important;transform:rotate(-4deg) scale(1)!important;animation:none!important;}
   }
 </style>
 </head>
 <body>
 
-<header class="masthead">
+<header class="mast">
   <div class="wrap">
-    <a class="backlink" href="../../index.html"><span class="arw">←</span> 返回 <span class="mk">ALPHA·VAULT</span> 投研档案库</a>
-    <div class="eyebrow">投资论点 · 解读自一条 X 长文</div>
-    <div class="datestamp">2026<span class="sep">.</span>06<span class="sep">.</span>14</div>
-    <p class="source">Satya Nadella（微软 CEO）· <span class="ttl">“A frontier without an ecosystem is not stable”</span> · 发布于 X，约 2,800 万次浏览 · <a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">看原文 ↗</a></p>
+    <a class="backlink" href="../../index.html"><span class="arw">←</span> 返回 <span class="mk">ALPHA·VAULT</span></a>
+    <div class="kicker">投资论点 · 解读自一条 X 长文</div>
+    <div class="date">2026<span class="d">.</span>06<span class="d">.</span>14</div>
+    <p class="src">Satya Nadella（微软 CEO）· <span class="t">“A frontier without an ecosystem is not stable”</span> · 发布于 X，约 2,800 万次浏览 · <a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">看原文 ↗</a></p>
     <div class="mast-rule"></div>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap">
-    <h1 class="thesis">模型会变成大宗商品。<br>钱沉到它底下的<span class="g">三层</span>。</h1>
-    <p class="sub">别买会被替换掉的<b>模型</b> —— 买每个 AI 都甩不掉的三层基础设施：<b>算力、数据、平台</b>。</p>
+    <h1 class="thesis">模型会变成大宗商品。<br>钱沉到它底下的三层。</h1>
+    <p class="sub">别买会被替换掉的<b>模型</b> —— 买每个 AI 都甩不掉的三层基础设施：<b>算力、数据、平台</b>。下面是这个结论怎么来的。</p>
   </div>
 </section>
 
-<section class="strata" aria-label="AI 基础设施分层">
+<section class="arg" aria-label="论证">
   <div class="wrap">
-    <div class="strata-head">AI 这一摞，从上到下</div>
+    <div class="arg-tag">这个结论怎么推出来的 · 四步</div>
 
-    <div class="model-band">
-      <span class="mb-cjk">模型</span>
-      <span class="mb-en">Model</span>
-      <span class="mb-note">会商品化 · 越来越便宜 · 谁都能换掉</span>
-    </div>
-
-    <div class="sink" aria-hidden="true">
-      <span class="txt">价值下沉</span>
-      <span class="chev"></span>
-    </div>
-
-    <div class="bedrock">
-      <div class="layer">
-        <div class="lname"><span class="cjk">算力</span><span class="en">Compute</span></div>
-        <div class="lbody">
-          <p class="why">AI 芯片自己不发光，得靠<b>激光器</b>把光喂进去。能做这种高功率激光器的，全世界就两三家 —— 英伟达刚砸 <b>40 亿美元</b>，把它们的产能提前包了。</p>
-          <div class="tickers">
-            <span class="t">COHR<span class="sep">·</span>LITE<span class="sep">·</span>AXTI<span class="sep">·</span>SIVE</span>
-            <span class="note">AXTI = 激光器的原材料（铟磷），更上游的卡点。SIVE = 小票，想搏一把的话。</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="layer">
-        <div class="lname"><span class="cjk">数据</span><span class="en">Data</span></div>
-        <div class="lbody">
-          <p class="why">AI 学得好不好，全看喂它的数据。当满网都是 AI 生成的垃圾，<b>真人写的东西反而越来越值钱</b>。</p>
-          <div class="tickers">
-            <span class="t">RDDT<span class="sep">·</span>INOD</span>
-            <span class="note">RDDT = 真人对话数据，卖给 Google / OpenAI。INOD = 给 AI 公司做数据和质检的 B 端。</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="layer">
-        <div class="lname"><span class="cjk">平台</span><span class="en">Platform</span></div>
-        <div class="lbody">
-          <p class="why">纳德拉真正讲的是「<b>生态</b>」—— 不管哪个模型、哪家公司赢，价值都得从这一层流过一遍。它自己也做模型，还顺手收所有人的过路费。</p>
-          <div class="tickers">
-            <span class="t">MSFT</span>
-            <span class="note">最稳的一注 —— 但留个心眼：若 AI 入口彻底脱离 Windows，这层也会被人换掉。</span>
-          </div>
-        </div>
+    <div class="step">
+      <div class="n">01</div>
+      <div>
+        <h2 class="h">纳德拉说了什么</h2>
+        <p class="p">AI 模型本身正在变成大宗商品——它能把任何公司的专长学走、标准化，再以服务卖给所有人。<span class="soft">所以靠"拥有最好的模型"赢不了。</span>他说，一家公司真正的护城河，是它在模型<b>之上</b>自己攒起来的那套学习闭环（他叫它 human capital 与 token capital 的复利）——<b>换掉底层模型，也不丢失</b>。</p>
       </div>
     </div>
 
-    <p class="strata-cap">不赌哪个 AI 赢 —— <b>占住它脚下的每一层。</b></p>
+    <div class="step">
+      <div class="n">02</div>
+      <div>
+        <h2 class="h">把它翻成 AI 的实话</h2>
+        <p class="p">顺着往下推：既然模型层在商品化，那么<b>操作</b>模型的技能（agent、MCP、调 prompt）也在半年一贬值。<span class="soft">价值不在"会用 AI"。</span>它沉到每个模型都甩不掉的底层——<b>跑它的算力、喂它的数据、收它钱的平台</b>。</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">03</div>
+      <div>
+        <h2 class="h">把它翻成金融的实话</h2>
+        <p class="p">于是选股不该问"这公司有没有护城河"，该问"<b>它站在这一摞的哪一层</b>"。在会商品化的模型层、以及拼杠杆转售算力的二道贩子（neocloud），价值会被摊薄；<span class="soft">在底层基础设施，价值会沉淀、会复利。</span></p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">04</div>
+      <div>
+        <h2 class="h">所以买这三层 —— 每层只买真正的卡点</h2>
+        <p class="p">不买泛泛的"算力""数据"概念，买那一层里别人绕不过去的那个点：</p>
+        <div class="layers">
+
+          <div class="lyr">
+            <div class="ln">算力<span class="en">Compute</span></div>
+            <div class="lr">
+              <p>大家先想到 GPU（英伟达）——但那是<b>共识</b>，已被定价。真正的卡点往下还有三层：</p>
+              <ul class="deep">
+                <li><span class="mk">①</span> 集群越大，瓶颈从"算"变成 GPU 之间<b>搬数据</b> → 光互连（CPO）成为新约束。</li>
+                <li><span class="mk">②</span> 硅光芯片<b>自己不发光</b>，必须有外部激光器喂光进去。能做高功率连续波激光器的全球就两三家（<b>COHR / LITE 近乎垄断</b>）；英伟达 4 月各注资约 20 亿、合计 <b>40 亿美元</b>锁产能，排期已到 2027 之后。</li>
+                <li><span class="mk">③</span> 激光器的衬底原材料是<b>铟磷（InP）</b>——卡点底下的卡点，<b>AXTI</b> 是主要供应商。</li>
+              </ul>
+              <p class="note-line">小票 <b>SIVE</b> 做外部激光模块里的 DFB 激光阵列、在英伟达供应链内，但已涨约 30 倍、不再是当初的微型小票，且现背着证券调查。<b>说句实话：最大的价值在那两家准垄断（COHR/LITE）和原材料（AXTI），不在小票。</b></p>
+              <div class="tkw"><span class="tk">COHR<span class="s">·</span>LITE<span class="s">·</span>AXTI<span class="s">·</span>SIVE</span></div>
+            </div>
+          </div>
+
+          <div class="lyr">
+            <div class="ln">数据<span class="en">Data</span></div>
+            <div class="lr">
+              <p>AI 学得好不好，全看喂它的数据。当满网都是 AI 生成的垃圾，<b>真人写的东西反而越来越稀缺、越来越值钱</b>——这正是纳德拉那条逻辑的另一面。</p>
+              <div class="tkw"><span class="tk">RDDT<span class="s">·</span>INOD</span></div>
+              <p class="note-line" style="margin-top:9px;">RDDT＝真人对话数据，卖给 Google / OpenAI；INOD＝给 AI 公司做数据与质检的 B 端。</p>
+            </div>
+          </div>
+
+          <div class="lyr">
+            <div class="ln">平台<span class="en">Platform</span></div>
+            <div class="lr">
+              <p>纳德拉真正讲的"<b>生态</b>"的拥有者——不管哪个模型、哪家公司赢，价值都得从这一层流过一遍。它自己也做模型，还顺手收所有人的过路费。</p>
+              <div class="tkw"><span class="tk">MSFT</span></div>
+              <p class="note-line" style="margin-top:9px;">最稳的一注——但留个心眼：若 AI 入口彻底脱离 Windows，这层也会被人换掉。</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="snap" aria-label="行情快照">
+          <p class="sh">行情快照 · 分析日 <b>2026-06-16</b> · 价格截至约 <b>2026-06-15</b> 收盘</p>
+          <div class="qrow"><span class="qt">COHR</span><span class="qd"><span class="px">~$405</span> · 52周 $78–440 · 市值 ~$75B · 近 52 周高位，年涨约 +370%</span></div>
+          <div class="qrow"><span class="qt">LITE</span><span class="qd"><span class="px">~$943</span> · 52周 $83–1,086 · 市值 ~$69B · 近高位，6月初有董事减持</span></div>
+          <div class="qrow"><span class="qt">AXTI</span><span class="qd"><span class="px">~$90</span>（极波动，5月底见顶 $143）· 52周 $1.8–143 · 市值 ~$6B · <span class="flag">⚠ 内部人减持＋授权股数 70M→120M</span></span></div>
+          <div class="qrow"><span class="qt">SIVE</span><span class="qd"><span class="px">SEK 86 / OTC:SIVEF ~$9.4</span> · 52周 SEK 2.85–110 · 市值 ~$2.8B · <span class="flag">⚠ Rosen 证券调查；分析师目标价≈现价的 1/9</span></span></div>
+          <div class="qrow"><span class="qt">RDDT</span><span class="qd"><span class="px">~$178</span> · 52周 $119–283 · 市值 ~$34B · 距高位约 −37%</span></div>
+          <div class="qrow"><span class="qt">INOD</span><span class="qd"><span class="px">~$108</span> · 52周 $33–118 · 市值 ~$3.5B · <span class="flag">⚠ CEO 减持 $22.8M ＋ COO、两名董事跟卖</span></span></div>
+          <div class="qrow"><span class="qt">MSFT</span><span class="qd"><span class="px">~$395</span> · 52周 $356–555 · 市值 ~$2.9T · 距高位约 −29%，年内 −16%（资本开支/成本担忧）</span></div>
+          <p class="qfoot">延迟数据，仅供日后回看的参照系，非实时报价。下单前请自行实时核验；带 ⚠ 者按你的纪律已触发减持/法律/稀释信号。</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="close">
-  <div class="wrap">
-    <p class="big">你不用猜哪个 AI 会赢。<br>你只要拥有 —— 它<span class="g">站立的地面</span>。</p>
+  <div class="wrap close-grid">
+    <p class="big">你不用猜哪个 AI 会赢。<br>你只要拥有 —— 它站立的地面。</p>
+    <div class="seal" id="seal" aria-label="印章：地基"><span class="chars">地基</span></div>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot">
-    <span class="cite">来源：Satya Nadella，<span class="ttl">《A frontier without an ecosystem is not stable》</span>，X，2026.06.14（<a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">x.com/satyanadella ↗</a>）。本页为基于公开信息的思考框架，非投资建议，标的请自行实时验证。</span>
+    <span class="cite">来源：Satya Nadella，<span class="t">《A frontier without an ecosystem is not stable》</span>，X，2026.06.14（<a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">x.com/satyanadella ↗</a>）。本页为基于公开信息的思考框架，非投资建议，标的与价格请自行实时核验。</span>
     <span class="meta">2026 · @zmyroy</span>
   </div>
 </footer>
 
 <script>
   (function(){
-    var layers = document.querySelectorAll('.layer');
-    if(!('IntersectionObserver' in window)){layers.forEach(function(l){l.classList.add('in');});return;}
-    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      layers.forEach(function(l){l.classList.add('in');});return;
-    }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var idx = Array.prototype.indexOf.call(layers, e.target);
-          e.target.style.transitionDelay = (idx*0.12)+'s';
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    },{threshold:0.25});
-    layers.forEach(function(l){io.observe(l);});
+    var seal = document.getElementById('seal');
+    if(!seal) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){return;}
+    if(!('IntersectionObserver' in window)){seal.classList.add('in');return;}
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ seal.classList.add('in'); io.disconnect(); } });
+    },{threshold:0.5});
+    io.observe(seal);
   })();
 </script>
 </body>
