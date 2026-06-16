@@ -43,8 +43,15 @@ jobs:
 
       - name: 确保 Pages 项目存在（已存在则忽略）
         if: steps.chk.outputs.ok == 'true'
-        run: npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main || true
+        run: |
+          # 洗掉复制粘贴常带进来的不可见字符（空白 / U+2028 行分隔符等），只留可见 ASCII
+          export CLOUDFLARE_API_TOKEN=$(printf '%s' "$CLOUDFLARE_API_TOKEN" | LC_ALL=C tr -cd '[:graph:]')
+          export CLOUDFLARE_ACCOUNT_ID=$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | LC_ALL=C tr -cd '[:graph:]')
+          npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main || true
 
       - name: 部署
         if: steps.chk.outputs.ok == 'true'
-        run: npx --yes wrangler@4 pages deploy . --project-name "$PROJECT" --branch main --commit-dirty=true
+        run: |
+          export CLOUDFLARE_API_TOKEN=$(printf '%s' "$CLOUDFLARE_API_TOKEN" | LC_ALL=C tr -cd '[:graph:]')
+          export CLOUDFLARE_ACCOUNT_ID=$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | LC_ALL=C tr -cd '[:graph:]')
+          npx --yes wrangler@4 pages deploy . --project-name "$PROJECT" --branch main --commit-dirty=true
