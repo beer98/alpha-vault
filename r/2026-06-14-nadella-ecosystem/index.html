@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>模型会变成大宗商品 — 钱沉到它底下的三层</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7E8E3;
+    --paper-2:#DCDED7;
+    --ink:#1B1D1B;
+    --ink-dim:rgba(27,29,27,.60);
+    --grey:#83867F;
+    --green:#15543A;
+    --green-deep:#0E3A28;
+    --green-line:#1E6645;
+    --bone:#ECEDE7;
+    --bone-dim:rgba(236,237,231,.74);
+    --line:rgba(27,29,27,.16);
+    --cjk-d:'Noto Serif SC',serif;
+    --cjk-b:'Noto Sans SC',sans-serif;
+    --lat:'Space Grotesk',system-ui,sans-serif;
+    --mono:'Space Mono',ui-monospace,monospace;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--cjk-b);line-height:1.6;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden;}
+  ::selection{background:var(--green);color:var(--bone);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;}
+  a{color:var(--green-line);text-decoration:none;border-bottom:1px solid rgba(30,102,69,.35);transition:border-color .2s;}
+  a:hover{border-color:var(--green-line);}
+  a:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:2px;}
+
+  /* ── BACK TO VAULT ────────────────────── */
+  .backlink{display:inline-flex;align-items:center;gap:9px;border:none;margin:clamp(26px,4vh,40px) 0 0;
+    font-family:var(--lat);font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);}
+  .backlink:hover{color:var(--green);border:none;}
+  .backlink .arw{transition:transform .25s ease;}
+  .backlink:hover .arw{transform:translateX(-4px);}
+  .backlink .mk{font-family:var(--mono);font-weight:700;color:var(--green);letter-spacing:.02em;}
+
+  /* ── MASTHEAD ─────────────────────────── */
+  .masthead{padding:0 0 0;}
+  .eyebrow{font-family:var(--lat);font-size:.74rem;font-weight:500;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--ink-dim);margin-top:clamp(30px,5vh,54px);}
+  .datestamp{font-family:var(--mono);font-weight:700;font-size:clamp(2.9rem,11vw,6rem);
+    line-height:.96;letter-spacing:-.02em;margin:14px 0 0;color:var(--ink);}
+  .datestamp .sep{color:var(--grey);font-weight:400;}
+  .source{margin:18px 0 0;font-family:var(--lat);font-size:.94rem;color:var(--ink-dim);max-width:42em;}
+  .source .ttl{font-style:italic;}
+  .mast-rule{height:1px;background:var(--line);margin:clamp(30px,5vh,52px) 0 0;}
+
+  /* ── HERO ─────────────────────────────── */
+  .hero{padding:clamp(44px,7vh,84px) 0 clamp(36px,5vh,60px);}
+  .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(2.5rem,7.4vw,4.9rem);
+    line-height:1.08;letter-spacing:-.01em;margin:0;}
+  .thesis .g{color:var(--green);}
+  .sub{margin:30px 0 0;max-width:30em;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink-dim);line-height:1.62;}
+  .sub b{color:var(--ink);font-weight:500;}
+
+  /* ── STRATIGRAPHY (signature) ─────────── */
+  .strata{padding:0 0 clamp(20px,4vh,40px);}
+  .strata-head{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--grey);margin:0 0 18px;}
+
+  .model-band{border:1px dashed var(--grey);background:var(--paper-2);
+    padding:16px 22px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;}
+  .model-band .mb-cjk{font-family:var(--cjk-d);font-weight:700;font-size:1.25rem;color:var(--grey);}
+  .model-band .mb-en{font-family:var(--lat);font-size:.68rem;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--grey);}
+  .model-band .mb-note{font-size:.9rem;color:var(--grey);margin-left:auto;}
+
+  .sink{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 0 10px;}
+  .sink .txt{font-family:var(--lat);font-size:.66rem;font-weight:500;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--grey);}
+  .sink .chev{width:14px;height:14px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);
+    transform:rotate(45deg);}
+
+  .bedrock{border:1px solid var(--green-deep);}
+  .layer{background:var(--green);color:var(--bone);
+    display:grid;grid-template-columns:200px 1fr;gap:20px;
+    padding:30px 30px 32px;border-top:1px solid var(--green-line);
+    opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+  .layer:first-child{border-top:none;}
+  .layer.in{opacity:1;transform:none;}
+  .layer .lname{display:flex;flex-direction:column;}
+  .layer .lname .cjk{font-family:var(--cjk-d);font-weight:900;font-size:2.1rem;line-height:1;letter-spacing:.02em;}
+  .layer .lname .en{font-family:var(--lat);font-size:.7rem;font-weight:600;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--bone-dim);margin-top:10px;}
+  .layer .lbody .why{margin:0;font-size:1.04rem;line-height:1.62;color:var(--bone);}
+  .layer .lbody .why b{font-weight:700;}
+  .layer .lbody .tickers{margin-top:18px;padding-top:16px;border-top:1px solid var(--green-line);}
+  .layer .lbody .tickers .t{font-family:var(--mono);font-weight:700;font-size:1.18rem;color:var(--bone);letter-spacing:.02em;}
+  .layer .lbody .tickers .t .sep{color:var(--bone-dim);margin:0 .3em;font-weight:400;}
+  .layer .lbody .tickers .note{display:block;font-family:var(--cjk-b);font-size:.84rem;color:var(--bone-dim);margin-top:10px;line-height:1.6;}
+
+  .strata-cap{margin:26px 0 0;max-width:28em;font-size:1.02rem;color:var(--ink);}
+  .strata-cap b{color:var(--green);font-weight:700;}
+
+  /* ── CLOSE ────────────────────────────── */
+  .close{padding:clamp(56px,10vh,120px) 0;border-top:1px solid var(--line);margin-top:clamp(36px,6vh,64px);}
+  .close .big{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.9rem,5vw,3.1rem);
+    line-height:1.3;letter-spacing:-.005em;max-width:15em;margin:0;}
+  .close .big .g{color:var(--green);}
+
+  /* ── FOOTER ───────────────────────────── */
+  footer{border-top:1px solid var(--line);padding:30px 0 60px;}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    font-family:var(--lat);font-size:.82rem;color:var(--ink-dim);line-height:1.7;}
+  .foot .cite{max-width:36em;}
+  .foot .cite .ttl{font-style:italic;}
+  .foot .meta{font-family:var(--mono);font-size:.74rem;white-space:nowrap;}
+
+  @media (max-width:680px){
+    .layer{grid-template-columns:1fr;gap:14px;}
+    .model-band .mb-note{margin-left:0;width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .layer{opacity:1!important;transform:none!important;transition:none!important;}
+    .sink .chev{animation:none!important;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .sink .chev{animation:bob 1.6s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:rotate(45deg) translate(0,0);}50%{transform:rotate(45deg) translate(3px,3px);}}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="backlink" href="../../index.html"><span class="arw">←</span> 返回 <span class="mk">ALPHA·VAULT</span> 投研档案库</a>
+    <div class="eyebrow">投资论点 · 解读自一条 X 长文</div>
+    <div class="datestamp">2026<span class="sep">.</span>06<span class="sep">.</span>14</div>
+    <p class="source">Satya Nadella（微软 CEO）· <span class="ttl">“A frontier without an ecosystem is not stable”</span> · 发布于 X，约 2,800 万次浏览 · <a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">看原文 ↗</a></p>
+    <div class="mast-rule"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 class="thesis">模型会变成大宗商品。<br>钱沉到它底下的<span class="g">三层</span>。</h1>
+    <p class="sub">别买会被替换掉的<b>模型</b> —— 买每个 AI 都甩不掉的三层基础设施：<b>算力、数据、平台</b>。</p>
+  </div>
+</section>
+
+<section class="strata" aria-label="AI 基础设施分层">
+  <div class="wrap">
+    <div class="strata-head">AI 这一摞，从上到下</div>
+
+    <div class="model-band">
+      <span class="mb-cjk">模型</span>
+      <span class="mb-en">Model</span>
+      <span class="mb-note">会商品化 · 越来越便宜 · 谁都能换掉</span>
+    </div>
+
+    <div class="sink" aria-hidden="true">
+      <span class="txt">价值下沉</span>
+      <span class="chev"></span>
+    </div>
+
+    <div class="bedrock">
+      <div class="layer">
+        <div class="lname"><span class="cjk">算力</span><span class="en">Compute</span></div>
+        <div class="lbody">
+          <p class="why">AI 芯片自己不发光，得靠<b>激光器</b>把光喂进去。能做这种高功率激光器的，全世界就两三家 —— 英伟达刚砸 <b>40 亿美元</b>，把它们的产能提前包了。</p>
+          <div class="tickers">
+            <span class="t">COHR<span class="sep">·</span>LITE<span class="sep">·</span>AXTI<span class="sep">·</span>SIVE</span>
+            <span class="note">AXTI = 激光器的原材料（铟磷），更上游的卡点。SIVE = 小票，想搏一把的话。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lname"><span class="cjk">数据</span><span class="en">Data</span></div>
+        <div class="lbody">
+          <p class="why">AI 学得好不好，全看喂它的数据。当满网都是 AI 生成的垃圾，<b>真人写的东西反而越来越值钱</b>。</p>
+          <div class="tickers">
+            <span class="t">RDDT<span class="sep">·</span>INOD</span>
+            <span class="note">RDDT = 真人对话数据，卖给 Google / OpenAI。INOD = 给 AI 公司做数据和质检的 B 端。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="lname"><span class="cjk">平台</span><span class="en">Platform</span></div>
+        <div class="lbody">
+          <p class="why">纳德拉真正讲的是「<b>生态</b>」—— 不管哪个模型、哪家公司赢，价值都得从这一层流过一遍。它自己也做模型，还顺手收所有人的过路费。</p>
+          <div class="tickers">
+            <span class="t">MSFT</span>
+            <span class="note">最稳的一注 —— 但留个心眼：若 AI 入口彻底脱离 Windows，这层也会被人换掉。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="strata-cap">不赌哪个 AI 赢 —— <b>占住它脚下的每一层。</b></p>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <p class="big">你不用猜哪个 AI 会赢。<br>你只要拥有 —— 它<span class="g">站立的地面</span>。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span class="cite">来源：Satya Nadella，<span class="ttl">《A frontier without an ecosystem is not stable》</span>，X，2026.06.14（<a href="https://x.com/satyanadella/status/2066182223213293753" target="_blank" rel="noopener">x.com/satyanadella ↗</a>）。本页为基于公开信息的思考框架，非投资建议，标的请自行实时验证。</span>
+    <span class="meta">2026 · @zmyroy</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var layers = document.querySelectorAll('.layer');
+    if(!('IntersectionObserver' in window)){layers.forEach(function(l){l.classList.add('in');});return;}
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      layers.forEach(function(l){l.classList.add('in');});return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var idx = Array.prototype.indexOf.call(layers, e.target);
+          e.target.style.transitionDelay = (idx*0.12)+'s';
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:0.25});
+    layers.forEach(function(l){io.observe(l);});
+  })();
+</script>
+</body>
+</html>

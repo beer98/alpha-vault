@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════════
+     ALPHA VAULT · 新研究页模板
+     用法：复制本文件到  r/YYYY-MM-DD-英文短题/index.html ，把所有 〔…〕 填掉。
+     配色 / 字体 / 返回导航已就位，保持 house style 一致。
+     ════════════════════════════════════════════════════════════════ -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>〔标题〕 — ALPHA VAULT</title>
+<meta name="description" content="〔一句话：研究了什么〕" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7E8E3; --paper-2:#DCDED7; --ink:#1B1D1B; --ink-dim:rgba(27,29,27,.60);
+    --grey:#83867F; --green:#15543A; --green-deep:#0E3A28; --green-line:#1E6645;
+    --bone:#ECEDE7; --bone-dim:rgba(236,237,231,.74); --line:rgba(27,29,27,.16);
+    --cjk-d:'Noto Serif SC',serif; --cjk-b:'Noto Sans SC',sans-serif;
+    --lat:'Space Grotesk',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--cjk-b);line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;}
+  ::selection{background:var(--green);color:var(--bone);}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;}
+  a{color:var(--green-line);text-decoration:none;border-bottom:1px solid rgba(30,102,69,.35);transition:border-color .2s;}
+  a:hover{border-color:var(--green-line);}
+
+  .backlink{display:inline-flex;align-items:center;gap:9px;border:none;margin:clamp(26px,4vh,40px) 0 0;
+    font-family:var(--lat);font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);}
+  .backlink:hover{color:var(--green);border:none;}
+  .backlink .arw{transition:transform .25s ease;}
+  .backlink:hover .arw{transform:translateX(-4px);}
+  .backlink .mk{font-family:var(--mono);font-weight:700;color:var(--green);letter-spacing:.02em;}
+
+  .eyebrow{font-family:var(--lat);font-size:.74rem;font-weight:500;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--ink-dim);margin-top:clamp(30px,5vh,54px);}
+  .datestamp{font-family:var(--mono);font-weight:700;font-size:clamp(2.9rem,11vw,6rem);
+    line-height:.96;letter-spacing:-.02em;margin:14px 0 0;color:var(--ink);}
+  .datestamp .sep{color:var(--grey);font-weight:400;}
+  .source{margin:18px 0 0;font-family:var(--lat);font-size:.94rem;color:var(--ink-dim);max-width:42em;}
+  .source .ttl{font-style:italic;}
+  .mast-rule{height:1px;background:var(--line);margin:clamp(30px,5vh,52px) 0 0;}
+
+  .hero{padding:clamp(44px,7vh,84px) 0 clamp(36px,5vh,60px);}
+  .thesis{font-family:var(--cjk-d);font-weight:900;font-size:clamp(2.5rem,7.4vw,4.9rem);
+    line-height:1.08;letter-spacing:-.01em;margin:0;}
+  .thesis .g{color:var(--green);}
+  .sub{margin:30px 0 0;max-width:30em;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--ink-dim);line-height:1.62;}
+  .sub b{color:var(--ink);font-weight:500;}
+
+  /* 正文区块：自由发挥，下面给一个最简卡片做起点 */
+  .body{padding:0 0 clamp(40px,7vh,80px);}
+  .block{border:1px solid var(--green-deep);background:var(--green);color:var(--bone);padding:30px;margin:0 0 18px;}
+  .block .h{font-family:var(--cjk-d);font-weight:900;font-size:1.9rem;margin:0 0 12px;}
+  .block .p{font-size:1.04rem;line-height:1.62;color:var(--bone);margin:0;}
+  .block .t{font-family:var(--mono);font-weight:700;font-size:1.18rem;margin-top:16px;display:block;}
+
+  .close{padding:clamp(56px,10vh,120px) 0;border-top:1px solid var(--line);margin-top:clamp(36px,6vh,64px);}
+  .close .big{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.9rem,5vw,3.1rem);
+    line-height:1.3;max-width:15em;margin:0;}
+  .close .big .g{color:var(--green);}
+
+  footer{border-top:1px solid var(--line);padding:30px 0 60px;}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    font-family:var(--lat);font-size:.82rem;color:var(--ink-dim);line-height:1.7;}
+  .foot .meta{font-family:var(--mono);font-size:.74rem;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="backlink" href="../../index.html"><span class="arw">←</span> 返回 <span class="mk">ALPHA·VAULT</span> 投研档案库</a>
+    <div class="eyebrow">投资论点 · 〔来源类型，如 解读自一条 X 长文 / 财报 / 访谈〕</div>
+    <div class="datestamp">2026<span class="sep">.</span>〔MM〕<span class="sep">.</span>〔DD〕</div>
+    <p class="source">〔发言人 / 出处〕 · <span class="ttl">"〔原话标题〕"</span> · <a href="〔原文链接〕" target="_blank" rel="noopener">看原文 ↗</a></p>
+    <div class="mast-rule"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 class="thesis">〔一句话论点。<br>关键词标<span class="g">绿</span>〕</h1>
+    <p class="sub">〔把论点拆成大白话：买什么、不买什么、为什么。重点词用 <b>加粗</b>。〕</p>
+  </div>
+</section>
+
+<section class="body">
+  <div class="wrap">
+    <!-- 复制 .block 做多个分层 / 论据；标的写进 .t -->
+    <div class="block">
+      <p class="h">〔分层 / 论据标题〕</p>
+      <p class="p">〔为什么。一两句讲透卡点。〕</p>
+      <span class="t">TICKER · TICKER</span>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <p class="big">〔收尾金句，<span class="g">点题</span>。〕</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>来源：〔出处〕。本页为基于公开信息的思考框架，非投资建议，标的请自行实时验证。</span>
+    <span class="meta">2026 · @zmyroy</span>
+  </div>
+</footer>
+
+</body>
+</html>
