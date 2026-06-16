@@ -15,43 +15,42 @@ concurrency:
 
 env:
   PROJECT: alpha-vault-wen98          # Cloudflare Pages 项目名 → 网址 alpha-vault-wen98.pages.dev
-  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # 没配 Cloudflare 密钥前，干净跳过（不报红），配好后自动生效
-      - name: 检查密钥
-        id: chk
-        run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "ok=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::尚未配置 CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID，先跳过部署。配好两个密钥后重跑即自动上线。"
-          fi
-
-      - name: 装 Node
-        if: steps.chk.outputs.ok == 'true'
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: 确保 Pages 项目存在（已存在则忽略）
-        if: steps.chk.outputs.ok == 'true'
+      - name: 部署到 Cloudflare Pages
+        env:
+          CF_TOKEN_RAW: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          # 洗掉复制粘贴常带进来的不可见字符（空白 / U+2028 行分隔符等），只留可见 ASCII
-          export CLOUDFLARE_API_TOKEN=$(printf '%s' "$CLOUDFLARE_API_TOKEN" | LC_ALL=C tr -cd '[:graph:]')
-          export CLOUDFLARE_ACCOUNT_ID=$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | LC_ALL=C tr -cd '[:graph:]')
-          npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main || true
+          set -e
+          # 1) 洗掉复制粘贴常带进来的不可见字符（空白 / U+2028 行分隔符等），只留可见 ASCII
+          TOKEN=$(printf '%s' "$CF_TOKEN_RAW" | LC_ALL=C tr -cd '[:graph:]')
+          if [ -z "$TOKEN" ]; then
+            echo "::notice::尚未配置 CLOUDFLARE_API_TOKEN，先跳过部署（配好后自动生效）。"
+            exit 0
+          fi
+          echo "::add-mask::$TOKEN"
+          export CLOUDFLARE_API_TOKEN="$TOKEN"
 
-      - name: 部署
-        if: steps.chk.outputs.ok == 'true'
-        run: |
-          export CLOUDFLARE_API_TOKEN=$(printf '%s' "$CLOUDFLARE_API_TOKEN" | LC_ALL=C tr -cd '[:graph:]')
-          export CLOUDFLARE_ACCOUNT_ID=$(printf '%s' "$CLOUDFLARE_ACCOUNT_ID" | LC_ALL=C tr -cd '[:graph:]')
+          # 2) 用 token 直接问 Cloudflare：它属于哪个 account（自动用对的 ID，省得手填错）
+          RESP=$(curl -s -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts?per_page=50")
+          ACCT=$(printf '%s' "$RESP" | jq -r '.result[0].id // empty')
+          NAME=$(printf '%s' "$RESP" | jq -r '.result[0].name // empty')
+          if [ -z "$ACCT" ]; then
+            echo "::error::用此 token 取不到 account——token 可能无效，或没勾 Account › Cloudflare Pages › Edit 权限。Cloudflare 返回：$(printf '%s' "$RESP" | jq -c '{success,errors}' 2>/dev/null | head -c 300)"
+            exit 1
+          fi
+          echo "::add-mask::$ACCT"
+          export CLOUDFLARE_ACCOUNT_ID="$ACCT"
+          echo "已解析到 account：$NAME"
+
+          # 3) 建项目（已存在则忽略）→ 部署当前目录
+          npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main 2>/dev/null || true
           npx --yes wrangler@4 pages deploy . --project-name "$PROJECT" --branch main --commit-dirty=true
