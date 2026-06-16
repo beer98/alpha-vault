@@ -22,7 +22,7 @@ alpha-vault/
 1. **建内页**：复制 `TEMPLATE.html` 到 `r/<日期-短题>/index.html`，填进论点、配图、标的。
 2. **上目录**：打开 `index.html`，在对应月份分组里复制一整块 `<a class="entry">…</a>`，改这些字段：
    - `href` → 新文件夹路径
-   - `.e-no .num` 编号（001、002…）、`.e-no .date` 日期（`06.14`）
+   - `.e-no .date` 日期（`06.14`，分隔点用 `<i>` 标红）
    - `.thesis` 大字论点、`.take` 一句话「为什么/买什么」、`.src` 来源出处
    - `.e-tag` 板块标签、`.e-tickers` 标的
    - 顺手把 `.tapeframe` 里的「在看」tape 加上新标的（保持首尾各一份、无缝滚动）
