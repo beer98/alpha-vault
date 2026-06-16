@@ -28,9 +28,10 @@ jobs:
       - name: 部署到 Cloudflare Pages
         env:
           CF_TOKEN_RAW: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCT_RAW: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           set -e
-          # 1) 洗掉复制粘贴常带进来的不可见字符（空白 / U+2028 行分隔符等），只留可见 ASCII
+          # 1) 洗掉复制粘贴常带进来的不可见字符（空白 / U+2028 等），只留可见 ASCII
           TOKEN=$(printf '%s' "$CF_TOKEN_RAW" | LC_ALL=C tr -cd '[:graph:]')
           if [ -z "$TOKEN" ]; then
             echo "::notice::尚未配置 CLOUDFLARE_API_TOKEN，先跳过部署（配好后自动生效）。"
@@ -39,17 +40,17 @@ jobs:
           echo "::add-mask::$TOKEN"
           export CLOUDFLARE_API_TOKEN="$TOKEN"
 
-          # 2) 用 token 直接问 Cloudflare：它属于哪个 account（自动用对的 ID，省得手填错）
-          RESP=$(curl -s -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts?per_page=50")
-          ACCT=$(printf '%s' "$RESP" | jq -r '.result[0].id // empty')
-          NAME=$(printf '%s' "$RESP" | jq -r '.result[0].name // empty')
+          # 2) Account ID：优先用密钥里填的（清洗）；没填再尝试用 token 自动解析
+          ACCT=$(printf '%s' "$CF_ACCT_RAW" | LC_ALL=C tr -cd '[:graph:]' | tr 'A-Z' 'a-z')   # account id 必须小写
           if [ -z "$ACCT" ]; then
-            echo "::error::用此 token 取不到 account——token 可能无效，或没勾 Account › Cloudflare Pages › Edit 权限。Cloudflare 返回：$(printf '%s' "$RESP" | jq -c '{success,errors}' 2>/dev/null | head -c 300)"
+            ACCT=$(curl -s -H "Authorization: Bearer $TOKEN" "https://api.cloudflare.com/client/v4/accounts?per_page=50" | jq -r '.result[0].id // empty')
+          fi
+          if [ -z "$ACCT" ]; then
+            echo "::error::没有可用的 Account ID（密钥未填且 token 无法自动解析）。"
             exit 1
           fi
           echo "::add-mask::$ACCT"
           export CLOUDFLARE_ACCOUNT_ID="$ACCT"
-          echo "已解析到 account：$NAME"
 
           # 3) 建项目（已存在则忽略）→ 部署当前目录
           npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main 2>/dev/null || true
