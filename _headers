@@ -1,4 +1,0 @@
-# 看板数据每日刷新——data 文件禁缓存（每次向源校验），保证用户始终看到最新日卡。
-# 其它静态资源走 Cloudflare 默认缓存。
-/follow-leopold/data/*
-  Cache-Control: no-cache, must-revalidate
