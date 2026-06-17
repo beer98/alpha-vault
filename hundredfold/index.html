@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>百倍狩猎系统 — HUNDREDFOLD · Built by Claude Fable 5</title>
+<meta name="description" content="百倍回报不是承诺,是结构。卡脖子理论 × 杠铃凸性 × 体制检测 × 铁律执行 — 一台为不对称回报建造的狩猎机器。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='8' fill='none' stroke='%23D8442E' stroke-width='5'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23D8442E' font-family='serif' font-weight='900'%3E百%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ————————————————————————————————————————————
+   百倍狩猎系统 · 设计令牌
+   墨 ink · 宣 paper · 朱砂 cinnabar · 黄铜 brass · 青 jade
+   语义:红涨 绿跌 (A股语法)
+———————————————————————————————————————————— */
+:root{
+  --ink:#13110E;
+  --ink-2:#1A1712;
+  --ink-3:#211D17;
+  --paper:#EAE2D3;
+  --paper-dim:rgba(234,226,211,.60);
+  --paper-faint:rgba(234,226,211,.38);
+  --cinnabar:#D8442E;
+  --cinnabar-hot:#F05A40;
+  --cinnabar-deep:#7E2417;
+  --brass:#C9A227;
+  --brass-dim:rgba(201,162,39,.55);
+  --jade:#4C8A72;
+  --line:rgba(234,226,211,.13);
+  --line-strong:rgba(234,226,211,.24);
+  --serif:"Noto Serif SC", "Songti SC", "SimSun", serif;
+  --sans:"Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mono:"IBM Plex Mono", "SF Mono", "Cascadia Mono", monospace;
+  --gutter:clamp(20px, 5vw, 72px);
+  --measure:62ch;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+}
+
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* 纸纹 · grain */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:2000;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+::selection{background:var(--cinnabar);color:var(--ink)}
+
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+
+/* ————————— 通用 utilities ————————— */
+.mono{font-family:var(--mono)}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--brass);
+}
+.dim{color:var(--paper-dim)}
+.cinnabar{color:var(--cinnabar)}
+.jade{color:var(--jade)}
+.brass{color:var(--brass)}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.12s}
+.rv-d2{transition-delay:.24s}
+.rv-d3{transition-delay:.36s}
+
+/* ————————— 顶栏 ————————— */
+header.top{
+  position:fixed; top:0; left:0; right:0;
+  z-index:900;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px var(--gutter);
+  background:linear-gradient(to bottom, rgba(19,17,14,.92), rgba(19,17,14,0));
+  pointer-events:none;
+}
+header.top > *{pointer-events:auto}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .chop{
+  width:34px;height:34px;
+  border:2.5px solid var(--cinnabar);
+  border-radius:5px;
+  display:grid;place-items:center;
+  font-family:var(--serif);font-weight:900;font-size:17px;
+  color:var(--cinnabar);
+  transform:rotate(-4deg);
+}
+.brand .name{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--paper-dim)}
+.builder{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--paper-faint)}
+.builder b{color:var(--brass);font-weight:500}
+@media(max-width:640px){.builder{display:none}}
+.hf-back{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--paper-dim);transition:color .2s;white-space:nowrap}
+.hf-back:hover{color:var(--cinnabar)}
+.hf-back b{color:var(--brass);font-weight:500}
+.top-left{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+
+/* ————————— Hero ————————— */
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:120px var(--gutter) 0;
+  position:relative;
+}
+.hero .eyebrow{margin-bottom:28px}
+.hero h1{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(44px, 9.5vw, 124px);
+  line-height:1.14;
+  letter-spacing:.01em;
+}
+.hero h1 .l2{display:block}
+.hero h1 em{
+  font-style:normal;
+  color:var(--cinnabar);
+  position:relative;
+}
+.hero .sub{
+  max-width:var(--measure);
+  margin-top:36px;
+  font-size:clamp(15px,1.6vw,18px);
+  color:var(--paper-dim);
+}
+.hero .sub b{color:var(--paper);font-weight:500}
+.hero .axiom{
+  margin-top:22px;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  color:var(--brass-dim);
+}
+
+/* 主印章 · the hero seal */
+.hero-seal{
+  position:absolute;
+  right:clamp(20px, 8vw, 130px);
+  top:clamp(110px, 22vh, 220px);
+  width:clamp(96px, 13vw, 168px);
+  aspect-ratio:1;
+  border:4px solid var(--cinnabar);
+  border-radius:10px;
+  display:grid;place-items:center;
+  transform:rotate(6deg);
+  opacity:0;
+}
+.hero-seal::after{
+  content:"";
+  position:absolute; inset:7px;
+  border:1.5px solid var(--cinnabar);
+  border-radius:5px;
+  opacity:.7;
+}
+.hero-seal .glyphs{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(30px, 4.6vw, 56px);
+  line-height:1.08;
+  color:var(--cinnabar);
+  writing-mode:vertical-rl;
+  letter-spacing:.08em;
+}
+.hero-seal.stamped{animation:stamp .55s cubic-bezier(.34,1.4,.5,1) forwards}
+@keyframes stamp{
+  0%{opacity:0;transform:rotate(14deg) scale(2.1)}
+  62%{opacity:1;transform:rotate(5deg) scale(.94)}
+  100%{opacity:.92;transform:rotate(6deg) scale(1)}
+}
+@media(max-width:760px){
+  .hero-seal{position:static;margin-top:44px;transform:rotate(-4deg)}
+  .hero-seal.stamped{animation:none;opacity:.92}
+}
+
+/* hero entrance */
+.rise{opacity:0;transform:translateY(34px);animation:rise 1s cubic-bezier(.2,.65,.2,1) forwards}
+.rise.r2{animation-delay:.15s}
+.rise.r3{animation-delay:.3s}
+.rise.r4{animation-delay:.45s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ————————— 行情纸带 ticker ————————— */
+.tape{
+  margin-top:auto;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  padding:13px 0;
+  -webkit-mask-image:linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+          mask-image:linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.tape-inner{
+  display:flex; gap:0;
+  width:max-content;
+  animation:tape 46s linear infinite;
+}
+.tape:hover .tape-inner{animation-play-state:paused}
+@keyframes tape{to{transform:translateX(-50%)}}
+.tape span{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.18em;
+  color:var(--paper-faint);
+  padding:0 26px;
+  white-space:nowrap;
+}
+.tape span b{color:var(--paper-dim);font-weight:500}
+.tape span i{font-style:normal;color:var(--cinnabar)}
+.tape span u{text-decoration:none;color:var(--brass-dim)}
+
+/* ————————— 卷 · section scaffold ————————— */
+.vol{
+  display:grid;
+  grid-template-columns:clamp(54px,7vw,96px) 1fr;
+  border-top:1px solid var(--line);
+}
+.vol-rail{
+  border-right:1px solid var(--line);
+  padding:42px 0;
+  display:flex;
+  justify-content:center;
+}
+.vol-rail .tag{
+  writing-mode:vertical-rl;
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:.5em;
+  color:var(--brass);
+  position:sticky;
+  top:42px;
+  height:max-content;
+}
+.vol-body{
+  padding:clamp(64px,9vw,128px) var(--gutter) clamp(72px,10vw,140px) clamp(28px,4vw,64px);
+  min-width:0;
+}
+.vol-head{margin-bottom:clamp(36px,5vw,64px)}
+.vol-head .eyebrow{margin-bottom:18px}
+.vol-head h2{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(30px,4.6vw,58px);
+  line-height:1.25;
+}
+.vol-head h2 .en{
+  display:block;
+  font-family:var(--mono);
+  font-weight:400;
+  font-size:clamp(11px,1.2vw,13px);
+  letter-spacing:.3em;
+  color:var(--paper-faint);
+  margin-top:14px;
+}
+.vol-lede{max-width:var(--measure);color:var(--paper-dim);font-size:clamp(15px,1.5vw,17.5px)}
+.vol-lede b{color:var(--paper);font-weight:500}
+@media(max-width:640px){
+  .vol{grid-template-columns:1fr}
+  .vol-rail{border-right:none;border-bottom:1px solid var(--line);padding:14px var(--gutter);justify-content:flex-start}
+  .vol-rail .tag{writing-mode:horizontal-tb;position:static;letter-spacing:.4em;font-size:13px}
+}
+
+/* ————————— 卷一 · 数学 ————————— */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-bottom:clamp(48px,6vw,80px);
+}
+.stat{
+  background:var(--ink);
+  padding:clamp(24px,3.2vw,44px) clamp(20px,2.6vw,36px);
+}
+.stat .num{
+  font-family:var(--mono);
+  font-weight:600;
+  font-size:clamp(38px,5.8vw,72px);
+  line-height:1;
+  color:var(--paper);
+  letter-spacing:-.02em;
+}
+.stat .num small{font-size:.45em;color:var(--brass);letter-spacing:0}
+.stat .lbl{margin-top:16px;font-size:13.5px;color:var(--paper-dim);line-height:1.7}
+.stat .src{margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--paper-faint);text-transform:uppercase}
+@media(max-width:760px){.stats{grid-template-columns:1fr}}
+
+/* CAGR 计算器 */
+.calc{
+  border:1px solid var(--line-strong);
+  background:var(--ink-2);
+  padding:clamp(28px,4vw,52px);
+}
+.calc .q{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(20px,2.6vw,28px);
+  margin-bottom:34px;
+}
+.calc-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:clamp(28px,5vw,72px);
+  align-items:end;
+}
+@media(max-width:760px){.calc-row{grid-template-columns:1fr}}
+.calc input[type=range]{
+  -webkit-appearance:none;
+  appearance:none;
+  width:100%;
+  height:2px;
+  background:var(--line-strong);
+  outline:none;
+  margin:30px 0 12px;
+}
+.calc input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:22px;height:22px;
+  border-radius:50%;
+  background:var(--ink);
+  border:2.5px solid var(--cinnabar);
+  cursor:grab;
+  transition:transform .15s;
+}
+.calc input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.18)}
+.calc input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--ink);border:2.5px solid var(--cinnabar);cursor:grab;
+}
+.calc input[type=range]:focus-visible{outline:2px solid var(--brass);outline-offset:8px}
+.calc .years{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--paper-dim);
+  display:flex;justify-content:space-between;
+}
+.calc .years b{color:var(--paper);font-weight:600;font-size:15px}
+.calc-out{text-align:right}
+@media(max-width:760px){.calc-out{text-align:left}}
+.calc-out .big{
+  font-family:var(--mono);
+  font-weight:600;
+  font-size:clamp(52px,8vw,96px);
+  line-height:.95;
+  color:var(--cinnabar);
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+}
+.calc-out .big small{font-size:.34em;color:var(--brass);font-weight:500}
+.calc-out .cap{margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--paper-faint);text-transform:uppercase}
+.calc .verdict{
+  margin-top:34px;
+  padding-top:24px;
+  border-top:1px dashed var(--line-strong);
+  font-size:15.5px;
+  color:var(--paper-dim);
+  min-height:1.8em;
+}
+.calc .verdict b{color:var(--paper);font-weight:500}
+.calc .verdict .vt{color:var(--cinnabar);font-weight:700;font-family:var(--serif);margin-right:10px}
+
+/* ————————— 卷二 · 系统 ————————— */
+.frame-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+@media(max-width:860px){.frame-grid{grid-template-columns:1fr}}
+.frame{
+  background:var(--ink);
+  padding:clamp(28px,3.6vw,48px);
+  position:relative;
+  transition:background .4s;
+}
+.frame:hover{background:var(--ink-2)}
+.frame .fno{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.3em;
+  color:var(--brass);
+  margin-bottom:26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.frame .fno i{font-style:normal;color:var(--paper-faint)}
+.frame h3{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(22px,2.6vw,30px);
+  margin-bottom:6px;
+}
+.frame .fen{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.26em;
+  color:var(--cinnabar);
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+.frame p{color:var(--paper-dim);font-size:15px;max-width:46ch}
+.frame p b{color:var(--paper);font-weight:500}
+.frame .fviz{margin-top:30px}
+
+/* 杠铃 viz */
+.barbell{display:flex;align-items:center;gap:0;height:54px}
+.barbell .w{
+  background:var(--ink-3);
+  border:1.5px solid var(--line-strong);
+  height:100%;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--paper-dim);
+}
+.barbell .w.safe{flex:9;border-color:var(--jade);color:var(--jade)}
+.barbell .w.convex{flex:0 0 64px;border-color:var(--cinnabar);color:var(--cinnabar)}
+.barbell .bar{flex:1;height:1.5px;background:var(--line-strong)}
+
+/* 体制 viz */
+.regime{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+.regime .st{
+  padding:9px 16px;
+  border:1.5px solid var(--line-strong);
+  border-radius:999px;
+  color:var(--paper-faint);
+  transition:all .5s;
+}
+.regime .st.on{border-color:var(--brass);color:var(--brass);box-shadow:0 0 0 4px rgba(201,162,39,.08)}
+.regime .arrow{color:var(--paper-faint)}
+
+/* RS viz */
+.rs-steps{display:flex;align-items:flex-end;gap:7px;height:54px}
+.rs-steps i{flex:1;background:var(--ink-3);border-top:2px solid var(--brass-dim)}
+.rs-steps i:nth-child(1){height:30%}
+.rs-steps i:nth-child(2){height:44%}
+.rs-steps i:nth-child(3){height:38%}
+.rs-steps i:nth-child(4){height:60%}
+.rs-steps i:nth-child(5){height:78%}
+.rs-steps i:nth-child(6){height:100%;border-top-color:var(--cinnabar);background:rgba(216,68,46,.1)}
+
+/* 卡脖子 viz */
+.choke{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--paper-faint);flex-wrap:wrap}
+.choke .node{padding:8px 13px;border:1.5px solid var(--line-strong);border-radius:3px}
+.choke .node.key{border-color:var(--cinnabar);color:var(--cinnabar);position:relative}
+.choke .link{width:18px;height:1.5px;background:var(--line-strong)}
+
+/* ————————— 卷三 · 铁律 ————————— */
+.rules{display:flex;flex-direction:column}
+.rule{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:clamp(20px,4vw,56px);
+  align-items:center;
+  padding:clamp(26px,3.4vw,42px) 0;
+  border-bottom:1px solid var(--line);
+}
+.rule:first-child{border-top:1px solid var(--line)}
+.rule .rno{
+  font-family:var(--mono);
+  font-weight:600;
+  font-size:clamp(15px,1.8vw,19px);
+  color:var(--cinnabar);
+  letter-spacing:.06em;
+  align-self:start;
+  padding-top:6px;
+}
+.rule h3{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(19px,2.5vw,27px);
+  margin-bottom:8px;
+  line-height:1.4;
+}
+.rule h3 .to{color:var(--cinnabar);padding:0 8px;font-family:var(--mono);font-weight:400}
+.rule p{color:var(--paper-dim);font-size:14.5px;max-width:56ch}
+.rule .seal{
+  width:clamp(56px,6.4vw,72px);
+  aspect-ratio:1;
+  border:3px solid var(--cinnabar);
+  border-radius:7px;
+  display:grid;place-items:center;
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(24px,3vw,32px);
+  color:var(--cinnabar);
+  transform:rotate(-5deg);
+  opacity:0;
+  position:relative;
+  align-self:start;
+}
+.rule .seal::after{content:"";position:absolute;inset:5px;border:1px solid var(--cinnabar);border-radius:3px;opacity:.6}
+.rule.in .seal{animation:stamp .5s cubic-bezier(.34,1.4,.5,1) forwards}
+.rule:nth-child(2n) .seal{transform:rotate(4deg)}
+@media(max-width:640px){
+  .rule{grid-template-columns:auto 1fr}
+  .rule .seal{display:none}
+}
+
+/* ————————— 卷四 · 扫描 ————————— */
+.pipe{
+  display:grid;
+  grid-template-columns:repeat(5,1fr) auto;
+  gap:0;
+  align-items:stretch;
+  border:1px solid var(--line-strong);
+  background:var(--ink-2);
+}
+@media(max-width:980px){.pipe{grid-template-columns:1fr;}}
+.pl{
+  padding:clamp(22px,2.6vw,34px) clamp(18px,2vw,26px);
+  border-right:1px solid var(--line);
+  position:relative;
+}
+@media(max-width:980px){.pl{border-right:none;border-bottom:1px solid var(--line)}}
+.pl .pno{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--brass);margin-bottom:16px}
+.pl h4{font-family:var(--serif);font-weight:700;font-size:16.5px;margin-bottom:8px}
+.pl p{font-size:12.5px;color:var(--paper-dim);line-height:1.75}
+.pl .pen{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--paper-faint);text-transform:uppercase;margin-top:14px}
+.pscore{
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:10px;
+  padding:clamp(22px,2.6vw,34px);
+  background:rgba(216,68,46,.06);
+  min-width:128px;
+}
+.pscore .grades{display:flex;gap:8px}
+.pscore .g{
+  width:34px;height:34px;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-weight:600;font-size:15px;
+  border:1.5px solid var(--line-strong);
+  color:var(--paper-faint);
+  border-radius:3px;
+}
+.pscore .g.a{border-color:var(--cinnabar);color:var(--cinnabar);background:rgba(216,68,46,.1)}
+.pscore .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--paper-dim);text-transform:uppercase;text-align:center}
+.pipe-note{
+  margin-top:30px;
+  font-size:15px;
+  color:var(--paper-dim);
+  max-width:var(--measure);
+}
+.pipe-note b{color:var(--paper);font-weight:500}
+.cmd{
+  font-family:var(--mono);
+  font-size:13.5px;
+  color:var(--brass);
+  background:var(--ink-3);
+  border:1px solid var(--line-strong);
+  padding:3px 10px;
+  border-radius:3px;
+  white-space:nowrap;
+}
+
+/* ————————— 卷五 · 失败博物馆 ————————— */
+.case{
+  border:1px solid var(--line-strong);
+  background:var(--ink-2);
+  padding:clamp(28px,4vw,56px);
+  margin-bottom:clamp(40px,5vw,64px);
+}
+.case-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:20px;flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.case-head h3{font-family:var(--mono);font-weight:600;font-size:clamp(24px,3.2vw,38px);letter-spacing:.04em}
+.case-head .tag-exhibit{font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;color:var(--cinnabar);text-transform:uppercase;border:1px solid var(--cinnabar);padding:6px 12px;border-radius:2px}
+.case .case-sub{font-size:14px;color:var(--paper-dim);margin-bottom:40px;max-width:var(--measure)}
+.case .legend{
+  display:flex;gap:26px;margin-bottom:18px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--paper-faint);
+}
+.case .legend i{font-style:normal;display:inline-block;width:18px;height:2.5px;vertical-align:middle;margin-right:8px}
+.case .legend .lu i{background:var(--cinnabar)}
+.case .legend .ld i{background:var(--jade)}
+.fcel-chart{width:100%;height:auto}
+.fcel-chart .seg{stroke-width:2.5;fill:none;stroke-dasharray:600;stroke-dashoffset:600}
+.case.in .seg.up{stroke:var(--cinnabar);animation:draw 1.1s .2s cubic-bezier(.4,0,.3,1) forwards}
+.case.in .seg.down{stroke:var(--jade);animation:draw 1.1s 1.2s cubic-bezier(.4,0,.3,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fcel-chart .pt{fill:var(--ink);stroke-width:2.5;opacity:0}
+.case.in .pt{animation:ptin .4s forwards}
+.case.in .pt.p1{animation-delay:.2s;stroke:var(--cinnabar)}
+.case.in .pt.p2{animation-delay:1.25s;stroke:var(--cinnabar)}
+.case.in .pt.p3{animation-delay:2.3s;stroke:var(--jade)}
+@keyframes ptin{to{opacity:1}}
+.fcel-chart text{font-family:var(--mono);fill:var(--paper-dim)}
+.fcel-chart .anno{fill:var(--paper-faint);font-size:10px;letter-spacing:.08em}
+.fcel-chart .price{font-weight:600;font-size:14px;fill:var(--paper)}
+.case .autopsy{
+  margin-top:38px;
+  padding-top:30px;
+  border-top:1px dashed var(--line-strong);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:18px 22px;
+  font-size:14.5px;
+}
+.case .autopsy .k{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--brass);text-transform:uppercase;padding-top:4px;white-space:nowrap}
+.case .autopsy .v{color:var(--paper-dim);max-width:60ch}
+.case .autopsy .v b{color:var(--paper);font-weight:500}
+.case .autopsy .v.verdict{color:var(--paper);font-family:var(--serif);font-weight:700;font-size:17px;line-height:1.7}
+@media(max-width:640px){.case .autopsy{grid-template-columns:1fr;gap:6px 0}.case .autopsy .v{margin-bottom:14px}}
+.grave{
+  max-width:var(--measure);
+  font-size:clamp(15px,1.5vw,17.5px);
+  color:var(--paper-dim);
+}
+.grave b{color:var(--paper);font-weight:500}
+.grave .pull{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(21px,2.8vw,30px);
+  color:var(--paper);
+  line-height:1.6;
+  margin:30px 0;
+  padding-left:24px;
+  border-left:3px solid var(--cinnabar);
+}
+
+/* ————————— 终章 ————————— */
+.finale{
+  border-top:1px solid var(--line);
+  padding:clamp(90px,13vw,180px) var(--gutter);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.finale::before{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:min(70vw,760px);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(216,68,46,.09), transparent 62%);
+  pointer-events:none;
+}
+.finale h2{
+  font-family:var(--serif);
+  font-weight:900;
+  font-size:clamp(36px,7vw,92px);
+  line-height:1.25;
+  position:relative;
+}
+.finale .fsub{
+  margin:34px auto 0;
+  max-width:54ch;
+  color:var(--paper-dim);
+  font-size:clamp(15px,1.5vw,17px);
+  position:relative;
+}
+.finale .cmds{
+  margin-top:48px;
+  display:flex;
+  gap:18px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+}
+.finale .cmdbig{
+  font-family:var(--mono);
+  font-size:clamp(14px,1.7vw,17px);
+  letter-spacing:.1em;
+  color:var(--brass);
+  border:1px solid var(--line-strong);
+  background:var(--ink-2);
+  padding:16px 28px;
+  border-radius:4px;
+  display:flex;align-items:center;gap:12px;
+  transition:border-color .3s, transform .3s;
+}
+.finale .cmdbig:hover{border-color:var(--brass);transform:translateY(-2px)}
+.finale .cmdbig .pr{color:var(--cinnabar)}
+.finale .cmdbig .what{font-size:10.5px;letter-spacing:.2em;color:var(--paper-faint);text-transform:uppercase}
+.cursor{display:inline-block;width:9px;height:1.15em;background:var(--brass);vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ————————— 页脚 ————————— */
+footer.end{
+  border-top:1px solid var(--line);
+  padding:44px var(--gutter) 60px;
+  display:flex;
+  justify-content:space-between;
+  gap:28px;
+  flex-wrap:wrap;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  color:var(--paper-faint);
+  line-height:2.2;
+}
+footer.end .disc{max-width:60ch;text-transform:uppercase}
+footer.end .disc b{color:var(--cinnabar);font-weight:500}
+footer.end .made{text-align:right}
+footer.end .made b{color:var(--brass);font-weight:500}
+@media(max-width:640px){footer.end .made{text-align:left}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-left">
+    <a class="hf-back" href="../index.html">← <b>ALPHA·VAULT</b></a>
+    <div class="brand">
+      <div class="chop">百</div>
+      <div class="name">HUNDREDFOLD · 狩猎系统</div>
+    </div>
+  </div>
+  <div class="builder">BUILT IN ONE CONVERSATION BY <b>CLAUDE FABLE 5</b></div>
+</header>
+
+<!-- ———————————— HERO ———————————— -->
+<section class="hero">
+  <div class="eyebrow rise">ASYMMETRIC RETURN ENGINE · 不对称回报引擎 · EST. 2026</div>
+  <h1>
+    <span class="l1 rise r2">我不卖梦。</span>
+    <span class="l2 rise r3">我造<em>狩猎机器</em>。</span>
+  </h1>
+  <p class="sub rise r4">任何人都能向你承诺一百倍。<b>只有真正的系统,敢把止损铁律和失败解剖放在首页。</b>这是一台为不对称回报建造的机器——下行被结构封顶,上行不设上限。它不保证你赢,它保证你不会死于自己的情绪。</p>
+  <div class="axiom rise r4">100X IS NOT A PROMISE. IT IS A STRUCTURE. — 百倍不是承诺,是结构。</div>
+
+  <div class="hero-seal" id="heroSeal" aria-hidden="true">
+    <div class="glyphs">验真</div>
+  </div>
+
+  <div class="tape rise r4" aria-hidden="true">
+    <div class="tape-inner">
+      <span><b>COHR</b> 光学卡位</span><span><b>LITE</b> CPO</span><span><b>AXTI</b> <u>InP 衬底</u></span><span><b>ALAB</b> 互连</span><span><b>CRDO</b> AEC</span><span><b>NBIS</b> 算力</span><span><b>POET</b> 光引擎</span><span><b>TSEM</b> 特种代工</span><span><i>CHOKEPOINT</i> 卡脖子</span><span><i>BARBELL</i> 杠铃凸性</span><span><i>REGIME</i> 体制检测</span><span><i>RS-BREAKOUT</i> 强度突破</span><span><u>FORM-4</u> 内部人</span><span><u>NO NEWS</u> 新闻即共识</span>
+      <span><b>COHR</b> 光学卡位</span><span><b>LITE</b> CPO</span><span><b>AXTI</b> <u>InP 衬底</u></span><span><b>ALAB</b> 互连</span><span><b>CRDO</b> AEC</span><span><b>NBIS</b> 算力</span><span><b>POET</b> 光引擎</span><span><b>TSEM</b> 特种代工</span><span><i>CHOKEPOINT</i> 卡脖子</span><span><i>BARBELL</i> 杠铃凸性</span><span><i>REGIME</i> 体制检测</span><span><i>RS-BREAKOUT</i> 强度突破</span><span><u>FORM-4</u> 内部人</span><span><u>NO NEWS</u> 新闻即共识</span>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————— 卷一 · 数学 ———————————— -->
+<section class="vol" id="math">
+  <div class="vol-rail"><div class="tag">卷一 · 数学</div></div>
+  <div class="vol-body">
+    <div class="vol-head rv">
+      <div class="eyebrow">CHAPTER 01 — THE BRUTAL MATH</div>
+      <h2>先看尸检报告,<br>再谈一百倍。<span class="en">SURVIVORSHIP IS THE FIRST LIE</span></h2>
+    </div>
+    <p class="vol-lede rv" style="margin-bottom:clamp(40px,5vw,64px)">你听到的每一个百倍神话,都是从坟场里被挑出来讲的。<b>市场不分发财富,市场集中财富</b>——集中到极少数结构性赢家手里。狩猎的第一步,是承认猎物有多稀少。</p>
+
+    <div class="stats">
+      <div class="stat rv">
+        <div class="num"><span data-count="4">0</span><small>%</small></div>
+        <div class="lbl">1926 年以来,美股<b style="color:var(--paper)">全部</b>净财富创造,由约 4% 的上市公司贡献。其余 96% 加总 ≈ 国债。</div>
+        <div class="src">Bessembinder · ASU</div>
+      </div>
+      <div class="stat rv rv-d1">
+        <div class="num">&gt;<span data-count="50">0</span><small>%</small></div>
+        <div class="lbl">超过半数个股的终身买入持有回报,<b style="color:var(--paper)">跑输一个月期国库券</b>。随机选股的期望值是平庸,不是奇迹。</div>
+        <div class="src">同一研究 · 1926–2016</div>
+      </div>
+      <div class="stat rv rv-d2">
+        <div class="num">≈<span data-count="26">0</span><small>%/yr</small></div>
+        <div class="lbl">一百倍 ÷ 二十年 = 约 26% 年化复利,<b style="color:var(--paper)">连续二十年</b>。巴菲特终身年化约 20%。先掂量,再下注。</div>
+        <div class="src">1.26^20 ≈ 102x</div>
+      </div>
+    </div>
+
+    <div class="calc rv">
+      <div class="q">你给自己几年,去拿这一百倍?</div>
+      <div class="calc-row">
+        <div>
+          <div class="years"><span>横轴:时间</span><b><span id="yearsOut">20</span> 年</b></div>
+          <input type="range" id="yearsRange" min="3" max="30" value="20" step="1" aria-label="年限">
+          <div class="years dim"><span>3 年 · 赌徒区</span><span>30 年 · 复利区</span></div>
+        </div>
+        <div class="calc-out">
+          <div class="big"><span id="cagrOut">25.9</span><small>%</small></div>
+          <div class="cap">REQUIRED CAGR · 所需年化</div>
+        </div>
+      </div>
+      <div class="verdict" id="verdictOut"><span class="vt">判词</span><b>可行区间。</b>但二十年里,你只被允许犯极少数错误——所以这台机器的核心不是选股,是防错。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————— 卷二 · 系统 ———————————— -->
+<section class="vol" id="system">
+  <div class="vol-rail"><div class="tag">卷二 · 系统</div></div>
+  <div class="vol-body">
+    <div class="vol-head rv">
+      <div class="eyebrow">CHAPTER 02 — THE MACHINE</div>
+      <h2>四个模块,<br>一台机器。<span class="en">FOUR FRAMEWORKS · ONE ENGINE</span></h2>
+    </div>
+    <p class="vol-lede rv" style="margin-bottom:clamp(40px,5vw,64px)">每个模块单独使用都平庸,叠加起来才是过滤器:<b>卡脖子决定买什么,杠铃决定买多少,体制决定何时出手,RS 决定何时认错。</b>新闻不在任何一层里——新闻即共识,共识没有超额收益。</p>
+
+    <div class="frame-grid">
+      <div class="frame rv">
+        <div class="fno">MODULE 01 <i>买什么 · WHAT</i></div>
+        <h3>卡脖子理论</h3>
+        <div class="fen">Chokepoint Monopoly</div>
+        <p>在 <b>$200M–$10B</b> 市值带寻找「功能性垄断」——产业链上无法绕开、无人替代的那一环。目标是在机构发现前 <b>12–24 个月</b>进场:衬底、光引擎、互连、特种代工,而不是台前的明星。</p>
+        <div class="fviz choke" aria-hidden="true">
+          <span class="node">下游巨头</span><span class="link"></span><span class="node key">卡位者 ◆</span><span class="link"></span><span class="node">上游材料</span>
+        </div>
+      </div>
+      <div class="frame rv rv-d1">
+        <div class="fno">MODULE 02 <i>买多少 · SIZE</i></div>
+        <h3>杠铃凸性</h3>
+        <div class="fen">Barbell Convexity</div>
+        <p>九成弹药放在打不死的地方,一成放在可能改变一切的地方。<b>下行被封顶,上行不封顶</b>——凸性是唯一可以被设计出来的运气。中间地带是给那些既想安全又想暴富的人准备的坟墓。</p>
+        <div class="fviz barbell" aria-hidden="true">
+          <div class="w safe">90% 防弹</div><div class="bar"></div><div class="w convex">10%</div>
+        </div>
+      </div>
+      <div class="frame rv">
+        <div class="fno">MODULE 03 <i>何时出手 · WHEN</i></div>
+        <h3>体制检测</h3>
+        <div class="fen">Markov Regime Detection</div>
+        <p>马尔可夫状态机:<b>趋势、震荡、危机</b>。同一只股票在不同体制下是两种生物——趋势市里突破是信号,震荡市里突破是陷阱。先判断天气,再决定是否出门打猎。</p>
+        <div class="fviz regime" id="regimeViz" aria-hidden="true">
+          <span class="st on">趋势 TREND</span><span class="arrow">⇄</span><span class="st">震荡 CHOP</span><span class="arrow">⇄</span><span class="st">危机 CRISIS</span>
+        </div>
+      </div>
+      <div class="frame rv rv-d1">
+        <div class="fno">MODULE 04 <i>何时认错 · EXIT</i></div>
+        <h3>相对强度纪律</h3>
+        <div class="fen">RS Breakout Discipline</div>
+        <p>不抄底,买强势。Roppel 式纪律:<b>在相对强度新高处进场,在结构破坏处离场</b>。「强者恒强」不是口号,是统计——而抄底是把「我比市场聪明」当成了仓位。</p>
+        <div class="fviz rs-steps" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————— 卷三 · 铁律 ———————————— -->
+<section class="vol" id="rules">
+  <div class="vol-rail"><div class="tag">卷三 · 铁律</div></div>
+  <div class="vol-body">
+    <div class="vol-head rv">
+      <div class="eyebrow">CHAPTER 03 — KILL RULES · 不可协商</div>
+      <h2>系统的价值不在于它让你买什么,<br>在于它强迫你卖什么。<span class="en">FIVE NON-NEGOTIABLE TRIGGERS</span></h2>
+    </div>
+    <p class="vol-lede rv" style="margin-bottom:clamp(36px,4.5vw,56px)">以下五条触发即执行,<b>不开会、不复盘、不给叙事辩护的机会。</b>每一条都是用真金白银换来的,每一条都盖了章。</p>
+
+    <div class="rules">
+      <div class="rule rv">
+        <div class="rno">R-01</div>
+        <div>
+          <h3>ATM 增发<span class="to">→</span>自动降级</h3>
+          <p>稀释你的人不会提前通知你。公司选择用印钞机融资的那一刻,你的股权就在变薄——评级立刻下调,无论故事讲得多动听。</p>
+        </div>
+        <div class="seal" aria-hidden="true">降</div>
+      </div>
+      <div class="rule rv">
+        <div class="rno">R-02</div>
+        <div>
+          <h3>高管集体减持<span class="to">→</span>信号优先于故事</h3>
+          <p>内部人用脚投票时,叙事作废。一个人卖是流动性,一群人卖是判断——Form 4 不会撒谎,PR 稿才会。</p>
+        </div>
+        <div class="seal" aria-hidden="true">退</div>
+      </div>
+      <div class="rule rv">
+        <div class="rno">R-03</div>
+        <div>
+          <h3>年涨幅 &gt; 300%<span class="to">→</span>抛物线警告</h3>
+          <p>到这个位置,你大概率不在第一层,你在接最后一棒的队列里。抛物线不需要理由就能折断——仓位减半,移动止损,让利润自己证明自己。</p>
+        </div>
+        <div class="seal" aria-hidden="true">慎</div>
+      </div>
+      <div class="rule rv">
+        <div class="rno">R-04</div>
+        <div>
+          <h3>价格未经实时验证<span class="to">→</span>整条推荐链作废</h3>
+          <p>过期数据 = 错误结论。任何建议必须带日期戳与实时报价,否则从入场价到止损位全部重算——这台机器宁可说「我需要先查证」,也不背诵昨天的世界。</p>
+        </div>
+        <div class="seal" aria-hidden="true">验</div>
+      </div>
+      <div class="rule rv">
+        <div class="rno">R-05</div>
+        <div>
+          <h3>退出计划未执行<span class="to">=</span>没有计划</h3>
+          <p>写在纸上的纪律不是纪律,执行了的才是。这一条的学费单,陈列在卷五的解剖台上。</p>
+        </div>
+        <div class="seal" aria-hidden="true">斩</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————— 卷四 · 扫描 ———————————— -->
+<section class="vol" id="scan">
+  <div class="vol-rail"><div class="tag">卷四 · 扫描</div></div>
+  <div class="vol-body">
+    <div class="vol-head rv">
+      <div class="eyebrow">CHAPTER 04 — ALPHA HUNTER · 每日五层</div>
+      <h2>每天,五层,<br>无一例外。<span class="en">THE DAILY FIVE-LAYER SWEEP</span></h2>
+    </div>
+    <p class="vol-lede rv" style="margin-bottom:clamp(36px,4.5vw,56px)">灵感不可复制,流程可以。五层信号独立打分、复合加权,<b>同一只票必须在多层同时亮灯才配进观察列表</b>——单一信号是噪音,信号共振才是猎物。</p>
+
+    <div class="pipe rv">
+      <div class="pl">
+        <div class="pno">LAYER 1</div>
+        <h4>内部人买入</h4>
+        <p>SEC Form 4 实时追踪。高管自掏腰包,是市场上唯一不收费的尽调报告。</p>
+        <div class="pen">SEC FORM 4 · INSIDER BUYS</div>
+      </div>
+      <div class="pl">
+        <div class="pno">LAYER 2</div>
+        <h4>异常期权流</h4>
+        <p>远月深虚值的大单从不无聊。有人提前知道什么——跟踪资金,不跟踪嘴。</p>
+        <div class="pen">UNUSUAL OPTIONS FLOW</div>
+      </div>
+      <div class="pl">
+        <div class="pno">LAYER 3</div>
+        <h4>催化剂日历</h4>
+        <p>FDA / PDUFA / 财报 / 投资者日。事件是引信,提前站在引信旁边,而不是爆炸之后。</p>
+        <div class="pen">CATALYST CALENDAR</div>
+      </div>
+      <div class="pl">
+        <div class="pno">LAYER 4</div>
+        <h4>板块轮动</h4>
+        <p>资金像潮水,先进板块、再进个股。在退潮的板块里选股,是和重力作对。</p>
+        <div class="pen">SECTOR ROTATION</div>
+      </div>
+      <div class="pl">
+        <div class="pno">LAYER 5</div>
+        <h4>技术突破</h4>
+        <p>价格行为做最终裁决:量、形态、相对强度。前四层给名单,这一层给扳机。</p>
+        <div class="pen">TECHNICAL TRIGGER</div>
+      </div>
+      <div class="pscore">
+        <div class="grades"><span class="g a">A</span><span class="g">B</span><span class="g">C</span></div>
+        <div class="lbl">复合评分<br>COMPOSITE</div>
+      </div>
+    </div>
+
+    <p class="pipe-note rv">触发词:<span class="cmd">今日报告</span> 启动全表扫描;<span class="cmd">AI轮动</span> 启动 AI 基建三层轮动。找不到猎物时,系统只说四个字:<b>「今天没有」</b>——空仓也是仓位,不开枪也是纪律。</p>
+  </div>
+</section>
+
+<!-- ———————————— 卷五 · 失败博物馆 ———————————— -->
+<section class="vol" id="autopsy">
+  <div class="vol-rail"><div class="tag">卷五 · 解剖</div></div>
+  <div class="vol-body">
+    <div class="vol-head rv">
+      <div class="eyebrow">CHAPTER 05 — THE HONEST ROOM · 失败博物馆</div>
+      <h2>敢展示失败的系统,<br>才配谈一百倍。<span class="en">EXHIBIT NO.1 · A DOCUMENTED LOSS</span></h2>
+    </div>
+
+    <div class="case rv" id="fcelCase">
+      <div class="case-head">
+        <h3>FCEL — 解剖报告</h3>
+        <div class="tag-exhibit">展品 01 · 真实学费</div>
+      </div>
+      <p class="case-sub">配色按 A 股语法:<span class="cinnabar">红涨</span>,<span class="jade">绿跌</span>。这不是别人的故事,这是这台机器自己的病历。</p>
+      <div class="legend"><span class="lu"><i></i>上涨段</span><span class="ld"><i></i>下跌段</span></div>
+
+      <svg class="fcel-chart" viewBox="0 0 720 268" role="img" aria-label="FCEL 交易过程:20美元入场,涨至27美元后跌至15美元">
+        <line x1="60" y1="141" x2="680" y2="141" stroke="rgba(234,226,211,.14)" stroke-width="1" stroke-dasharray="3 6"/>
+        <text x="60" y="130" class="anno">入场成本线 $20</text>
+        <path class="seg up" d="M 90 141 L 380 62"/>
+        <path class="seg down" d="M 380 62 L 640 197"/>
+        <circle class="pt p1" cx="90" cy="141" r="5"/>
+        <circle class="pt p2" cx="380" cy="62" r="5"/>
+        <circle class="pt p3" cx="640" cy="197" r="5"/>
+        <text x="90" y="172" class="price" text-anchor="middle">$20</text>
+        <text x="90" y="190" class="anno" text-anchor="middle">入场 · 氢能叙事+技术面</text>
+        <text x="380" y="40" class="price" text-anchor="middle">$27 · +35%</text>
+        <text x="380" y="22" class="anno" text-anchor="middle">峰值 · 退出计划已写明:跌破趋势线即离场</text>
+        <text x="640" y="228" class="price" text-anchor="middle">$15 · −25%</text>
+        <text x="700" y="246" class="anno" text-anchor="end">财报 miss · 计划在,手没动</text>
+      </svg>
+
+      <div class="autopsy">
+        <div class="k">死因</div>
+        <div class="v">不是选股错误——入场逻辑成立,峰值时浮盈 <b>+35%</b>。死因是<b>规则写在纸上,执行权交给了情绪</b>:趋势线破了,人在等「再涨回来一点」。</div>
+        <div class="k">代价</div>
+        <div class="v">从 +35% 到 −25%,<b>六十个百分点</b>的往返——这是「没有执行」的精确标价。</div>
+        <div class="k">判词</div>
+        <div class="v verdict">亏损来自不执行,不来自不聪明。这一课已铸成铁律 R-05,盖章生效:退出计划未执行,等于没有计划。</div>
+      </div>
+    </div>
+
+    <div class="grave rv">
+      <p>每一个被讲述的百倍神话背后,是一千个没人提起的归零。卖课的人给你看右侧的火箭,从不给你看左侧的坟场——<b>这台机器把自己的坟场陈列在这里,因为这是它和卖梦者唯一的区别。</b></p>
+      <p class="pull">百倍回报存在。但它不属于追逐它的人,属于建好结构、然后等待的人。</p>
+      <p>结构的意思是:猎物出现之前,弹药就已按杠铃分配好;铁律触发之时,执行不需要请示你的感受。剩下的交给时间和凸性——<b>运气无法被预测,但可以被设计成只朝一个方向打开。</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ———————————— 终章 ———————————— -->
+<section class="finale">
+  <h2 class="rv">机器已在运转。</h2>
+  <p class="fsub rv rv-d1">这一页没有「立即购买」,没有倒计时,没有学员晒单——一台真正的机器不需要催促你。它每天开机,五层扫描,铁律待命,失败归档。你要做的只有一件事:</p>
+  <div class="cmds rv rv-d2">
+    <div class="cmdbig"><span class="pr">&gt;</span> 今日报告 <span class="what">五层全表扫描</span></div>
+    <div class="cmdbig"><span class="pr">&gt;</span> AI轮动 <span class="what">AI基建三层轮动</span></div>
+  </div>
+  <p class="fsub rv rv-d3" style="margin-top:40px;font-family:var(--mono);font-size:13px;letter-spacing:.1em">awaiting command <span class="cursor"></span></p>
+</section>
+
+<footer class="end">
+  <div class="disc">非投资建议 · <b>NOT INVESTMENT ADVICE</b> · 过往表现不代表未来收益 · 所有框架与案例来自真实工作流 · 你的资本,你的决定,你的责任</div>
+  <div class="made">BUILT IN ONE CONVERSATION BY <b>CLAUDE FABLE 5</b><br>红涨绿跌 · 印章为证 · © 2026 HUNDREDFOLD</div>
+</footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ——— 印章:盖章 ——— */
+  var seal = document.getElementById('heroSeal');
+  if(seal){
+    if(reduced){ seal.style.opacity = .92; }
+    else { setTimeout(function(){ seal.classList.add('stamped'); }, 950); }
+  }
+
+  /* ——— 滚动揭示 ——— */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.18, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv, .rule, .case').forEach(function(el){
+    if(reduced){ el.classList.add('in'); } else { io.observe(el); }
+  });
+
+  /* ——— 数字滚动 ——— */
+  function animateCount(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var dur = 1300, t0 = null;
+    function step(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(target * eased);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counted = false;
+  var statIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting && !counted){
+        counted = true;
+        document.querySelectorAll('[data-count]').forEach(function(el){
+          if(reduced){ el.textContent = el.getAttribute('data-count'); }
+          else animateCount(el);
+        });
+      }
+    });
+  }, {threshold:.3});
+  var statsEl = document.querySelector('.stats');
+  if(statsEl) statIO.observe(statsEl);
+
+  /* ——— CAGR 计算器 ——— */
+  var range = document.getElementById('yearsRange');
+  var yearsOut = document.getElementById('yearsOut');
+  var cagrOut = document.getElementById('cagrOut');
+  var verdictOut = document.getElementById('verdictOut');
+  function verdictFor(c, y){
+    if(c > 100) return '<span class="vt">判词</span><b>彩票区。</b>年化 ' + c.toFixed(0) + '% 不叫投资叫开奖——系统拒绝为这个时间框架背书,杠铃的另一头救不了你。';
+    if(c > 50)  return '<span class="vt">判词</span><b>风投命中率级别。</b>准备好十次归零换一次命中,且每一注的仓位都必须按「会归零」来设计。';
+    if(c > 30)  return '<span class="vt">判词</span><b>顶级对冲基金区间。</b>系统、纪律、运气三者缺一即出局——历史上能连续做到的人,一只手数得过来。';
+    return '<span class="vt">判词</span><b>可行区间。</b>但 ' + y + ' 年里,你只被允许犯极少数错误——所以这台机器的核心不是选股,是防错。';
+  }
+  function recalc(){
+    var y = parseInt(range.value, 10);
+    var c = (Math.pow(100, 1/y) - 1) * 100;
+    yearsOut.textContent = y;
+    cagrOut.textContent = c >= 100 ? c.toFixed(0) : c.toFixed(1);
+    verdictOut.innerHTML = verdictFor(c, y);
+  }
+  if(range){ range.addEventListener('input', recalc); recalc(); }
+
+  /* ——— 体制状态机巡回 ——— */
+  var regime = document.getElementById('regimeViz');
+  if(regime && !reduced){
+    var states = regime.querySelectorAll('.st');
+    var idx = 0;
+    setInterval(function(){
+      states[idx].classList.remove('on');
+      idx = (idx + 1) % states.length;
+      states[idx].classList.add('on');
+    }, 2100);
+  }
+})();
+</script>
+</body>
+</html>

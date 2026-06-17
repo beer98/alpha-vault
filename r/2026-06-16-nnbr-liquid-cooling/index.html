@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NNBR | 液冷快接头投资论点</title>
+  <meta name="description" content="NNBR 液冷快接头投资论点的精简视觉版。">
+  <style>
+    :root {
+      --ink: #f4f8f8;
+      --ink-strong: #ffffff;
+      --coal: #080c12;
+      --paper: #0d141c;
+      --surface: #121b24;
+      --surface-strong: #172431;
+      --mist: #1b2a35;
+      --line: rgba(255, 255, 255, 0.12);
+      --muted: #9cabad;
+      --copper: #b97943;
+      --cyan: #2f9aa8;
+      --cyan-soft: rgba(47, 154, 168, 0.16);
+      --green: #61d39a;
+      --red: #ff7c86;
+      --blue: #77b7d5;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+      --radius: 8px;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        linear-gradient(180deg, #080c12 0, #0d141c 34rem, #0b1118 100%);
+      color: var(--ink);
+      line-height: 1.55;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 82svh;
+      overflow: hidden;
+      background: var(--coal);
+      color: #f7fbfb;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.95;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(8, 12, 18, 0.96) 0%, rgba(8, 12, 18, 0.74) 42%, rgba(8, 12, 18, 0.18) 100%),
+        linear-gradient(180deg, rgba(8, 12, 18, 0.10) 0%, rgba(8, 12, 18, 0.88) 100%);
+      z-index: 1;
+    }
+
+    .topbar,
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .topbar {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: rgba(247, 251, 251, 0.72);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 750;
+      color: #fff;
+    }
+
+    .brand-mark {
+      width: 13px;
+      height: 13px;
+      border: 2px solid var(--cyan);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 3px rgba(47, 154, 168, 0.2);
+    }
+
+    .top-meta {
+      color: rgba(247, 251, 251, 0.7);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .top-meta strong {
+      color: #fff;
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .backlink {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 750;
+      color: rgba(247, 251, 251, 0.66);
+      transition: color 160ms ease;
+      white-space: nowrap;
+    }
+    .backlink:hover { color: var(--cyan); }
+    .backlink .mk { color: #fff; }
+    .topbar-left { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: rgba(247, 251, 251, 0.72);
+      transition: color 160ms ease;
+    }
+
+    .nav a:hover {
+      color: #fff;
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 48px));
+      margin: auto auto 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 650px) minmax(260px, 390px);
+      gap: 48px;
+      align-items: end;
+      padding: 38px 0 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: #8ee4e8;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 14px;
+      font-size: 92px;
+      line-height: 0.9;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+
+    .hero-sub {
+      margin-bottom: 18px;
+      font-size: 30px;
+      line-height: 1.25;
+      font-weight: 760;
+      max-width: 680px;
+    }
+
+    .hero-copy {
+      margin-bottom: 28px;
+      max-width: 660px;
+      color: rgba(247, 251, 251, 0.78);
+      font-size: 17px;
+    }
+
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      max-width: 680px;
+      margin: 0 0 22px;
+    }
+
+    .date-chip {
+      min-height: 90px;
+      padding: 15px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      background: rgba(8, 12, 18, 0.44);
+      backdrop-filter: blur(14px);
+    }
+
+    .date-chip span,
+    .date-chip em {
+      display: block;
+      color: rgba(247, 251, 251, 0.62);
+      font-size: 12.5px;
+      font-style: normal;
+    }
+
+    .date-chip strong {
+      display: block;
+      margin: 7px 0;
+      color: #fff;
+      font-size: 25px;
+      line-height: 1.08;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: var(--radius);
+      font-weight: 760;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.10);
+      color: #fff;
+      backdrop-filter: blur(14px);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.38);
+    }
+
+    .btn.primary {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #061014;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-height: 104px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(8, 12, 18, 0.56);
+      border-radius: var(--radius);
+      backdrop-filter: blur(16px);
+    }
+
+    .metric small {
+      display: block;
+      color: rgba(247, 251, 251, 0.58);
+      font-size: 12px;
+      margin-bottom: 9px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: rgba(247, 251, 251, 0.68);
+      font-size: 12px;
+    }
+
+    .summary-strip {
+      background: #0a0f15;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-inner {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    .summary-item {
+      background: var(--surface);
+      padding: 20px 22px;
+      min-height: 118px;
+    }
+
+    .summary-item:first-child {
+      background: rgba(47, 154, 168, 0.14);
+    }
+
+    .summary-item b {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 82px 0;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0));
+    }
+
+    .section.dark {
+      background:
+        linear-gradient(180deg, rgba(47, 154, 168, 0.08), rgba(185, 121, 67, 0.05)),
+        #090e14;
+      color: #f6fbfa;
+      border-bottom: 0;
+    }
+
+    .section-inner {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1fr);
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      color: var(--copper);
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 10px;
+    }
+
+    .section.dark .section-kicker {
+      color: #e8a66a;
+    }
+
+    h2 {
+      font-size: 48px;
+      line-height: 1.08;
+      margin-bottom: 0;
+      letter-spacing: 0;
+    }
+
+    .section-lede {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 720px;
+    }
+
+    .section.dark .section-lede {
+      color: rgba(246, 251, 250, 0.72);
+    }
+
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .thesis-card,
+    .reason-card,
+    .option-card,
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .thesis-card {
+      padding: 24px;
+      min-height: 228px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-no {
+      color: var(--copper);
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 18px;
+    }
+
+    .thesis-card h3,
+    .reason-card h3,
+    .option-card h3 {
+      font-size: 22px;
+      line-height: 1.22;
+      margin-bottom: 12px;
+    }
+
+    .thesis-card p,
+    .reason-card p,
+    .option-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .card-stat {
+      margin-top: 26px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      color: var(--blue);
+      font-weight: 850;
+      font-size: 26px;
+    }
+
+    .card-stat span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .date-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .hardware-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .rack-panel {
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(47, 154, 168, 0.16), rgba(185, 121, 67, 0.08)),
+        #10151c;
+      color: #fff;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .rack-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .rack-stack {
+      display: grid;
+      gap: 10px;
+      margin: 4px 0 24px;
+    }
+
+    .rack-layer {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 14px;
+      align-items: center;
+      min-height: 54px;
+      padding: 13px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .rack-layer strong {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .rack-layer span {
+      font-weight: 760;
+    }
+
+    .rack-layer.qdc {
+      border-color: rgba(47, 154, 168, 0.7);
+      background: rgba(47, 154, 168, 0.18);
+      box-shadow: inset 4px 0 0 var(--cyan);
+    }
+
+    .rack-layer.qdc span {
+      color: #9ce9ed;
+    }
+
+    .failure-line {
+      padding: 15px 16px;
+      border-radius: var(--radius);
+      background: rgba(164, 49, 61, 0.14);
+      color: #ffbec5;
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reason-card {
+      padding: 22px;
+      min-height: 174px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0)),
+        var(--surface);
+    }
+
+    .reason-card:nth-child(1) {
+      border-top: 4px solid var(--cyan);
+    }
+
+    .reason-card:nth-child(2) {
+      border-top: 4px solid var(--copper);
+    }
+
+    .reason-card:nth-child(3) {
+      border-top: 4px solid var(--green);
+    }
+
+    .reason-card:nth-child(4) {
+      border-top: 4px solid var(--blue);
+    }
+
+    .price-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .price-board {
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(47, 154, 168, 0.18), rgba(185, 121, 67, 0.08)),
+        #090e14;
+      color: #fff;
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .price-main {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .price-main strong {
+      font-size: 66px;
+      line-height: 0.95;
+    }
+
+    .price-main span {
+      color: #8ee4e8;
+      font-weight: 850;
+    }
+
+    .range {
+      margin: 26px 0 4px;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 12px;
+      margin-bottom: 9px;
+    }
+
+    .range-track {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .range-fill {
+      width: 88%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--copper), var(--red));
+    }
+
+    .range-note {
+      color: rgba(255, 255, 255, 0.62);
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .scenario {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .segmented button {
+      min-height: 42px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--mist);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 760;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      background: var(--cyan);
+      color: #061014;
+      border-color: var(--cyan);
+    }
+
+    .scenario-display {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .target-box {
+      border-radius: var(--radius);
+      background: rgba(47, 154, 168, 0.12);
+      border: 1px solid rgba(47, 154, 168, 0.28);
+      padding: 22px;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .target-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .target-value {
+      font-size: 50px;
+      font-weight: 850;
+      line-height: 0.98;
+      color: var(--blue);
+    }
+
+    .target-upside {
+      color: var(--green);
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .scenario-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .actions-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .mini-action {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      padding: 14px;
+      background: var(--mist);
+      min-height: 92px;
+    }
+
+    .mini-action small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 7px;
+    }
+
+    .mini-action strong {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+      min-height: 360px;
+      padding-top: 20px;
+    }
+
+    .time-card {
+      position: relative;
+      min-height: 310px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .time-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--power);
+      background: linear-gradient(180deg, rgba(47, 154, 168, 0.1), rgba(47, 154, 168, 0.42));
+      z-index: 0;
+    }
+
+    .time-card.hot::before {
+      background: linear-gradient(180deg, rgba(185, 121, 67, 0.12), rgba(185, 121, 67, 0.56));
+    }
+
+    .time-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .time-year {
+      color: rgba(246, 251, 250, 0.58);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .time-card h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .power {
+      font-size: 30px;
+      font-weight: 850;
+      color: #9ce9ed;
+      line-height: 1.05;
+    }
+
+    .time-card.hot .power {
+      color: #ffc08a;
+    }
+
+    .time-card p {
+      margin: 12px 0 0;
+      color: rgba(246, 251, 250, 0.68);
+      font-size: 13px;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .option-card {
+      padding: 22px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0)),
+        var(--surface);
+    }
+
+    .prob {
+      margin-top: auto;
+      padding-top: 16px;
+      color: var(--copper);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .action-band {
+      background:
+        linear-gradient(180deg, rgba(47, 154, 168, 0.05), rgba(255, 255, 255, 0)),
+        var(--paper);
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .action-card {
+      border: 0;
+      border-radius: 0;
+      padding: 24px;
+      min-height: 150px;
+      box-shadow: none;
+      background: var(--surface);
+    }
+
+    .action-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 10px;
+      font-weight: 760;
+    }
+
+    .action-card strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .action-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .monitor {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .position-box {
+      padding: 28px;
+      border-radius: var(--radius);
+      background: rgba(47, 154, 168, 0.12);
+      border: 1px solid rgba(47, 154, 168, 0.28);
+    }
+
+    .position-box strong {
+      display: block;
+      font-size: 46px;
+      line-height: 1;
+      color: var(--blue);
+      margin: 8px 0 12px;
+    }
+
+    .watch-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .watch-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .watch-row b {
+      color: var(--ink);
+    }
+
+    footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 12px;
+      background: #080c12;
+      border-top: 1px solid var(--line);
+    }
+
+    footer .section-inner {
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .accent-cyan {
+      color: var(--cyan);
+    }
+
+    .accent-copper {
+      color: var(--copper);
+    }
+
+    .accent-red {
+      color: var(--red);
+    }
+
+    .accent-green {
+      color: var(--green);
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner,
+      .summary-inner,
+      .section-head,
+      .hardware-layout,
+      .price-layout,
+      .scenario-display,
+      .monitor {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-inner {
+        align-items: start;
+      }
+
+      h1 {
+        font-size: 72px;
+      }
+
+      .hero-sub {
+        font-size: 25px;
+      }
+
+      .thesis-grid,
+      .option-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reason-grid,
+      .actions-grid,
+      .action-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .time-card {
+        min-height: 180px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar,
+      .hero-inner,
+      .summary-inner,
+      .section-inner {
+        width: min(100% - 32px, 1180px);
+      }
+
+      .topbar {
+        align-items: flex-start;
+        gap: 10px 16px;
+      }
+
+      .top-meta {
+        order: 3;
+        width: 100%;
+        font-size: 11px;
+      }
+
+      .nav {
+        gap: 10px;
+        font-size: 12px;
+      }
+
+      .hero {
+        min-height: 78svh;
+      }
+
+      .hero-inner {
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      h1 {
+        font-size: 56px;
+      }
+
+      h2 {
+        font-size: 34px;
+      }
+
+      .hero-sub {
+        font-size: 21px;
+      }
+
+      .hero-copy,
+      .section-lede {
+        font-size: 15px;
+      }
+
+      .date-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .date-chip {
+        min-height: 74px;
+        padding: 11px 10px;
+      }
+
+      .date-chip span,
+      .date-chip em {
+        font-size: 11px;
+      }
+
+      .date-chip strong {
+        font-size: 19px;
+      }
+
+      .hero-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .metric {
+        min-height: 94px;
+        padding: 13px;
+      }
+
+      .metric strong {
+        font-size: 24px;
+      }
+
+      .metric span {
+        font-size: 11px;
+      }
+
+      .reason-grid,
+      .actions-grid,
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+
+      .section-head {
+        gap: 18px;
+      }
+
+      .rack-panel,
+      .price-board,
+      .scenario {
+        padding: 20px;
+      }
+
+      .rack-layer {
+        grid-template-columns: 72px 1fr;
+      }
+
+      .price-main {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .price-main strong {
+        font-size: 52px;
+      }
+
+      .target-value {
+        font-size: 42px;
+      }
+
+      .segmented {
+        grid-template-columns: 1fr;
+      }
+
+      footer .section-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <img class="hero-media" src="assets/liquid-cooling-qdc-hero.png" alt="液冷机柜中的金属快接头和冷却管线">
+    <div class="topbar">
+      <div class="topbar-left">
+        <a class="backlink" href="../../index.html"><span aria-hidden="true">←</span> <span class="mk">ALPHA·VAULT</span></a>
+        <a class="brand" href="#top" aria-label="NNBR 首页">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>NNBR | QDC</span>
+        </a>
+      </div>
+      <div class="top-meta">研究日期 <strong>2026-06-16</strong></div>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#thesis">结论</a>
+        <a href="#bottleneck">瓶颈</a>
+        <a href="#price">价格</a>
+        <a href="#future">浪潮</a>
+        <a href="#action">操作</a>
+      </nav>
+    </div>
+
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Liquid Cooling Quick Disconnect</p>
+        <h1>NNBR</h1>
+        <p class="hero-sub">AI 液冷快接头的美股纯股。</p>
+        <p class="hero-copy">
+          核心不是“液冷渗透率提升”，而是机柜功耗从 120kW 走向 600kW 后，QDC 被迫进入持续换装周期。
+        </p>
+        <div class="date-grid" aria-label="研究日期与数据基准">
+          <div class="date-chip">
+            <span>报告日期</span>
+            <strong>2026-06-16</strong>
+            <em>北京时间发布</em>
+          </div>
+          <div class="date-chip">
+            <span>价格基准</span>
+            <strong>2026-06-12</strong>
+            <em>NNBR 收盘 $3.00</em>
+          </div>
+          <div class="date-chip">
+            <span>下一验证</span>
+            <strong>2026-08-05</strong>
+            <em>Q2 财报窗口</em>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <a class="btn primary" href="#thesis"><span aria-hidden="true">↳</span> 核心论点</a>
+          <a class="btn" href="#action"><span aria-hidden="true">↓</span> 操作参数</a>
+        </div>
+      </div>
+
+      <div class="hero-metrics" aria-label="核心数据">
+        <div class="metric">
+          <small>现价</small>
+          <strong>$3.00</strong>
+          <span>2026-06-12 收盘，30 日 +55%</span>
+        </div>
+        <div class="metric">
+          <small>市值</small>
+          <strong>$158M</strong>
+          <span>微小盘，P/S 0.37x</span>
+        </div>
+        <div class="metric">
+          <small>每柜 QDC</small>
+          <strong>200-400</strong>
+          <span>2025-2026 GB200 NVL72 级别需求</span>
+        </div>
+        <div class="metric">
+          <small>凸性</small>
+          <strong>10:1</strong>
+          <span>+200% 上行 vs -20% 下行</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <aside class="summary-strip" aria-label="一句话摘要">
+    <div class="summary-inner">
+      <div class="summary-item">
+        <b>2026-06-16 | 一句话</b>
+        <p>NNBR 是少数可直接押注 AI 液冷快接头的上市标的。</p>
+      </div>
+      <div class="summary-item">
+        <b>2026 H1 | 为什么稀缺</b>
+        <p>竞争对手多为私企或大集团子业务，纯度被稀释。</p>
+      </div>
+      <div class="summary-item">
+        <b>2026-06-12 | 为什么现在</b>
+        <p>价格接近高点，但营收兑现和代际升级仍在前方。</p>
+      </div>
+      <div class="summary-item">
+        <b>2026-2028 | 为什么有弹性</b>
+        <p>小市值加高毛利业务，叙事切换会放大估值。</p>
+      </div>
+    </div>
+  </aside>
+
+  <section class="section" id="thesis">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 | Thesis | 2026-06-16</div>
+          <h2>少字版核心论点</h2>
+        </div>
+        <p class="section-lede">
+          把原文压缩成三个判断：它卡在咽喉位置，价格还没完全反映后续入账，真正的大浪潮来自 NVIDIA 代际功耗曲线。
+        </p>
+      </div>
+
+      <div class="thesis-grid">
+        <article class="thesis-card">
+          <div>
+            <div class="card-no">WHY | 截至 2026-06-16</div>
+            <h3>QDC 是液冷链路的高风险小零件</h3>
+            <p>冷板和 CDU 是大件，QDC 是高压流体连接点。一个泄漏点就可能拖停整柜。</p>
+          </div>
+          <div class="card-stat">5 家<span>全球候选供应商</span></div>
+        </article>
+
+        <article class="thesis-card">
+          <div>
+            <div class="card-no">NOW | 价格基准 2026-06-12</div>
+            <h3>市场仍按工业件给估值</h3>
+            <p>当前 QDC 占比还小，P/S 仍在 0.37x。若液冷收入入账，估值口径会变。</p>
+          </div>
+          <div class="card-stat">22/30<span>增长客户来自前 30 大客户</span></div>
+        </article>
+
+        <article class="thesis-card">
+          <div>
+            <div class="card-no">FUTURE | 2026-2028</div>
+            <h3>功耗升级制造连续换装</h3>
+            <p>GB200 到 Rubin 不是同一套液冷系统。压力、冗余、接头数量都会升级。</p>
+          </div>
+          <div class="card-stat">5x<span>120kW 到 600kW</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bottleneck">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 | Bottleneck | 2026 H1</div>
+          <h2>瓶颈位置要看清</h2>
+        </div>
+        <p class="section-lede">
+          原文里最重要的一句话：AI 液冷不是“有管子就行”，而是高压、热循环、零泄漏容忍的认证生意。
+        </p>
+      </div>
+
+      <div class="hardware-layout">
+        <div class="rack-panel" aria-label="液冷链路示意">
+          <div>
+            <div class="rack-title">
+              <span>2025-2027 NVIDIA GB200 / GB300 rack</span>
+              <span>cooling path</span>
+            </div>
+            <div class="rack-stack">
+              <div class="rack-layer"><strong>GPU</strong><span>高功耗计算托盘</span></div>
+              <div class="rack-layer"><strong>Cold plate</strong><span>冷板吸热</span></div>
+              <div class="rack-layer qdc"><strong>QDC</strong><span>快接头，200-400 颗/柜</span></div>
+              <div class="rack-layer"><strong>Manifold</strong><span>歧管分流</span></div>
+              <div class="rack-layer"><strong>CDU</strong><span>冷却分配单元</span></div>
+            </div>
+          </div>
+          <div class="failure-line">单点泄漏 = 整柜停摆 = 高额停机损失</div>
+        </div>
+
+        <div class="reason-grid">
+          <article class="reason-card">
+            <h3>纯股稀缺</h3>
+            <p>截至 2026-06-16，Staubli、CPC、Parker、CoolIT 不是私有就是大公司内部小业务。NNBR 是可直接交易的高纯度标的。</p>
+          </article>
+          <article class="reason-card">
+            <h3>认证壁垒</h3>
+            <p>2026 H1 的判断：六西格玛、亚毫米精度、压力循环和零泄漏容忍，让客户切换供应商很慢。</p>
+          </article>
+          <article class="reason-card">
+            <h3>产能前置</h3>
+            <p>按 2026 Q1 管理层口径，产能不是瓶颈，新 CNC 产能和 $80-90M 新业务预计在 2026 H2 逐步体现。</p>
+          </article>
+          <article class="reason-card">
+            <h3>客户不止一个</h3>
+            <p>2026 Q1 披露前 30 大客户中 22 家贡献增长，削弱“单一 NVIDIA 依赖”的空头叙事。</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="price">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 | Price | 2026-06-12 close</div>
+          <h2>$3 不便宜，但还没结束</h2>
+        </div>
+        <p class="section-lede">
+          价格已经离 52 周高点很近，所以重点不是“低估”，而是看右侧兑现是否能让估值口径切换。
+        </p>
+      </div>
+
+      <div class="price-layout">
+        <div class="price-board">
+          <div class="price-main">
+            <div>
+              <small>Current price | 2026-06-12</small>
+              <strong>$3.00</strong>
+            </div>
+            <span>+55% / 30d</span>
+          </div>
+          <div class="range">
+            <div class="range-labels">
+              <span>52 周低点 $1.10</span>
+              <span>高点 $3.24</span>
+            </div>
+            <div class="range-track" aria-hidden="true">
+              <div class="range-fill"></div>
+            </div>
+            <div class="range-note">当前位置约在 52 周区间 88%，追高风险需要靠仓位和止损管理。</div>
+            <div class="date-note">价格、52 周区间与涨幅均按原稿口径：2026-06-12 收盘。</div>
+          </div>
+        </div>
+
+        <div class="scenario">
+          <div class="segmented" role="group" aria-label="情景选择">
+            <button type="button" data-case="bear" aria-pressed="false">Bear</button>
+            <button type="button" data-case="base" aria-pressed="true">Base</button>
+            <button type="button" data-case="bull" aria-pressed="false">Bull</button>
+          </div>
+          <div class="scenario-display">
+            <div class="target-box">
+              <div class="target-label" id="scenario-label">Base case</div>
+              <div class="target-value" id="scenario-target">$5.00</div>
+              <div class="target-upside" id="scenario-upside">+67% 上行</div>
+            </div>
+            <p class="scenario-text" id="scenario-copy">
+              这是卖方 1 年目标附近的保守重估：NNBR 仍被看作工业件公司，但液冷订单开始被市场承认。
+            </p>
+          </div>
+
+          <div class="actions-grid" aria-label="操作参数摘要">
+            <div class="mini-action">
+              <small>入场区</small>
+              <strong>$2.40-3.20</strong>
+            </div>
+            <div class="mini-action">
+              <small>技术止损</small>
+              <strong class="accent-red">$2.40</strong>
+            </div>
+            <div class="mini-action">
+              <small>部分止盈</small>
+              <strong>$5.00</strong>
+            </div>
+            <div class="mini-action">
+              <small>终极目标</small>
+              <strong class="accent-green">$8-10</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" id="future">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">04 | Wave | 2024-2030 roadmap</div>
+          <h2>未来来自功耗曲线</h2>
+        </div>
+        <p class="section-lede">
+          GB200 的液冷方案接不住 Rubin 的压力。每一代机柜功耗提升，都给 QDC 带来重新认证和换装窗口。
+        </p>
+      </div>
+
+      <div class="timeline" aria-label="NVIDIA 机柜功耗演进">
+        <article class="time-card" style="--power: 16%;">
+          <div class="time-year">2024</div>
+          <h3>B100/B200</h3>
+          <div class="power">80-120kW</div>
+          <p>强制液冷起点。</p>
+        </article>
+        <article class="time-card" style="--power: 22%;">
+          <div class="time-year">2025</div>
+          <h3>GB200</h3>
+          <div class="power">120kW</div>
+          <p>NVL72 量产，QDC 用量放大。</p>
+        </article>
+        <article class="time-card hot" style="--power: 44%;">
+          <div class="time-year">2026-27</div>
+          <h3>GB300</h3>
+          <div class="power">200-300kW</div>
+          <p>更高压力和冗余要求。</p>
+        </article>
+        <article class="time-card hot" style="--power: 86%;">
+          <div class="time-year">2027-28</div>
+          <h3>Rubin</h3>
+          <div class="power">600kW</div>
+          <p>液冷系统重新设计。</p>
+        </article>
+        <article class="time-card hot" style="--power: 100%;">
+          <div class="time-year">2028-30</div>
+          <h3>Vera Rubin</h3>
+          <div class="power">800kW+</div>
+          <p>形态继续升级。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="optional">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">05 | Optionality | 2027-2029</div>
+          <h2>四个免费期权</h2>
+        </div>
+        <p class="section-lede">
+          base case 之外，原文提到的并购、主权 AI、替换周期和业务分拆，保留为四个简短观察。
+        </p>
+      </div>
+
+      <div class="option-grid">
+        <article class="option-card">
+          <div class="card-no">01</div>
+          <h3>被并购</h3>
+          <p>对大型液冷或工业集团来说，NNBR 规模足够小，工艺足够补位。</p>
+          <div class="prob">概率：中 | 2026-2028</div>
+        </article>
+        <article class="option-card">
+          <div class="card-no">02</div>
+          <h3>主权 AI</h3>
+          <p>北美之后，中东、印度、日本等国家级 AI 基建可能接力。</p>
+          <div class="prob">概率：高 | 2027 起</div>
+        </article>
+        <article class="option-card">
+          <div class="card-no">03</div>
+          <h3>替换收入</h3>
+          <p>压力循环后的 QDC 需要更换，2028 之后可能形成稳定收入。</p>
+          <div class="prob">概率：高 | 2028 起</div>
+        </article>
+        <article class="option-card">
+          <div class="card-no">04</div>
+          <h3>业务分拆</h3>
+          <p>若液冷与电网业务独立呈现，估值倍数可能脱离汽车零部件框架。</p>
+          <div class="prob">概率：低 | 2026-2028 战略选项</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section action-band" id="action">
+    <div class="section-inner">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">06 | Action | 执行版 2026-06-16</div>
+          <h2>操作参数</h2>
+        </div>
+        <p class="section-lede">
+          微小盘最怕故事对但仓位错。这里保留原文的硬参数，方便复盘和执行。
+        </p>
+      </div>
+
+      <div class="action-grid">
+        <div class="action-card">
+          <small>入场 | 2026-06-16 执行口径</small>
+          <strong>$2.40-3.20</strong>
+          <p>当前价处于区间上沿。</p>
+        </div>
+        <div class="action-card">
+          <small>技术止损 | 价格基准 2026-06-12</small>
+          <strong class="accent-red">$2.40</strong>
+          <p>跌破即视为 thesis 受损。</p>
+        </div>
+        <div class="action-card">
+          <small>部分止盈 | 2026-2027</small>
+          <strong>$5.00</strong>
+          <p>锁定本金，保留右尾。</p>
+        </div>
+        <div class="action-card">
+          <small>终极目标 | 2027-2028</small>
+          <strong class="accent-green">$8-10</strong>
+          <p>液冷成为主业叙事。</p>
+        </div>
+      </div>
+
+      <div class="monitor">
+        <div class="position-box">
+          <small>仓位建议</small>
+          <strong>3-5%</strong>
+          <p>流动性差，beta 高，适合作为高凸性卫星仓位。</p>
+        </div>
+        <div class="watch-list" aria-label="关键监控节点">
+          <div class="watch-row"><b>2026.08.05</b><span>Q2 财报，QDC 营收是否实际入账。</span></div>
+          <div class="watch-row"><b>2026 Q4</b><span>GB300 量产启动，观察升级换装周期。</span></div>
+          <div class="watch-row"><b>2027 H1</b><span>Rubin 量产前认证窗口，是否拿到 design win。</span></div>
+          <div class="watch-row"><b>2027 H2</b><span>液冷营收应接近 $20M/季，否则 thesis 降级。</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="section-inner">
+      <span>研究日期：2026-06-16（北京时间）。内容基于用户提供原稿重排与视觉改版，价格基准沿用原稿 2026-06-12 收盘。</span>
+      <span>仅作研究展示，不构成投资建议。</span>
+    </div>
+  </footer>
+
+  <script>
+    const scenarios = {
+      bear: {
+        label: "Bear case",
+        target: "$2.40",
+        upside: "-20% 下行",
+        copy: "QDC 入账慢于预期，市场继续按传统工业件估值。技术止损触发后，先承认节奏错误。"
+      },
+      base: {
+        label: "Base case",
+        target: "$5.00",
+        upside: "+67% 上行",
+        copy: "这是卖方 1 年目标附近的保守重估：NNBR 仍被看作工业件公司，但液冷订单开始被市场承认。"
+      },
+      bull: {
+        label: "Bull case",
+        target: "$8-10",
+        upside: "+167% 到 +233%",
+        copy: "液冷收入成为主线，估值从工业件切换到 AI 基建零部件。小市值会放大这种叙事迁移。"
+      }
+    };
+
+    const buttons = document.querySelectorAll("[data-case]");
+    const label = document.querySelector("#scenario-label");
+    const target = document.querySelector("#scenario-target");
+    const upside = document.querySelector("#scenario-upside");
+    const copy = document.querySelector("#scenario-copy");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const next = scenarios[button.dataset.case];
+        buttons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        button.setAttribute("aria-pressed", "true");
+        label.textContent = next.label;
+        target.textContent = next.target;
+        upside.textContent = next.upside;
+        copy.textContent = next.copy;
+      });
+    });
+  </script>
+</body>
+</html>

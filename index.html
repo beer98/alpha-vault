@@ -104,6 +104,25 @@
   .month .rule{flex:1;height:1px;background:var(--line);}
   .month .ct{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--grey);}
 
+  /* ── 开宗明义 · MANIFESTO ── */
+  .manifesto-link{display:flex;align-items:center;gap:clamp(16px,3vw,26px);margin:22px 0 6px;padding:18px clamp(18px,2.5vw,24px);
+    border:1.5px solid var(--ink);background:var(--paper-2);color:var(--ink);
+    transition:background .35s ease,transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;}
+  .manifesto-link:hover{background:var(--ink);color:var(--paper);transform:translateY(-3px);box-shadow:11px 13px 0 -2px rgba(210,57,25,.22);}
+  .manifesto-link:focus-visible{outline:2.5px solid var(--red);outline-offset:4px;}
+  .ml-seal{flex:none;width:50px;height:50px;display:grid;place-items:center;border:2px solid var(--red);color:var(--red);
+    font-family:var(--cjk-d);font-weight:900;font-size:1.7rem;transform:rotate(-4deg);transition:background .35s,color .35s;}
+  .manifesto-link:hover .ml-seal{background:var(--red);color:var(--paper);}
+  .ml-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .ml-k{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
+  .manifesto-link:hover .ml-k{color:#F0A48E;}
+  .ml-title{font-family:var(--cjk-d);font-weight:900;font-size:clamp(1.05rem,2.2vw,1.45rem);line-height:1.18;}
+  .ml-sub{font-size:.86rem;line-height:1.5;color:var(--ink-dim);}
+  .manifesto-link:hover .ml-sub{color:rgba(241,237,227,.72);}
+  .ml-go{flex:none;font-family:var(--mono);font-size:.76rem;font-weight:700;letter-spacing:.08em;color:var(--red);white-space:nowrap;}
+  .manifesto-link:hover .ml-go{color:#F0A48E;}
+  @media(max-width:600px){.manifesto-link{flex-wrap:wrap;gap:13px;}.ml-body{flex-basis:100%;order:3;}.ml-go{margin-left:auto;}}
+
   /* ── ENTRY ROW ────────────────────────── */
   .entry{display:grid;grid-template-columns:64px 1fr 230px;gap:clamp(14px,2.2vw,28px);
     align-items:start;padding:clamp(16px,2.1vh,21px) 12px;border-top:1px solid var(--line);
@@ -201,12 +220,23 @@
 
 <main class="wrap">
   <div class="chead">
-    <div class="ttl">目录 <span class="en">Contents</span> <span class="ct">／ 02</span></div>
+    <div class="ttl">目录 <span class="en">Contents</span> <span class="ct">／ 03</span></div>
     <div class="modes" role="group" aria-label="排序">
       <span class="m on">时间序</span>
       <span class="m soon" aria-disabled="true" title="以后按板块归类">板块</span>
     </div>
   </div>
+
+  <!-- ════════ 开宗明义 · MANIFESTO ════════ -->
+  <a class="manifesto-link" href="hundredfold/" aria-label="开宗明义：百倍狩猎系统">
+    <span class="ml-seal" aria-hidden="true">百</span>
+    <span class="ml-body">
+      <span class="ml-k">开宗明义 · Manifesto</span>
+      <span class="ml-title">百倍狩猎系统 —— 这座库怎么打猎</span>
+      <span class="ml-sub">卡脖子 × 杠铃凸性 × 体制检测 × 铁律执行。下行封顶、上行不封顶；先看尸检报告，再谈一百倍。</span>
+    </span>
+    <span class="ml-go">读宗旨 →</span>
+  </a>
 
   <!-- ════════ 持续看板 · LIVE ════════ -->
   <div class="month">
@@ -233,8 +263,24 @@
   <!-- ════════ 2026 · 06 ════════ -->
   <div class="month">
     <span class="no">2026 · 06</span><span class="en">June</span>
-    <span class="rule"></span><span class="ct">1 篇</span>
+    <span class="rule"></span><span class="ct">2 篇</span>
   </div>
+
+  <a class="entry" href="r/2026-06-16-nnbr-liquid-cooling/" aria-label="NNBR 液冷快接头 投资论点">
+    <div class="e-no">
+      <span class="date">06<i>.</i>16</span>
+    </div>
+    <div class="e-main">
+      <h2 class="thesis">液冷快接头，是 600kW 机柜的咽喉。</h2>
+      <p class="take">NNBR 是少数能直接押注 AI 液冷 <b>QDC（快接头）</b>的美股纯标的。机柜功耗 120kW→600kW 逼出持续换装周期；一个泄漏点拖停整柜——卡位高、纯度稀缺。</p>
+      <p class="src">微小盘 $158M · 价格基准 2026-06-12 收盘 $3.00 · Q2 财报(08-05)验证</p>
+    </div>
+    <div class="e-side">
+      <span class="e-tag">AI 液冷</span>
+      <div class="e-tickers">NNBR<br>凸性 10:1</div>
+      <span class="e-cta">读全文 <i>→</i></span>
+    </div>
+  </a>
 
   <a class="entry" href="r/2026-06-14-nadella-ecosystem/" aria-label="模型会沦为大宗商品，钱沉到它脚下三层">
     <div class="e-no">
