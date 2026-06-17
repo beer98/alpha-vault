@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOCI (3363) · 光进芯片的那道关口 — DD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@800;900&family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#070B10;        /* deep cool near-black */
+    --void-2:#0A1018;
+    --panel:#0D141C;       /* raised panels */
+    --panel-2:#101A24;
+    --line:#1C2A36;        /* hairline cool */
+    --line-2:#26384A;
+    --ink:#E9F1F5;         /* primary cool white */
+    --muted:#7E94A2;       /* secondary */
+    --muted-2:#566776;
+    --photon:#38E1C8;      /* fiber light, primary accent */
+    --beam:#4FA8FF;        /* mid spectrum */
+    --violet:#8B7CF6;      /* far spectrum */
+    --amber:#FFB347;       /* warm emphasis (data) */
+    --red:#FF6B6B;         /* risk */
+    --maxw:1080px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* ambient: faint fiber-glow gradients behind everything */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(900px 500px at 78% -8%, rgba(56,225,200,.10), transparent 60%),
+      radial-gradient(700px 600px at 6% 18%, rgba(139,124,246,.08), transparent 60%),
+      radial-gradient(600px 400px at 50% 108%, rgba(79,168,255,.06), transparent 60%);
+  }
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  a{color:var(--photon);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--photon);outline-offset:3px;border-radius:3px}
+
+  .mono{font-family:"IBM Plex Mono",monospace;font-feature-settings:"tnum" 1}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--photon);
+    display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--photon);opacity:.7}
+  .amber{color:var(--amber)}
+  .vio{color:var(--violet)}
+
+  /* ---------- top bar ---------- */
+  header.bar{
+    position:sticky;top:0;z-index:20;
+    backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(7,11,16,.74);
+    border-bottom:1px solid var(--line);
+  }
+  .bar-in{max-width:var(--maxw);margin:0 auto;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:11px;min-width:0}
+  .logo-mark{width:30px;height:30px;flex:0 0 auto;display:block}
+  .logo-word{font-family:"Archivo Expanded",sans-serif;font-weight:900;font-size:19px;letter-spacing:.04em;color:var(--ink);line-height:1}
+  .logo-sub{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);letter-spacing:.08em;margin-top:1px}
+  .bar-right{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);text-align:right;white-space:nowrap}
+  .bar-right b{color:var(--photon);font-weight:600}
+  @media(max-width:620px){.logo-sub{display:none}.bar-right{font-size:10.5px}}
+  .av-back{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;color:var(--muted);white-space:nowrap;padding-right:12px;border-right:1px solid var(--line);transition:color .2s}
+  .av-back:hover{color:var(--photon);text-decoration:none}
+  .av-back b{color:var(--ink);font-weight:600}
+  .bar-date{font-size:15px;color:var(--photon);font-weight:700;letter-spacing:.02em}
+  .hero-date{display:inline-flex;align-items:baseline;gap:13px;margin:22px 0 0;padding:9px 17px;border:1px solid var(--line-2);border-radius:11px;background:var(--panel)}
+  .hero-date .hd-k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+  .hero-date .hd-v{font-family:"IBM Plex Mono",monospace;font-size:clamp(22px,3.6vw,30px);font-weight:600;color:var(--photon);letter-spacing:.02em;font-feature-settings:"tnum" 1}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 34px}
+  .hero h1{
+    font-family:"Archivo Expanded",sans-serif;font-weight:900;
+    font-size:clamp(34px,6.4vw,68px);line-height:1.02;letter-spacing:-.01em;
+    margin:20px 0 0;
+  }
+  .hero h1 .glow{color:var(--photon)}
+  .hero .lede{font-size:clamp(17px,2.1vw,20px);color:var(--muted);max-width:660px;margin:20px 0 0;line-height:1.55}
+  .hero .lede b{color:var(--ink);font-weight:600}
+
+  /* signature: fiber coupling scene */
+  .scene-wrap{margin:34px 0 6px;position:relative}
+  .scene{
+    position:relative;width:100%;height:230px;border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;
+    background:
+      linear-gradient(180deg,#0B121A,#080D13);
+  }
+  .scene svg{position:absolute;inset:0;width:100%;height:100%}
+  .scene .tag{
+    position:absolute;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    letter-spacing:.06em;color:var(--muted-2);text-transform:uppercase;
+  }
+  .scene .tag.l{left:14px;top:12px;color:var(--muted)}
+  .scene .tag.m{left:50%;transform:translateX(-50%);bottom:12px}
+  .scene .tag.r{right:14px;top:12px;color:var(--beam)}
+  .pulse{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--photon);
+    box-shadow:0 0 10px 2px rgba(56,225,200,.85);will-change:left}
+  @keyframes ride{
+    0%{left:3%;opacity:0}
+    8%{opacity:1}
+    78%{opacity:1}
+    92%{left:62%;opacity:.15}
+    100%{left:62%;opacity:0}
+  }
+  @keyframes chipglow{0%,100%{opacity:.25}50%{opacity:.7}}
+  .chip-glow{animation:chipglow 2.4s ease-in-out infinite}
+
+  /* stat strip */
+  .strip{
+    margin:26px 0 0;border:1px solid var(--line);border-radius:12px;background:var(--panel);
+    display:grid;grid-template-columns:repeat(6,1fr);overflow:hidden;
+  }
+  .strip .cell{padding:13px 14px;border-right:1px solid var(--line)}
+  .strip .cell:last-child{border-right:none}
+  .strip .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2)}
+  .strip .v{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--ink);margin-top:5px}
+  .strip .v.hot{color:var(--amber)}
+  .strip .v.cool{color:var(--photon)}
+  @media(max-width:760px){.strip{grid-template-columns:repeat(3,1fr)}.strip .cell:nth-child(3){border-right:none}.strip .cell:nth-child(1),.strip .cell:nth-child(2),.strip .cell:nth-child(3){border-bottom:1px solid var(--line)}}
+  @media(max-width:440px){.strip{grid-template-columns:repeat(2,1fr)}.strip .cell{border-right:1px solid var(--line)!important;border-bottom:1px solid var(--line)}.strip .cell:nth-child(2n){border-right:none!important}}
+
+  /* ---------- sections ---------- */
+  section.blk{padding:46px 0;border-top:1px solid var(--line)}
+  .sec-no{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--photon);letter-spacing:.1em}
+  h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(24px,3.6vw,34px);line-height:1.1;letter-spacing:-.01em;margin:8px 0 4px}
+  h2 .sub{display:block;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:400;color:var(--muted);letter-spacing:.04em;margin-top:9px;text-transform:none}
+  p{margin:16px 0;color:#C9D6DE}
+  p b,li b{color:var(--ink);font-weight:600}
+  .tldr{
+    margin:18px 0;padding:15px 18px;border-left:3px solid var(--photon);
+    background:linear-gradient(90deg,rgba(56,225,200,.07),transparent);
+    border-radius:0 8px 8px 0;font-size:16.5px;color:var(--ink);
+  }
+  .tldr .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--photon);text-transform:uppercase;display:block;margin-bottom:5px}
+
+  /* COUPE timeline */
+  .rail{margin:22px 0 6px;display:grid;gap:0}
+  .step{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);position:relative}
+  .step:last-child{border-bottom:none}
+  .step .gen{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--beam);padding-top:2px}
+  .step .gen .yr{display:block;color:var(--muted);font-weight:400;margin-top:3px;font-size:11px}
+  .step .ttl{font-family:"Archivo",sans-serif;font-weight:700;font-size:17px;color:var(--ink)}
+  .step .dsc{font-size:14.5px;color:var(--muted);margin-top:3px}
+  .step.now .gen{color:var(--photon)}
+  .step.now::after{content:"量产元年";position:absolute;right:0;top:16px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--void);background:var(--photon);padding:2px 7px;border-radius:4px;letter-spacing:.04em}
+
+  /* fork callout (TAM divergence) */
+  .fork{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+  .fork .side{border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--panel)}
+  .fork .side.bull{border-color:rgba(56,225,200,.35)}
+  .fork .side.bear{border-color:rgba(255,107,107,.28)}
+  .fork .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .fork .big{font-family:"Archivo Expanded",sans-serif;font-weight:900;font-size:30px;margin:8px 0 2px;line-height:1}
+  .fork .bull .big{color:var(--photon)}
+  .fork .bear .big{color:var(--red)}
+  .fork .note{font-size:13.5px;color:var(--muted);margin-top:6px}
+  @media(max-width:560px){.fork{grid-template-columns:1fr}}
+
+  /* scenario table */
+  .tbl{margin:20px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;width:100%}
+  table{border-collapse:collapse;width:100%;font-family:"IBM Plex Mono",monospace;font-size:13.5px}
+  thead th{background:var(--panel-2);color:var(--muted);font-weight:500;text-align:left;padding:11px 13px;letter-spacing:.04em;font-size:11.5px;text-transform:uppercase;border-bottom:1px solid var(--line)}
+  tbody td{padding:11px 13px;border-bottom:1px solid var(--line);color:#C9D6DE}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr td:first-child{color:var(--ink);font-weight:600}
+  .pos{color:var(--photon)}.neg{color:var(--red)}.flat{color:var(--amber)}
+  .row-bull{background:rgba(56,225,200,.05)}
+  .row-fail{background:rgba(255,107,107,.045)}
+  @media(max-width:560px){table{font-size:12px}thead th,tbody td{padding:9px 8px}}
+
+  /* implied-P callout */
+  .implied{
+    margin:22px 0;border:1px solid var(--line-2);border-radius:14px;padding:22px;
+    background:linear-gradient(135deg,rgba(255,179,71,.06),rgba(13,20,28,.4));
+  }
+  .implied .big{font-family:"Archivo Expanded",sans-serif;font-weight:900;font-size:clamp(40px,9vw,72px);line-height:.95;color:var(--amber)}
+  .implied .cap{font-size:15px;color:var(--ink);margin-top:6px}
+  .implied .cap b{color:var(--amber)}
+
+  /* calculator */
+  .calc{margin:24px 0;border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden}
+  .calc-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .calc-head .t{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px}
+  .calc-head .h{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .calc-body{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:640px){.calc-body{grid-template-columns:1fr;gap:18px}}
+  .ctrl label{display:flex;justify-content:space-between;align-items:baseline;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-bottom:10px;letter-spacing:.03em}
+  .ctrl label .val{color:var(--photon);font-size:15px;font-weight:600}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--line-2);outline:none;margin:4px 0 22px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--photon);cursor:pointer;box-shadow:0 0 0 4px rgba(56,225,200,.18),0 0 10px rgba(56,225,200,.5)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border:none;border-radius:50%;background:var(--photon);cursor:pointer;box-shadow:0 0 0 4px rgba(56,225,200,.18)}
+  .out{display:grid;gap:14px;align-content:start}
+  .out .o{border:1px solid var(--line);border-radius:10px;padding:13px 15px;background:var(--void-2)}
+  .out .o .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted-2)}
+  .out .o .v{font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:600;margin-top:3px}
+  #outMC{color:var(--ink)} #outX{color:var(--photon)} #outP{color:var(--amber)}
+  .calc-foot{padding:0 20px 18px;font-size:13px;color:var(--muted)}
+  .calc-foot b{color:var(--ink)}
+
+  /* risk list */
+  .risks{margin:20px 0;display:grid;gap:12px}
+  .risk{border:1px solid var(--line);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:14px 16px;background:rgba(255,107,107,.035)}
+  .risk .rh{font-family:"Archivo",sans-serif;font-weight:700;font-size:15.5px;color:var(--ink);display:flex;align-items:center;gap:9px}
+  .risk .rh .n{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--red);font-weight:600}
+  .risk p{margin:7px 0 0;font-size:14.5px;color:var(--muted)}
+  .risk.key{border-left-color:var(--amber);background:rgba(255,179,71,.045)}
+  .risk.key .rh .n,.risk.key .rh{color:var(--amber)}
+
+  /* bottom line */
+  .bottom{border:1px solid var(--line-2);border-radius:16px;padding:26px;background:linear-gradient(160deg,var(--panel),var(--void-2))}
+  .bottom h2{margin-top:0}
+  .verdict{font-family:"IBM Plex Mono",monospace;font-size:13px;display:inline-flex;align-items:center;gap:8px;color:var(--photon);border:1px solid rgba(56,225,200,.35);border-radius:999px;padding:6px 14px;margin-bottom:14px;letter-spacing:.04em}
+  .verdict::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--photon);box-shadow:0 0 8px var(--photon)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 60px}
+  .foot-in{max-width:var(--maxw);margin:0 auto;padding:0 24px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted-2);line-height:1.8}
+  .foot-in b{color:var(--muted)}
+  .disc{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted-2);font-size:11.5px}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+  /* reveal */
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand">
+      <a class="av-back" href="../../index.html">← <b>ALPHA·VAULT</b></a>
+      <!-- Logo slot: drop official FOCI asset into src below; falls back to this custom mark -->
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" aria-label="FOCI">
+        <rect x="1" y="1" width="38" height="38" rx="9" stroke="url(#lg)" stroke-width="1.5"/>
+        <line x1="9" y1="14" x2="24" y2="14" stroke="#38E1C8" stroke-width="1.6"/>
+        <line x1="9" y1="20" x2="24" y2="20" stroke="#4FA8FF" stroke-width="1.6"/>
+        <line x1="9" y1="26" x2="24" y2="26" stroke="#8B7CF6" stroke-width="1.6"/>
+        <rect x="26" y="10" width="6" height="20" rx="2" fill="#0D141C" stroke="#38E1C8" stroke-width="1.4"/>
+        <circle cx="29" cy="20" r="1.7" fill="#FFB347"/>
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#38E1C8"/><stop offset="1" stop-color="#8B7CF6"/></linearGradient></defs>
+      </svg>
+      <div>
+        <div class="logo-word">FOCI</div>
+        <div class="logo-sub">Fiber Optic Communications</div>
+      </div>
+    </div>
+    <div class="bar-right"><b>3363.TWO</b> · TPEx · 数据 <span class="bar-date">2026-06-16</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="eyebrow">Fiber Array Unit · 光进芯片的咽喉</span>
+    <h1>NVIDIA 让 GPU 用<span class="glow">光</span>说话。<br>光要进芯片,先过 FOCI 这道关。</h1>
+    <p class="lede">FOCI 做的是把一排光纤,以<b>亚微米精度</b>怼进光子芯片边缘的那个零件——CPO 里每个光模块都绕不开。一家 1995 年从 ITRI 分出来、做了 30 年的台湾老厂,现在卡在 <b>TSMC COUPE → NVDA Rubin</b> 的必经节点上。下面是它到底干嘛、为什么可能起飞、以及你 737 块买进去<b>实际在赌什么</b>。</p>
+
+    <div class="hero-date"><span class="hd-k">数据截至</span><span class="hd-v">2026-06-16</span></div>
+
+    <div class="scene-wrap">
+      <div class="scene" role="img" aria-label="光纤经 FAU 耦合进入光子芯片的示意">
+        <span class="tag l">FIBERS // 外部光纤</span>
+        <span class="tag m">FAU · FOCI 做的对接口</span>
+        <span class="tag r">PIC // 硅光芯片</span>
+        <svg viewBox="0 0 800 230" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="fib" x1="0" x2="1"><stop offset="0" stop-color="#38E1C8" stop-opacity="0"/><stop offset="0.5" stop-color="#4FA8FF" stop-opacity=".55"/><stop offset="1" stop-color="#8B7CF6" stop-opacity=".7"/></linearGradient>
+            <linearGradient id="chipg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#12303a"/><stop offset="1" stop-color="#0a1a22"/></linearGradient>
+          </defs>
+          <!-- fibers -->
+          <line x1="20" y1="46" x2="500" y2="92" stroke="url(#fib)" stroke-width="1.4"/>
+          <line x1="20" y1="92" x2="500" y2="104" stroke="url(#fib)" stroke-width="1.4"/>
+          <line x1="20" y1="138" x2="500" y2="116" stroke="url(#fib)" stroke-width="1.4"/>
+          <line x1="20" y1="184" x2="500" y2="128" stroke="url(#fib)" stroke-width="1.4"/>
+          <!-- FAU block -->
+          <rect x="486" y="74" width="40" height="72" rx="7" fill="#0E1822" stroke="#38E1C8" stroke-width="1.3"/>
+          <line x1="494" y1="88" x2="518" y2="88" stroke="#2b4a52" stroke-width="1"/>
+          <line x1="494" y1="100" x2="518" y2="100" stroke="#2b4a52" stroke-width="1"/>
+          <line x1="494" y1="112" x2="518" y2="112" stroke="#2b4a52" stroke-width="1"/>
+          <line x1="494" y1="124" x2="518" y2="124" stroke="#2b4a52" stroke-width="1"/>
+          <!-- waveguides into chip -->
+          <line x1="526" y1="96" x2="600" y2="100" stroke="#38E1C8" stroke-width="1.2" opacity=".55"/>
+          <line x1="526" y1="110" x2="600" y2="116" stroke="#38E1C8" stroke-width="1.2" opacity=".55"/>
+          <!-- PIC chip -->
+          <rect class="chip-glow" x="596" y="60" width="176" height="108" rx="10" fill="url(#chipg)" stroke="#38E1C8" stroke-width="1.4"/>
+          <rect x="616" y="80" width="60" height="40" rx="4" fill="none" stroke="#2b4a52" stroke-width="1"/>
+          <rect x="690" y="92" width="62" height="58" rx="4" fill="none" stroke="#2b4a52" stroke-width="1"/>
+          <text x="684" y="156" fill="#566776" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">COUPE</text>
+        </svg>
+        <!-- animated light pulses (CSS, disabled on reduced-motion) -->
+        <div class="pulse" style="top:20%;animation:ride 2.6s linear infinite"></div>
+        <div class="pulse" style="top:40%;animation:ride 2.6s linear .5s infinite"></div>
+        <div class="pulse" style="top:60%;animation:ride 2.6s linear 1.0s infinite"></div>
+        <div class="pulse" style="top:80%;animation:ride 2.6s linear 1.5s infinite"></div>
+      </div>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="strip" aria-label="关键数据 2026-06-16">
+      <div class="cell"><div class="k">股价 6/16</div><div class="v">737 <span style="font-size:11px;color:var(--muted)">TWD</span></div></div>
+      <div class="cell"><div class="k">市值</div><div class="v hot">~$2.6B</div></div>
+      <div class="cell"><div class="k">P/S (TTM)</div><div class="v">~42x</div></div>
+      <div class="cell"><div class="k">52周区间</div><div class="v" style="font-size:13px">249–1,065</div></div>
+      <div class="cell"><div class="k">MS 2028E 营收</div><div class="v cool">NT$20B</div></div>
+      <div class="cell"><div class="k">隐含执行概率</div><div class="v hot">~33%</div></div>
+    </div>
+  </div>
+
+  <!-- 1. WHAT -->
+  <section class="blk rv">
+    <span class="sec-no">01</span>
+    <h2>它到底做什么<span class="sub">// 说人话版,不是 IR 通稿那套</span></h2>
+    <p>FOCI 的核心活儿叫 <b>FAU(Fiber Array Unit,光纤阵列单元)</b>。听着唬人,其实就是:把一束光纤的纤芯,排成一列、以<b>亚微米级</b>的精度对准光子芯片(PIC)的边缘,再固定死。CPO 里光信号要在硅光芯片和外部光纤之间进进出出,这个"对接口"对不准、固不牢,整块 CPO 当场报废。</p>
+    <p>FOCI 不止做 FAU,还做 <b>FAU 到光引擎之间的连接</b>,用的是自家专利 <span class="mono">ReLFACon</span>(可回流透镜光纤阵列连接器),配 Himax 的 WLO 微透镜和 V-groove 基板。一位前 Lumentum 工程师对外说,这种"透镜+棱镜"方案"是目前最好的做法"——因为几十根光纤挤一块,机械式逐根对准基本是噩梦。</p>
+    <div class="tldr"><span class="lab">一句话</span>它不是搞概念的 PPT 公司。1995 年从台湾 ITRI(工研院)分拆出来,做了 30 年光纤被动元件(coupler、PLC splitter、WDM),2025 年还拿了 APAC"光被动元件年度公司"。现在把老本行迁移到了 AI 最缺的那个节点上。</p>
+  </section>
+
+  <!-- 2. WHERE -->
+  <section class="blk rv">
+    <span class="sec-no">02</span>
+    <h2>它卡在链条的哪一节<span class="sub">// TSMC COUPE 三代,FAU 是每代都要的件</span></h2>
+    <p>TSMC 的 <b>COUPE</b>(Compact Universal Photonic Engine)是把电芯片和光芯片封一起的平台,用 SoIC 异质整合 EIC + PIC。它分三代走,NVDA 的 Rubin 系列大致跟着这条线上 CPO:</p>
+    <div class="rail">
+      <div class="step now">
+        <div class="gen">Gen 1<span class="yr">2026</span></div>
+        <div><div class="ttl">OSFP 光引擎 · 1.6T</div><div class="dsc">先做可插拔形态的光引擎,降功耗。FOCI 的 FAU 从这一代就开始上量。</div></div>
+      </div>
+      <div class="step">
+        <div class="gen">Gen 2<span class="yr">2027–28</span></div>
+        <div><div class="ttl">CoWoS 内 CPO · 6.4T</div><div class="dsc">光引擎搬进 CoWoS 封装,真正的"co-packaged"。这才是大放量的那一代。</div></div>
+      </div>
+      <div class="step">
+        <div class="gen">Gen 3<span class="yr">2029+</span></div>
+        <div><div class="ttl">3D 堆叠整合</div><div class="dsc">SoC + HBM + EIC + PIC 全部 3D 堆起来,最终形态。</div></div>
+      </div>
+    </div>
+    <p style="color:var(--muted)"><b style="color:var(--amber)">冷静一点的事实:</b>NVDA 现在只在 <b>scale-out 交换机</b>上用 CPO,GPU 之间的 scale-up 到 2027–28 还在硬扛铜缆。所以 2026–27 的量是<b>受限的</b>,真正的曲线在 2028+。中间任何节奏延迟,都会先打在 FOCI 这种卡位股的脸上。</p>
+  </section>
+
+  <!-- 3. WHY -->
+  <section class="blk rv">
+    <span class="sec-no">03</span>
+    <h2>为什么可能起飞(真正的原因)<span class="sub">// 不是金叉喷火龙蜡烛那套图表占星术</span></h2>
+    <p>先把话说清楚:这<b>不是</b>"线涨了所以还会涨"的玄学。它如果涨,是因为下面这三件事,跟 K 线长啥样无关:</p>
+    <p>① <b>FAU 是绕不开的必经件。</b>CPO 一旦放量,光纤不接进芯片 CPO 就不工作——这不是"可选供应商",是物理上的强制节点。<br>② <b>卖方已经把数喊出来了。</b>Morgan Stanley 估 FOCI <b>2028 营收能到 NT$20B(~$640M)</b>,而现在 TTM 才 ~$60M——那是 <b>~10 倍</b>的营收增长预期。<br>③ <b>整个赌注压在一个分叉上</b> 👇</p>
+    <div class="fork">
+      <div class="side bull">
+        <div class="who">Goldman Sachs · 多头</div>
+        <div class="big">$164M → $91B</div>
+        <div class="note">CPO 市场,2026 → 2028。COUPE 2026 量产驱动,两年涨近 555 倍。</div>
+      </div>
+      <div class="side bear">
+        <div class="who">市场研究机构 · 保守</div>
+        <div class="big">~$1B / 2034</div>
+        <div class="note">Precedence/Straits 口径:CPO 本体到 2034 才约十亿。曲线平缓得多。</div>
+      </div>
+    </div>
+    <p>两套预测差了<b>近 90 倍</b>。FOCI 的盈亏,本质就压在"哪一套接近对"。你信 Goldman 那条曲线,FOCI 就是早期卡位;你信保守派,那现在这价就是在透支。<b>这就是整个 thesis 的命门</b>,别被任何"目标价 XXX"的确定性语气骗了。</p>
+  </section>
+
+  <!-- 4. WHAT YOU PAY FOR -->
+  <section class="blk rv">
+    <span class="sec-no">04</span>
+    <h2>你 737 块买的,到底是什么<span class="sub">// 把 MS 的 NT$20B 当锚,反推市场在给多少概率</span></h2>
+    <p>现价 737 TWD,市值 <b>~$2.6B</b>。别去争"贵不贵"——换个问法:如果 FOCI 真按 MS 那条 2028 营收轨迹走,它该值多少?把不同的实现度乘上不同倍数,得到一张表(营收用 USD,MS 2028E = $640M):</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>场景</th><th>2028 营收</th><th>倍数</th><th>隐含市值</th><th>对今天</th></tr></thead>
+        <tbody>
+          <tr class="row-bull"><td>Bull</td><td>$640M (100%)</td><td>15x</td><td>$9.6B</td><td class="pos">+3.7x</td></tr>
+          <tr><td>Base</td><td>$385M (60%)</td><td>15x</td><td>$5.8B</td><td class="pos">+2.2x</td></tr>
+          <tr><td>Bear</td><td>$160M (25%)</td><td>15x</td><td>$2.4B</td><td class="flat">−8%</td></tr>
+          <tr class="row-fail"><td>失败</td><td>~$80M</td><td>12x</td><td>~$1.0B</td><td class="neg">−62%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>现价 $2.6B 正好夹在"Base 执行 $5.8B"和"失败 $1.0B"中间。反推一下市场现在给的概率:</p>
+    <div class="implied">
+      <div class="big">~33%</div>
+      <div class="cap">你 737 块买进去,本质上是在赌一个 <b>约 1/3 的执行概率</b>。<br>觉得这概率被<b>低估</b>(我自己凭 COUPE 量产 + Rubin + Himax 绑定 + 已投 $100M capex 这堆 signpost,倾向 45–55%)→ gap 是开的,右尾很肥(Bull 角 +3.7x)。觉得被<b>高估</b> → 它就是贵。决策变量是<b>你的概率 vs 市场的 ~33%</b>,不是"涨了多少"。</div>
+    </div>
+
+    <!-- interactive calc -->
+    <div class="calc">
+      <div class="calc-head">
+        <span class="t">自己拖一遍</span>
+        <span class="h">// 改你的假设,看隐含市值 / 上涨空间 / 市场在给多少概率</span>
+      </div>
+      <div class="calc-body">
+        <div class="ctrl">
+          <label>2028 营收 = MS 估值的 <span class="val" id="lblRev">60%</span></label>
+          <input type="range" id="sRev" min="10" max="150" value="60" step="5" aria-label="2028 营收实现度（占 MS 估值百分比）">
+          <label>退出倍数 (P/S) <span class="val" id="lblMul">15x</span></label>
+          <input type="range" id="sMul" min="8" max="25" value="15" step="1" aria-label="退出 P S 倍数">
+        </div>
+        <div class="out">
+          <div class="o"><div class="k">隐含 2028 市值</div><div class="v" id="outMC">$5.8B</div></div>
+          <div class="o"><div class="k">对今天 ($2.6B)</div><div class="v" id="outX">+2.2x</div></div>
+          <div class="o"><div class="k">→ 现价相当于市场给这场景的概率</div><div class="v" id="outP">~33%</div></div>
+        </div>
+      </div>
+      <div class="calc-foot">失败场景锚定在 <b>~$1.0B</b>(回到基本盘)。"市场隐含概率" = (现价 − 失败市值) ÷ (你设的执行市值 − 失败市值)。你设的执行场景越牛,同一个现价相当于市场给的概率就越低——这就是为什么"卡得越早、共识越没跟上,gap 越大"。</div>
+    </div>
+  </section>
+
+  <!-- 5. SIZE -->
+  <section class="blk rv">
+    <span class="sec-no">05</span>
+    <h2>体量和覆盖:钱被锁在门外<span class="sub">// 这正是 Serenity 的猎物画像</span></h2>
+    <p>全市场<b>只有 1 个分析师</b>覆盖它,目标价 708 TWD,基本贴着现价。$2.6B 的盘子对大基金来说还是偏小,TPEx 又不好买——结果是:愿意为这家公司做尽调的钱很少,<b>信息差大</b>。这不是 bug,是这类机会的来源。Serenity 自己的选股画像就是这句:"<b>小市值 + 零覆盖 + 卡在物理瓶颈上</b>"。</p>
+    <p>资产负债表也不虚:账上 <b>NT$4.2B 净现金</b>(每股 40.5),为 CPO <b>募了 $100M 买设备</b>备产——这是成长 capex,不是那种把你稀释到归零的 toxic 融资。Himax 还持股 <b>5.3%</b>,利益是绑的。</p>
+  </section>
+
+  <!-- 6. RISKS -->
+  <section class="blk rv">
+    <span class="sec-no">06</span>
+    <h2>什么会让它崩<span class="sub">// 好 DD 必须写这段,不写的都是托</span></h2>
+    <div class="risks">
+      <div class="risk key">
+        <div class="rh"><span class="n">R1</span> 它不是独占——这条最关键</div>
+        <p>Corning 也做 CPO 级 FAU、Sumitomo 在扩 64-fiber 连接器、SENKO 也在抢同一个槽。FOCI 是"<b>强但有竞争</b>"的位,<b>不是垄断</b>。这跟 MSSCorps 那种"功能性垄断"有本质区别——它直接压低上面那个执行概率。份额被巨头切走,整张表就塌一档。</p>
+      </div>
+      <div class="risk">
+        <div class="rh"><span class="n">R2</span> 近端只吃 scale-out</div>
+        <p>2026–27 的量受限于 scale-out 交换机,真正放量要等 2028+。中间 NVDA/TSMC 任何节奏延迟,这种纯卡位股先挨打。</p>
+      </div>
+      <div class="risk">
+        <div class="rh"><span class="n">R3</span> 还在亏 · P/S ~42x</div>
+        <p>纯 forward 押注,估值<b>没有安全垫</b>。CPO 故事一旦证伪或推迟,跌幅参考上表"失败"那一行(−62%)。</p>
+      </div>
+      <div class="risk">
+        <div class="rh"><span class="n">R4</span> 客户/架构高度集中</div>
+        <p>命脉押在 COUPE / Rubin 一条线上。NVDA 改路线、或 CPO 方案选了别家的耦合路径,它就跟着改。</p>
+      </div>
+      <div class="risk">
+        <div class="rh"><span class="n">R5</span> 今年 1 月那则传闻</div>
+        <p>有媒体报过"FOCI–Himax 合作生变",Himax 已正式发文否认、称合作照常推进。这次是虚惊,但这类"卡位股最怕的供应链关系"消息,要一直盯着。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM LINE -->
+  <section class="blk rv">
+    <span class="sec-no">07</span>
+    <div class="bottom">
+      <span class="verdict">凸性押注 · 非 gap 套利</span>
+      <h2>底线</h2>
+      <p>这是一个<b>凸性押注</b>:二元、高方差、右尾肥、左尾真能 −60%。规则就三条——<br>① 按<b>凸性 size</b>(小仓,提前接受大幅回撤甚至重创);<br>② 只在<b>你的执行概率 &gt; ~33%</b> 时才有正期望值;<br>③ 进场前,最好从一手渠道(法说会、TSMC/NVDA 供应链确认)验证 <b>FAU 在营收里的真实占比</b>——这是它从"便宜"变成"真 gap"的唯一证据。</p>
+      <p style="color:var(--muted);margin-bottom:0">时点上,它从 1065 ATH 回落了 <b style="color:var(--photon)">−31%</b>,不算最差的进场位置。但记住第 03 节那个 90 倍的分叉——你买的不是确定性,是一个有据可依的概率。</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot-in">
+    <b>FOCI Fiber Optic Communications, Inc.</b> · 3363.TWO · TPEx · 新竹,台湾 · ITRI 1995 分拆<br>
+    数据来源:Morgan Stanley(2028E 营收)、Goldman Sachs(CPO TAM)、TSMC COUPE 路线图、公司公告、第三方行情。所有价格与市值<b>截至 2026-06-16</b>,以 TWD 计、USD 为约数(~31.2 TWD/USD)。
+    <div class="disc">本页为个人投研笔记,<b>不构成投资建议</b>。FOCI 仍亏损、估值无安全垫、属高风险 forward 押注;价格随时变动,数据过期即作废。仓位与止损请自行决定。</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  // ---- calculator ----
+  var MS2028 = 640;      // $M, Morgan Stanley 2028E revenue (NT$20B)
+  var CURRENT = 2.6;     // $B, current market cap
+  var FAIL = 1.0;        // $B, failure-scenario floor
+  var sRev = document.getElementById('sRev');
+  var sMul = document.getElementById('sMul');
+  var lblRev = document.getElementById('lblRev');
+  var lblMul = document.getElementById('lblMul');
+  var outMC = document.getElementById('outMC');
+  var outX = document.getElementById('outX');
+  var outP = document.getElementById('outP');
+
+  function fmtB(v){ return '$' + v.toFixed(1) + 'B'; }
+  function recompute(){
+    var realPct = +sRev.value;          // 10..150
+    var mul = +sMul.value;              // 8..25
+    var rev = MS2028 * realPct/100;     // $M
+    var mc = rev * mul / 1000;          // $B
+    var x = mc / CURRENT;
+    lblRev.textContent = realPct + '%';
+    lblMul.textContent = mul + 'x';
+    outMC.textContent = fmtB(mc);
+    outX.textContent = (x>=1 ? '+' + x.toFixed(1) + 'x' : (Math.round((x-1)*100)) + '%');
+    outX.style.color = (x>=1.3 ? 'var(--photon)' : (x>=0.95 ? 'var(--amber)' : 'var(--red)'));
+    // market-implied probability of THIS execution scenario, given fixed current price
+    var p;
+    if(mc <= FAIL){ p = null; }
+    else { p = (CURRENT - FAIL) / (mc - FAIL); }
+    if(p===null || p>=0.999){ outP.textContent = '≥99%'; outP.style.color='var(--red)'; }
+    else if(p<0){ outP.textContent = '<0% (已超买)'; outP.style.color='var(--red)'; }
+    else {
+      outP.textContent = '~' + Math.round(p*100) + '%';
+      outP.style.color = (p<0.4 ? 'var(--amber)' : (p<0.7 ? 'var(--ink)' : 'var(--red)'));
+    }
+  }
+  if(sRev && sMul){ sRev.addEventListener('input',recompute); sMul.addEventListener('input',recompute); recompute(); }
+
+  // ---- scroll reveal (respects reduced motion) ----
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.rv');
+  if(reduce || !('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+    items.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
