@@ -66,6 +66,32 @@ nav .gen{margin-left:auto;color:var(--ink3);font-size:11px;letter-spacing:.08em}
 .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--ink3)}
 .ticker .grp{flex:0 0 100%;background:var(--ink);color:var(--yellow);font-size:11px;letter-spacing:.18em;padding:4px 12px;border:none}
 
+/* ── 今日指向 ── */
+#pointer{margin-top:30px}
+.pt-band{border:2px solid var(--ink);background:var(--paper)}
+.pt-head{display:flex;align-items:baseline;gap:12px;background:var(--ink);padding:8px 16px}
+.pt-head .pt-k{font-family:var(--num);font-weight:800;font-size:17px;letter-spacing:.02em;color:var(--yellow)}
+.pt-head .pt-sub{font-size:11.5px;color:#cfc7b3;letter-spacing:.1em}
+.pt-line{font-size:clamp(15px,1.85vw,19.5px);font-weight:700;line-height:1.58;padding:16px 18px 6px;letter-spacing:-.008em}
+.pt-calls{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.ptc{padding:15px 18px}
+.ptc.long{border-right:1px solid var(--line);box-shadow:inset 4px 0 0 var(--green)}
+.ptc.avoid{box-shadow:inset 4px 0 0 var(--red)}
+.ptc-top{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.ptc-dir{font-size:11px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border:1.5px solid currentColor}
+.ptc.long .ptc-dir{color:var(--green)} .ptc.avoid .ptc-dir{color:var(--red)}
+.ptc .tk{font-family:var(--num);font-weight:800;font-size:25px}
+.ptc.long .tk{color:var(--green)} .ptc.avoid .tk{color:var(--red)}
+.ptc .px{font-family:var(--num);font-size:12.5px;color:var(--ink3);font-weight:600}
+.ptc p{font-size:13px;color:var(--ink2);line-height:1.72;margin-top:7px}
+.ptc-lv{font-size:12px;color:var(--ink3);margin-top:8px;padding-top:7px;border-top:1px dashed var(--line)}
+.pt-rot{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 18px;border-top:2px solid var(--ink);background:var(--paper2);font-size:12px}
+.pt-rot .rk{font-weight:700;letter-spacing:.12em;color:var(--ink3)}
+.rot{font-family:var(--num);font-weight:600;padding:2px 9px;border:1px solid var(--line);background:var(--paper)}
+.rot b{font-weight:800;margin-right:4px}
+.rot.in b{color:var(--green)} .rot.out b{color:var(--ink3)} .rot.flip b{color:var(--red)} .rot.hold b{color:var(--ink2)}
+@media(max-width:640px){.pt-calls{grid-template-columns:1fr}.ptc.long{border-right:none;border-bottom:1px solid var(--line)}}
+
 /* ── 段标题 ── */
 .shead{display:flex;align-items:flex-end;gap:14px;margin:46px 0 6px}
 .shead .big{font-family:var(--num);font-weight:800;font-size:clamp(20px,2.4vw,29px);letter-spacing:-.01em;line-height:1}
@@ -187,6 +213,16 @@ footer{margin-top:42px;border-top:9px solid var(--ink);padding:18px 0 56px}
     <div class="ticker" id="ticker"></div>
   </section>
 
+  <!-- 今日指向 -->
+  <section id="pointer">
+    <div class="pt-band">
+      <div class="pt-head"><span class="pt-k">今日指向</span><span class="pt-sub">点名 · 带方向 · 较昨日换手</span></div>
+      <p class="pt-line" id="ptLine"></p>
+      <div class="pt-calls" id="ptCalls"></div>
+      <div class="pt-rot" id="ptRot"></div>
+    </div>
+  </section>
+
   <!-- 三个结论 -->
   <section id="concl">
     <div class="shead"><span class="big">今日三论</span><span class="sub">非共识 · 可证伪 · 带时间窗</span><span class="ln"></span></div>
@@ -268,11 +304,30 @@ $('edition').textContent = D0.edition || '';
     return `<div class="t"><div class="k">${label}</div><div class="v">${q.last.toLocaleString()}</div><div class="c ${c.cls}">${c.txt}</div></div>`; };
   let h = '';
   h += cell('.VIX','VIX 恐慌') + cell('.SPX','标普500') + cell('.IXIC','纳指');
+  // 今日指向票 —— 随每日推演轮动(不写死)
+  const tc0 = D0.today_call||{};
+  const ptt = [...new Set([tc0.long&&tc0.long.ticker, tc0.avoid&&tc0.avoid.ticker, ...((D0.action&&D0.action.wait||[]).map(w=>w.ticker))].filter(Boolean))];
+  if(ptt.length){ h += `<div class="grp">今日指向 · 随推演轮动</div>`; ptt.forEach(t=> h+=cell(t,t)); }
   h += `<div class="grp">收租方 · 瓶颈(他的多头)— 领涨</div>`;
   h += cell('BE','BE 燃料电池')+cell('CRWV','CRWV 神经云')+cell('IREN','IREN 算力')+cell('SNDK','SNDK 存储')+cell('CEG','CEG 核电');
   h += `<div class="grp">短缺溢价 · 芯片(他的 PUT 墙)— 趴平</div>`;
   h += cell('NVDA','NVDA')+cell('SMH','SMH 半导ETF')+cell('ORCL','ORCL')+cell('AVGO','AVGO')+cell('MU','MU 美光');
   $('ticker').innerHTML = h;
+})();
+
+// 今日指向 —— 点名 long/avoid + 较昨日换手
+(()=>{
+  const tc = D0.today_call, sec = $('pointer');
+  if(!tc){ if(sec) sec.style.display='none'; return; }
+  $('ptLine').textContent = tc.line || '';
+  const px = t => { const q=SA.quotes[t]; if(!q) return ''; return `<span class="px">$${q.last.toLocaleString()} ${q.chg||''}</span>`; };
+  const call = (o,kind)=> o? `<div class="ptc ${kind}"><div class="ptc-top"><span class="ptc-dir">${o.dir||''}</span><span class="tk">${o.ticker}</span>${px(o.ticker)}</div><p>${o.text}</p>${o.level?`<div class="ptc-lv">${o.level}</div>`:''}</div>`:'';
+  $('ptCalls').innerHTML = call(tc.long,'long') + call(tc.avoid,'avoid');
+  const r = D0.rotation;
+  if(r){
+    const chip=(a,lab,cls)=> (a&&a.length)?`<span class="rot ${cls}"><b>${lab}</b>${a.map(x=>x.ticker).join(' · ')}</span>`:'';
+    $('ptRot').innerHTML = `<span class="rk">较昨日</span>`+chip(r.in,'进','in')+chip(r.out,'出','out')+chip(r.flip,'翻','flip')+chip(r.hold,'留','hold');
+  } else { $('ptRot').style.display='none'; }
 })();
 
 // 三个结论
