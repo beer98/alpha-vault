@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全世界开始集体戒糖 · 一条趋势挖到底</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAEEE8; --paper-2:#E2E7DE; --surface:#FBFCFA;
+    --ink:#112723; --muted:#5E6F69; --faint:#8A988F;
+    --screen:#0C1A17; --screen-2:#10231E; --line-dk:#22463D;
+    --line:#D4DBD0; --line-2:#C6CFC0;
+    --vital:#15A877; --vital-2:#3CD6A0;
+    --amber:#DD9A12; --amber-2:#F0B73A;
+    --coral:#E6503C; --coral-2:#F47A68;
+    --font-display:"Bricolage Grotesque","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --font-body:"IBM Plex Sans","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font-body); background:var(--paper); color:var(--ink);
+    line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .mono{font-family:var(--font-mono)}
+  /* ---------- eyebrow / labels ---------- */
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); display:inline-flex; align-items:center; gap:9px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--vital);box-shadow:0 0 0 4px rgba(21,168,119,.15)}
+  .sec-num{font-family:var(--font-mono);font-size:13px;color:var(--vital);letter-spacing:.1em}
+
+  /* ================= HERO (screen) ================= */
+  .hero{background:var(--screen);color:#EAF2EE;position:relative;overflow:hidden;border-bottom:1px solid #06110E}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(900px 400px at 78% -10%,rgba(60,214,160,.10),transparent 60%),
+    radial-gradient(700px 500px at 5% 110%,rgba(221,154,18,.07),transparent 55%);}
+  .hero .wrap{position:relative;z-index:2;padding-top:30px;padding-bottom:54px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px}
+  .topbar .eyebrow{color:#9FB6AD}
+  .topbar .eyebrow .dot{background:var(--vital-2);box-shadow:0 0 0 4px rgba(60,214,160,.16);animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+  .brandmark{font-family:var(--font-mono);font-size:12.5px;letter-spacing:.12em;color:#7FE3BC}
+  .datestamp{font-family:var(--font-mono);font-size:12px;color:#86998F;letter-spacing:.06em}
+  .hero-date{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;padding:8px 0 42px;border-bottom:1px solid var(--line-dk);margin-bottom:44px;position:relative;z-index:3}
+  .hd-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7E928A;margin-bottom:9px}
+  .hd-num{font-family:var(--font-mono);font-weight:600;font-size:clamp(34px,6.2vw,58px);letter-spacing:.03em;color:#EAF2EE;line-height:.95}
+  .hd-num .sep{color:var(--vital-2);margin:0 .04em}
+  .hd-meta{font-family:var(--font-mono);font-size:12px;color:#86998F;letter-spacing:.05em;text-align:right;line-height:1.7}
+
+  .hero h1{
+    font-family:var(--font-display); font-weight:700; letter-spacing:-.015em;
+    font-size:clamp(38px,6.6vw,76px); line-height:1.02; max-width:16ch;
+  }
+  .hero h1 .hl{color:var(--vital-2)}
+  .hero .lede{
+    margin-top:22px;max-width:60ch;color:#B7C8C0;font-size:clamp(15px,1.9vw,18.5px);line-height:1.62;
+  }
+  .hero .lede b{color:#E7F1EC;font-weight:600}
+
+  /* glucose trace */
+  .trace{position:absolute;right:0;top:64px;width:54%;max-width:640px;opacity:.9;pointer-events:none;z-index:1}
+  @media(max-width:860px){.trace{display:none}}
+  .trace .path{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.6s ease forwards .3s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+
+  /* TL;DR conclusion block */
+  .tldr{margin-top:48px;border:1px solid var(--line-dk);border-radius:18px;background:rgba(255,255,255,.025);backdrop-filter:blur(2px);overflow:hidden}
+  .tldr-head{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line-dk);flex-wrap:wrap}
+  .tldr-tag{font-family:var(--font-mono);font-weight:600;font-size:12px;letter-spacing:.12em;color:var(--screen);background:var(--vital-2);padding:4px 9px;border-radius:6px}
+  .tldr-head .t{font-size:14.5px;color:#C8D6CE}
+  .tldr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-dk)}
+  @media(max-width:720px){.tldr-grid{grid-template-columns:1fr}}
+  .pick{background:var(--screen-2);padding:24px 24px 26px}
+  .pick-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+  .tk{font-family:var(--font-mono);font-weight:600;font-size:26px;letter-spacing:.02em;color:#EAF2EE}
+  .tk small{display:block;font-family:var(--font-body);font-weight:500;font-size:13px;letter-spacing:0;color:#8FA69C;margin-top:3px}
+  .verdict{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .v-go{color:var(--vital-2);background:rgba(60,214,160,.12);border:1px solid rgba(60,214,160,.4)}
+  .v-conv{color:var(--amber-2);background:rgba(240,183,58,.10);border:1px solid rgba(240,183,58,.38)}
+  .pick .why{margin-top:14px;font-size:14px;color:#AebFb6;line-height:1.55}
+  .multi{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line-dk);border-radius:10px;padding:9px 13px;min-width:0}
+  .chip .lab{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7E928A}
+  .chip .val{font-family:var(--font-mono);font-weight:600;font-size:20px;color:#EAF2EE;margin-top:2px}
+  .chip .val.green{color:var(--vital-2)}
+  .chip .val.amber{color:var(--amber-2)}
+  .px{font-family:var(--font-mono);font-size:13px;color:#9FB6AD;margin-top:14px}
+  .px b{color:#EAF2EE;font-weight:600}
+  .fineprint{padding:14px 22px;font-size:12px;color:#7E928A;border-top:1px solid var(--line-dk);line-height:1.5}
+
+  /* ================= generic section ================= */
+  section.block{padding:74px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+  .block h2{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;font-size:clamp(27px,4.2vw,42px);line-height:1.08}
+  .block .sub{color:var(--muted);max-width:64ch;margin-top:14px;font-size:16px}
+  .block .sub b{color:var(--ink);font-weight:600}
+
+  /* events */
+  .events{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:38px}
+  @media(max-width:720px){.events{grid-template-columns:1fr}}
+  .ev{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .ev .flag{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;color:var(--vital);font-weight:600}
+  .ev h3{font-family:var(--font-display);font-weight:600;font-size:20px;margin:10px 0 8px;line-height:1.25}
+  .ev p{font-size:14.5px;color:var(--muted);line-height:1.55}
+  .ev .src{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--font-mono);font-size:11.5px;color:var(--vital);text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 12px;transition:background .15s,border-color .15s;line-height:1.3}
+  .ev .src:hover{background:rgba(21,168,119,.07);border-color:var(--vital)}
+  .ev .src .src-ic{font-weight:700;font-size:13px}
+
+  /* reframe callout */
+  .reframe{margin-top:30px;background:var(--screen);color:#E7F1EC;border-radius:18px;padding:30px 30px 32px;position:relative;overflow:hidden}
+  .reframe::after{content:"";position:absolute;right:-40px;top:-40px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(60,214,160,.16),transparent 65%)}
+  .reframe .kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--vital-2)}
+  .reframe p{position:relative;z-index:2;font-size:clamp(17px,2.3vw,22px);line-height:1.5;max-width:50ch;margin-top:12px;font-family:var(--font-display);font-weight:500}
+  .reframe p b{color:var(--vital-2);font-weight:700}
+  .reframe .small{font-family:var(--font-body);font-weight:400;font-size:15px;color:#A9BBB2;max-width:62ch;margin-top:16px}
+
+  /* funnel */
+  .rule{margin-top:34px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+  .rule .big{font-family:var(--font-display);font-weight:600;font-size:clamp(19px,2.6vw,25px);line-height:1.35}
+  .rule .big b{color:var(--coral)}
+  .rule p{font-size:14.5px;color:var(--muted);margin-top:10px;line-height:1.55;max-width:70ch}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+  @media(max-width:720px){.three{grid-template-columns:1fr}}
+  .pillar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .pillar .n{font-family:var(--font-mono);font-size:12px;color:var(--vital);font-weight:600;letter-spacing:.06em}
+  .pillar h4{font-family:var(--font-display);font-weight:600;font-size:17px;margin:8px 0 7px}
+  .pillar p{font-size:13.5px;color:var(--muted);line-height:1.5}
+
+  .funnel{margin-top:40px;display:flex;flex-direction:column;gap:11px;align-items:center}
+  .frow{width:100%;display:flex;align-items:center;justify-content:center}
+  .fbar{border-radius:12px;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;color:#EAF2EE;transition:transform .2s}
+  .fbar .lab{font-family:var(--font-display);font-weight:600;font-size:clamp(14px,2vw,17px)}
+  .fbar .ct{font-family:var(--font-mono);font-weight:600;font-size:14px;opacity:.85}
+  .f1{width:100%;background:var(--screen)}
+  .f2{width:80%;background:#163A31}
+  .f3{width:58%;background:#1C5A48}
+  .f4{width:38%;background:var(--vital);color:#08231B}
+  .f4 .ct{opacity:1}
+  .farrow{color:var(--faint);font-size:18px;line-height:1}
+
+  /* ================= stock cards ================= */
+  .stamp-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:30px;margin-bottom:6px}
+  .stamp{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.05em;border:1px dashed var(--line-2);border-radius:8px;padding:6px 11px}
+  .cards{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 14px 40px -20px rgba(17,39,35,.3)}
+  .card.go{border-color:rgba(21,168,119,.5);box-shadow:0 0 0 1px rgba(21,168,119,.18)}
+  .card.conv{border-color:rgba(221,154,18,.45)}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:22px 24px 16px}
+  .id{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .id .tkr{font-family:var(--font-mono);font-weight:600;font-size:24px;letter-spacing:.02em}
+  .id .nm{font-size:14px;color:var(--muted)}
+  .id .seg{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:var(--vital);background:rgba(21,168,119,.09);padding:3px 9px;border-radius:999px}
+  .v-go-l{color:var(--vital);background:rgba(21,168,119,.1);border:1px solid rgba(21,168,119,.42)}
+  .v-conv-l{color:#B9810C;background:rgba(221,154,18,.1);border:1px solid rgba(221,154,18,.4)}
+  .v-wait-l{color:#B9810C;background:rgba(221,154,18,.07);border:1px solid rgba(221,154,18,.32)}
+  .v-skip-l{color:var(--coral);background:rgba(230,80,60,.08);border:1px solid rgba(230,80,60,.34)}
+
+  .card-body{display:grid;grid-template-columns:1.35fr 1fr;gap:0}
+  @media(max-width:760px){.card-body{grid-template-columns:1fr}}
+  .cb-left{padding:6px 24px 24px}
+  .cb-right{padding:20px 24px 24px;border-left:1px solid var(--line);background:#F4F7F2}
+  @media(max-width:760px){.cb-right{border-left:none;border-top:1px solid var(--line)}}
+  .frow-item{margin-bottom:14px}
+  .frow-item:last-child{margin-bottom:0}
+  .frow-item .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:7px}
+  .frow-item .k::before{content:"";width:5px;height:5px;border-radius:1px;background:var(--vital)}
+  .frow-item.risk .k::before{background:var(--coral)}
+  .frow-item.moat .k::before{background:var(--amber)}
+  .frow-item .vv{font-size:14px;color:var(--ink);margin-top:5px;line-height:1.5}
+
+  /* price + range bar */
+  .pxbox{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .pxnow{font-family:var(--font-mono);font-weight:600;font-size:22px}
+  .pxnote{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+  .range{margin-top:16px}
+  .range .track{position:relative;height:9px;border-radius:99px;background:linear-gradient(90deg,#E9685420,#E9685430 18%,#DD9A1230 50%,#15A87730 82%,#15A87726);overflow:visible;border:1px solid var(--line)}
+  .range .fillzone{position:absolute;inset:0;border-radius:99px;background:linear-gradient(90deg,rgba(230,80,60,.16),rgba(221,154,18,.13) 50%,rgba(21,168,119,.20))}
+  .range .mark{position:absolute;top:50%;width:15px;height:15px;border-radius:50%;transform:translate(-50%,-50%);border:3px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .range .lim{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--font-mono);font-size:10.5px;color:var(--faint)}
+  .range .cap{font-family:var(--font-mono);font-size:11px;margin-top:7px;font-weight:500}
+
+  .catbox{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface)}
+  .catbox .ct-lab{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .catbox .ct-date{font-family:var(--font-mono);font-weight:600;font-size:20px;margin-top:4px;color:var(--amber)}
+  .catbox .ct-desc{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45}
+
+  .multi-l{margin-top:16px;display:flex;gap:9px;flex-wrap:wrap}
+  .chip-l{border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface)}
+  .chip-l .lab{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .chip-l .val{font-family:var(--font-mono);font-weight:600;font-size:17px;margin-top:2px}
+  .chip-l .val.green{color:var(--vital)}
+  .chip-l .val.amber{color:#B9810C}
+
+  /* sector map */
+  .secmap{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:34px}
+  @media(max-width:720px){.secmap{grid-template-columns:1fr}}
+  .smrow{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:15px 18px}
+  .smrow .stat{width:9px;height:9px;border-radius:50%;flex:none}
+  .s-live{background:var(--vital)} .s-watch{background:var(--amber)} .s-skip{background:var(--coral)} .s-gap{background:var(--faint)}
+  .smrow .info{flex:1;min-width:0}
+  .smrow .nm{font-family:var(--font-display);font-weight:600;font-size:15.5px}
+  .smrow .tickers{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);margin-top:2px}
+  .smrow .badge{font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+  /* footer */
+  footer{background:var(--screen);color:#A9BBB2;padding:54px 0 60px}
+  footer .fw{display:grid;grid-template-columns:1.3fr 1fr;gap:30px}
+  @media(max-width:720px){footer .fw{grid-template-columns:1fr}}
+  footer h4{font-family:var(--font-display);color:#EAF2EE;font-size:18px;margin-bottom:12px}
+  footer .frmk{display:flex;flex-direction:column;gap:9px}
+  footer .frmk div{font-size:13.5px}
+  footer .frmk b{color:var(--vital-2);font-family:var(--font-mono);font-weight:600;font-size:12.5px}
+  .disc{border:1px solid var(--line-dk);border-radius:14px;padding:18px;font-size:12.5px;line-height:1.6;color:#94A89F}
+  .disc b{color:#C8D6CE}
+  .footmeta{margin-top:36px;padding-top:22px;border-top:1px solid var(--line-dk);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--font-mono);font-size:11.5px;color:#7E928A}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .trace .path{animation:none;stroke-dashoffset:0}
+    *{animation:none!important}
+  }
+  :focus-visible{outline:2.5px solid var(--vital);outline-offset:3px;border-radius:4px}
+  ::selection{background:rgba(21,168,119,.22)}
+  .av-back{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;color:#7FE3BC;text-decoration:none;white-space:nowrap;transition:color .2s}.av-back:hover{color:var(--vital-2)}.av-back b{font-weight:600;color:#EAF2EE}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <svg class="trace" viewBox="0 0 600 420" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#DD9A12" stop-opacity=".5"/><stop offset=".55" stop-color="#3CD6A0" stop-opacity=".7"/><stop offset="1" stop-color="#3CD6A0"/>
+      </linearGradient>
+    </defs>
+    <line x1="0" y1="300" x2="600" y2="300" stroke="#22463D" stroke-dasharray="3 7"/>
+    <line x1="0" y1="150" x2="600" y2="150" stroke="#22463D" stroke-dasharray="3 7"/>
+    <path class="path" d="M0,250 C60,255 90,310 150,300 S230,160 300,210 C350,245 370,300 420,250 S500,70 600,95"
+      stroke="url(#g)" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="150" cy="300" r="4" fill="#E6503C"/>
+    <circle cx="600" cy="95" r="5" fill="#3CD6A0"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><a class="av-back" href="../../index.html">← <b>ALPHA·VAULT</b></a><div class="eyebrow"><span class="dot"></span>深度研究 · 一条趋势挖到底</div></div>
+      <div class="brandmark">METABOLIC&nbsp;READOUT</div>
+    </div>
+    <div class="hero-date">
+      <div>
+        <div class="hd-label">分析发布日 · 精确到日</div>
+        <div class="hd-num">2026<span class="sep">/</span>06<span class="sep">/</span>19</div>
+      </div>
+      <div class="hd-meta">星期五 · v1<br>价格与行情数据截至 6 月初</div>
+    </div>
+
+    <h1>全世界开始<span class="hl">集体少吃</span>。这件事里藏着十年的钱。</h1>
+    <p class="lede">两个超级大国同时推降糖，一类药让十亿人第一次<b>不想吃东西</b>。大多数人把它当健康新闻——但顺着线头挖到根，这是一次跨行业的资产重定价。我们挖了整条链，下面是结论。</p>
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <div class="tldr-head">
+        <span class="tldr-tag">TL;DR</span>
+        <span class="t">5 个候选跑完纪律，<b style="color:#EAF2EE">现在只有 2 个能看</b> —— 一个干净过趋势纪律，一个凸性赌注。</span>
+      </div>
+      <div class="tldr-grid">
+        <!-- APYX -->
+        <div class="pick">
+          <div class="pick-top">
+            <div class="tk">APYX<small>Apyx Medical · 医美 / 松皮塑形</small></div>
+            <span class="verdict v-go">可以看</span>
+          </div>
+          <div class="why">微盘细分龙头，专利氦等离子塑形。收入加速 +32% 连超预期、贴 52 周新高、RS 高——<b style="color:#fff">五个里唯一干净通过 Roppel 趋势纪律的</b>。GLP-1 减肥后松皮是结构性顺风。</div>
+          <div class="multi">
+            <div class="chip"><div class="lab">近端 · 分析师目标</div><div class="val green">1.3–1.7×</div></div>
+            <div class="chip"><div class="lab">结构性 blue-sky*</div><div class="val">3–5×</div></div>
+          </div>
+          <div class="px">现价 <b>≈ $4.62</b> · 12 月目标 $6–8 · 市值 ≈ $1.8 亿</div>
+        </div>
+        <!-- SRRK -->
+        <div class="pick">
+          <div class="pick-top">
+            <div class="tk">SRRK<small>Scholar Rock · 保肌药 / 配 GLP-1</small></div>
+            <span class="verdict v-conv">凸性赌注</span>
+          </div>
+          <div class="why">"陪减肥药一起吃的保肌药"最纯纯标的，临床证明能把减重的脂肪/瘦肉比从 70/30 改善到 85/15。<b style="color:#fff">9/30 FDA 大限是二元催化剂</b>——属于 barbell 的凸性端，小仓位。</div>
+          <div class="multi">
+            <div class="chip"><div class="lab">近端 · 分析师目标</div><div class="val amber">1.1–1.3×</div></div>
+            <div class="chip"><div class="lab">真正的赌注</div><div class="val amber">大期权 / 二元</div></div>
+          </div>
+          <div class="px">现价 <b>≈ $49.75</b> · 12 月目标 $55–65 · 现金 $4.8 亿</div>
+        </div>
+      </div>
+      <div class="fineprint">* 倍数是基于论点的<b style="color:#C8D6CE">潜力区间</b>，不是承诺也不是预测。近端锚定卖方目标价；blue-sky 是"若结构性论点完全兑现"的投机性上限。这是研究笔记，不是投资建议——自己 DYOR。</div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 01 诊断 ================= -->
+<section class="block">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">01</span><span class="eyebrow"><span class="dot"></span>诊断 · 这到底是什么趋势</span></div>
+    <h2>不是减肥潮，是一次需求的大迁移</h2>
+    <p class="sub">先看两个"全社会都知道、但没人当成投资"的事件。它们本身就是趋势已经<b>势不可挡</b>的证据。</p>
+
+    <div class="events">
+      <div class="ev">
+        <div class="flag">🇺🇸 美国 · 2025–2030 膳食指南</div>
+        <h3>把食物金字塔整个倒过来</h3>
+        <p>蛋白和脂肪垫底、谷物压到最小，并且明确主张"减少添加糖<b>和代糖</b>"、避开超加工食品——主打"吃真食物"。2026 年 1 月由 USDA / HHS 发布，七十年来第一次官方反转了"廉价热量"这个组织原则。</p>
+        <a class="src" href="https://www.dietaryguidelines.gov/" target="_blank" rel="noopener"><span class="src-ic">↗</span>官方原文 · USDA / HHS · dietaryguidelines.gov</a>
+      </div>
+      <div class="ev">
+        <div class="flag">🇨🇳 中国 · 体重管理年</div>
+        <h3>从部委活动升级成国家战略</h3>
+        <p>2024 年 6 月由国家卫生健康委等 16 部门联合印发《"体重管理年"活动实施方案》（为期三年），并与《健康中国行动 2019–2030》衔接。国家级的去糖、减重叙事正式落地。</p>
+        <a class="src" href="https://www.gov.cn/zhengce/zhengceku/202406/content_6959543.htm" target="_blank" rel="noopener"><span class="src-ic">↗</span>官方原文 · 中国政府网 · 国卫医急发〔2024〕21号</a>
+      </div>
+    </div>
+
+    <div class="reframe">
+      <div class="kicker">真正的洞察 · 把营销标签撕掉，读一级机制</div>
+      <p>GLP-1 不是减肥药。它作用在<b>多巴胺奖赏回路</b>上——是人类第一种可规模化的"<b>反冲动</b>"技术。</p>
+      <p class="small">而现代消费经济很大一块，本质是靠"人停不下来"赚钱。这味药一来，那个驱动不会消失——钱会从"量"大规模迁移到"质、外形、健康"。所以问题不是"什么会死"，而是被释放的钱包流向哪、谁拥有那个新对象。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 方法 / 漏斗 ================= -->
+<section class="block">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">02</span><span class="eyebrow"><span class="dot"></span>方法 · 怎么挖到能买的东西</span></div>
+    <h2>别买药。药会变成 DRAM。</h2>
+    <p class="sub">减肥药从发明那天起，利润就是"高位窗口 → 专利到期 → 仿制 → 价格战 → 商品化"的注定衰减曲线（中国替尔泊肽已经打到两折）。要买的是<b>不管谁打价格战都得向它交钱、又没有专利悬崖</b>的东西。</p>
+
+    <div class="rule">
+      <div class="big">在内存周期里，你不持有<b>做内存的</b>，你持有 <span style="color:var(--vital)">ASML</span>——那个谁都得向它买、没有专利悬崖的卖铲人。</div>
+      <p>把这个逻辑套到去糖化，耐久的钱聚在三个地方，而不在最显眼的药身上：</p>
+    </div>
+
+    <div class="three">
+      <div class="pillar"><div class="n">A</div><h4>药亲手造的下一个市场</h4><p>它造出松弛皮肤 → 医美塑形；它造出肌肉流失 → "陪它一起吃"的保肌药。趋势递归地制造自己的需求。</p></div>
+      <div class="pillar"><div class="n">B</div><h4>卖铲人 / 卡脖子</h4><p>乳清蛋白、玻璃管、注射笔、灌装产能——按"剂/人"收过路费，谁赢都收钱，没有专利悬崖。</p></div>
+      <div class="pillar"><div class="n">C</div><h4>清洁版替代</h4><p>被压制的瘾会迁移：酒精→无醇/THC/适应原饮料。香烟→Zyn 的剧本重演。但好品牌多在私募。</p></div>
+    </div>
+
+    <div class="funnel">
+      <div class="frow"><div class="fbar f1"><span class="lab">去糖化大趋势</span><span class="ct">宏观变量</span></div></div>
+      <div class="farrow">↓</div>
+      <div class="frow"><div class="fbar f2"><span class="lab">9 条矿脉</span><span class="ct">从医美到精算</span></div></div>
+      <div class="farrow">↓</div>
+      <div class="frow"><div class="fbar f3"><span class="lab">5 个候选标的</span><span class="ct">点名上市票</span></div></div>
+      <div class="farrow">↓</div>
+      <div class="frow"><div class="fbar f4"><span class="lab">2 个现在能看</span><span class="ct">APYX · SRRK</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 五个标的 ================= -->
+<section class="block">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">03</span><span class="eyebrow"><span class="dot"></span>标的 · 跑完 Serenity + Roppel</span></div>
+    <h2>五个候选，逐个上读数仪</h2>
+    <p class="sub">每个看四件事：业务、护城河、卡点/风险、和"52 周区间里的位置"（=相对强度的体检）。<b>Serenity</b> 看是不是真 chokepoint，<b>Roppel</b> 看 RS/突破纪律。</p>
+
+    <div class="stamp-row">
+      <span class="stamp">◷ 价格与数据截至 2026 年 6 月初 · 过期作废 · 扣扳机前自拉当日 K 线</span>
+    </div>
+
+    <div class="cards">
+
+      <!-- APYX -->
+      <article class="card go">
+        <div class="card-top">
+          <div class="id"><span class="tkr">APYX</span><span class="nm">Apyx Medical</span><span class="seg">医美 · 松皮塑形</span></div>
+          <span class="verdict v-go-l">✓ 可以看</span>
+        </div>
+        <div class="card-body">
+          <div class="cb-left">
+            <div class="frow-item"><div class="k">业务</div><div class="vv">专利氦等离子技术（Renuvion + AYON 身体塑形系统），专治快速减肥后的松弛皮肤。微创、单次手术路径。</div></div>
+            <div class="frow-item moat"><div class="k">护城河</div><div class="vv">专利氦等离子工艺 + 微创紧致的临床数据 + 连续两年拿"最佳微创皮肤紧致"奖。微盘里的细分龙头。</div></div>
+            <div class="frow-item risk"><div class="k">卡点 / 风险</div><div class="vv">仍在亏损（调整后 EBITDA 逼近盈亏平衡）；微盘、波动大、流动性薄；刚翻 3 倍贴新高，<b>别追，等回踩或像样的突破点</b>。非纯垄断、"发现"正在发生。</div></div>
+          </div>
+          <div class="cb-right">
+            <div class="pxbox"><span class="pxnow">$4.62</span><span class="pxnote">6/05 · NASDAQ</span></div>
+            <div class="range">
+              <div class="track"><div class="fillzone"></div><div class="mark" style="left:99%;background:var(--vital)"></div></div>
+              <div class="lim"><span>$1.49</span><span>52周</span><span>$4.63</span></div>
+              <div class="cap" style="color:var(--vital)">▲ 贴 52 周高 · 从低点翻 ~3× · RS 高</div>
+            </div>
+            <div class="multi-l">
+              <div class="chip-l"><div class="lab">近端目标</div><div class="val green">1.3–1.7×</div></div>
+              <div class="chip-l"><div class="lab">blue-sky*</div><div class="val">3–5×</div></div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:13px;line-height:1.5">收入 Q1 +32% 超预期 16% · Strong Buy（4/0）· 目标 $6–8</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SRRK -->
+      <article class="card conv">
+        <div class="card-top">
+          <div class="id"><span class="tkr">SRRK</span><span class="nm">Scholar Rock</span><span class="seg" style="color:#B9810C;background:rgba(221,154,18,.1)">保肌药 · 配 GLP-1</span></div>
+          <span class="verdict v-conv-l">◆ 凸性赌注</span>
+        </div>
+        <div class="card-body">
+          <div class="cb-left">
+            <div class="frow-item"><div class="k">业务</div><div class="vv">apitegromab（选择性肌肉抑制素抑制剂），先做 SMA。临床证明陪 GLP-1 一起用，能把减重的脂肪/瘦肉比从 70/30 改善到 85/15。另有专为肥胖优化的 SRK-439。</div></div>
+            <div class="frow-item moat"><div class="k">护城河</div><div class="vv">选择性肌肉抑制素抑制平台 + 临床领先。巨头都在做保肌（罗氏 / Regeneron / 礼来），它是最纯的纯标的。</div></div>
+            <div class="frow-item risk"><div class="k">卡点 / 风险</div><div class="vv"><b>二元</b>。无上市产品、2025 年亏 $3.8 亿；肥胖那条是更远的期权。批了从临床期变商业期、暴涨；否了 / 延迟，暴跌。Serenity 不适用——这是科学风险，不是 chokepoint。</div></div>
+          </div>
+          <div class="cb-right">
+            <div class="pxbox"><span class="pxnow">$49.75</span><span class="pxnote">春季 · NASDAQ</span></div>
+            <div class="catbox">
+              <div class="ct-lab">⚡ 二元催化剂 · PDUFA</div>
+              <div class="ct-date">09 / 30 / 2026</div>
+              <div class="ct-desc">apitegromab 的 SMA 审批大限（此前 CRL 是制造问题、不涉药效）。EU CHMP 意见约年中。</div>
+            </div>
+            <div class="multi-l">
+              <div class="chip-l"><div class="lab">近端目标</div><div class="val amber">1.1–1.3×</div></div>
+              <div class="chip-l"><div class="lab">赌注</div><div class="val amber">大期权</div></div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:13px;line-height:1.5">JPM 正向催化观察 · 目标 $55–65 · 归 barbell 凸性端，小仓位</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- GLB -->
+      <article class="card">
+        <div class="card-top">
+          <div class="id"><span class="tkr">GLB</span><span class="nm">Glanbia</span><span class="seg">蛋白配料 + 品牌</span></div>
+          <span class="verdict v-wait-l">⏳ 再等等</span>
+        </div>
+        <div class="card-body">
+          <div class="cb-left">
+            <div class="frow-item"><div class="k">业务</div><div class="vv">乳清蛋白配料生产 + Optimum Nutrition 等运动营养品牌。蛋白热 + 保肌协议正同时抢同一批乳清。</div></div>
+            <div class="frow-item moat"><div class="k">护城河</div><div class="vv">乳清分离蛋白产能是真 chokepoint 的一半——但被奶酪业务和"消费品牌"业务稀释，不干净。</div></div>
+            <div class="frow-item risk"><div class="k">卡点 / 风险</div><div class="vv">乳清涨价是<b>双刃</b>：它的蛋白粉品牌也得买乳清，2026 年 2 月发了盈利预警、跌到两年低点。我把它当"乳清 chokepoint"是简化了——它是混合体。</div></div>
+          </div>
+          <div class="cb-right">
+            <div class="pxbox"><span class="pxnow">€21.0</span><span class="pxnote">6月初 · 都柏林</span></div>
+            <div class="range">
+              <div class="track"><div class="fillzone"></div><div class="mark" style="left:32%;background:var(--amber)"></div></div>
+              <div class="lim"><span>两年低</span><span>52周</span><span>前高</span></div>
+              <div class="cap" style="color:#B9810C">◐ 两年低点反弹 ~10% · 未创新高</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5">Q1"好于担忧"反弹 · 关键看 8/06 中报能否筑底</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- INMD -->
+      <article class="card">
+        <div class="card-top">
+          <div class="id"><span class="tkr">INMD</span><span class="nm">InMode</span><span class="seg">医美 · 射频</span></div>
+          <span class="verdict v-skip-l">◢ 先放着</span>
+        </div>
+        <div class="card-body">
+          <div class="cb-left">
+            <div class="frow-item"><div class="k">业务</div><div class="vv">射频皮肤紧致龙头（Morpheus8 / BodyTite）。CEO 称 GLP-1 短期压抽脂、长期利好紧致。</div></div>
+            <div class="frow-item moat"><div class="k">护城河</div><div class="vv">射频品牌 + 装机量，但竞争激烈（Cutera / BTL / Lumenis），非垄断。</div></div>
+            <div class="frow-item risk"><div class="k">卡点 / 风险</div><div class="vv">收入连降（2025 -6%、利润 -48%）、贴 52 周低、分析师下调目标。逻辑对，但<b>数字在恶化、没有 RS</b>——下行价值陷阱。</div></div>
+          </div>
+          <div class="cb-right">
+            <div class="pxbox"><span class="pxnow">$13.50</span><span class="pxnote">6/02 · NASDAQ</span></div>
+            <div class="range">
+              <div class="track"><div class="fillzone"></div><div class="mark" style="left:19%;background:var(--coral)"></div></div>
+              <div class="lim"><span>$12.72</span><span>52周</span><span>$16.74</span></div>
+              <div class="cap" style="color:var(--coral)">▼ 贴 52 周低 · RS 低</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5">等底部结构 + RS 反转再说 · 板块留着</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BRBR -->
+      <article class="card">
+        <div class="card-top">
+          <div class="id"><span class="tkr">BRBR</span><span class="nm">BellRing Brands</span><span class="seg">蛋白 · 消费品</span></div>
+          <span class="verdict v-skip-l">◢ 先放着</span>
+        </div>
+        <div class="card-body">
+          <div class="cb-left">
+            <div class="frow-item"><div class="k">业务</div><div class="vv">Premier Protein 蛋白奶昔龙头（RTD 22% 份额）+ Dymatize。曾是蛋白热的标志。</div></div>
+            <div class="frow-item moat"><div class="k">护城河</div><div class="vv">基本没有定价权——消费者降级买更便宜的、或只在打折时买。没有护城河，就被商品化。</div></div>
+            <div class="frow-item risk"><div class="k">卡点 / 风险</div><div class="vv">三杀：竞争（星巴克 / 百事都进来）+ 乳清成本 + 消费降级。<b>从 $63 崩到 $8，跌 87%</b>，技术面 Strong Sell。蛋白热是真的，但它是输家。</div></div>
+          </div>
+          <div class="cb-right">
+            <div class="pxbox"><span class="pxnow">$8.86</span><span class="pxnote">6月初 · NYSE</span></div>
+            <div class="range">
+              <div class="track"><div class="fillzone"></div><div class="mark" style="left:1.5%;background:var(--coral)"></div></div>
+              <div class="lim"><span>$8.10</span><span>52周</span><span>$63.34</span></div>
+              <div class="cap" style="color:var(--coral)">▼▼ 贴绝对低位 · 崩 87% · 落刀</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5">板块对、车选错 · 真 edge 在稀缺投入，不在消费品牌</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 板块地图 ================= -->
+<section class="block">
+  <div class="wrap reveal">
+    <div class="sec-head"><span class="sec-num">04</span><span class="eyebrow"><span class="dot"></span>板块地图 · 留着的矿脉</span></div>
+    <h2>这次没标的的板块，先留着</h2>
+    <p class="sub">趋势不可逆，机会会陆续冒出来。下面是整条链的矿脉地图——哪些已经有标的，哪些在<b>观察待标的</b>，哪些是公开市场买不到的通道缺口。持续追踪，不一次性押注。</p>
+
+    <div class="secmap">
+      <div class="smrow"><span class="stat s-live"></span><div class="info"><div class="nm">药造的下一个市场 · 医美</div><div class="tickers">APYX ✓ · INMD · ESTA · EOLS · GALD</div></div><span class="badge">有标的</span></div>
+      <div class="smrow"><span class="stat s-live"></span><div class="info"><div class="nm">药造的下一个市场 · 保肌药</div><div class="tickers">SRRK ◆ · VERU · REGN · BHVN</div></div><span class="badge">有标的</span></div>
+      <div class="smrow"><span class="stat s-watch"></span><div class="info"><div class="nm">蛋白卖铲人 · 卡脖子</div><div class="tickers">GLB（待证明）· dsm-firmenich · Kerry</div></div><span class="badge">观察中</span></div>
+      <div class="smrow"><span class="stat s-watch"></span><div class="info"><div class="nm">注射供应链 · ASML 级</div><div class="tickers">STVN · WST · BDX · GXI（口服是计时器）</div></div><span class="badge">观察中</span></div>
+      <div class="smrow"><span class="stat s-watch"></span><div class="info"><div class="nm">监测 · 代谢觉醒</div><div class="tickers">DXCM · ABT</div></div><span class="badge">观察中</span></div>
+      <div class="smrow"><span class="stat s-watch"></span><div class="info"><div class="nm">去糖配料 · 稀有糖</div><div class="tickers">百龙创园 · 三元生物 · 保龄宝（A股）</div></div><span class="badge">观察中</span></div>
+      <div class="smrow"><span class="stat s-watch"></span><div class="info"><div class="nm">寿命 / 精算重定价</div><div class="tickers">RGA · 再保险（跨域、无人定价）</div></div><span class="badge">观察中</span></div>
+      <div class="smrow"><span class="stat s-gap"></span><div class="info"><div class="nm">清洁微醺 · 心理健康暗面</div><div class="tickers">好品牌多私募 / 被巨头吞 · TLRY 困境</div></div><span class="badge">通道缺口</span></div>
+    </div>
+
+    <div class="legend">
+      <span><i class="s-live"></i>有标的（含可看）</span>
+      <span><i class="s-watch"></i>观察 · 待标的</span>
+      <span><i class="s-skip"></i>回避</span>
+      <span><i class="s-gap"></i>通道缺口</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap fw">
+    <div>
+      <h4>用了哪几把尺子</h4>
+      <div class="frmk">
+        <div><b>SERENITY</b>　读一级机制、找被市场错配的 chokepoint / 功能垄断，在机构发现前下手。</div>
+        <div><b>ROPPEL</b>　相对强度（RS）+ 突破纪律：只买强势创新高，不接落刀、不追延伸段。</div>
+        <div><b>TALEB · BARBELL</b>　二元 / 临床的票放凸性端，小仓位、能错、能归零。</div>
+      </div>
+    </div>
+    <div class="disc">
+      <b>这是一个人挖矿的研究笔记，不是投资建议。</b> 全部价格、估值、倍数均为 2026 年 6 月初，会过期；任何"潜力倍数"都是基于论点的区间，不是预测或承诺。扣扳机前请自拉当日数据、自做风控。投资有风险，DYOR。
+    </div>
+  </div>
+  <div class="wrap footmeta">
+    <span>去糖化趋势 · 深度研究 v1</span>
+    <span>数据截至 2026 / 06</span>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
