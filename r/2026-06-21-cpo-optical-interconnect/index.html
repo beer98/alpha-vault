@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光互连 · 为什么是这两只 — CPO 投研</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Expanded:wght@700;800;900&family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F7F9;      /* cool clean off-white (not cream) */
+    --paper-2:#EAF0F4;
+    --card:#FFFFFF;
+    --ink:#0D1A24;        /* deep cool navy ink */
+    --slate:#3C4D58;      /* body text */
+    --muted:#748892;     /* (fallback) */
+    --muted2:#6B7C88;
+    --line:#E3EAEF;
+    --line-2:#D2DCE3;
+    --teal:#0C97B0;       /* primary optical accent */
+    --teal-d:#077489;
+    --blue:#2F7BF6;
+    --violet:#6D4DF0;
+    --coral:#FF6A4D;      /* single warm emphasis, sparing */
+    --maxw:1000px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--slate);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .mono{font-family:"IBM Plex Mono",monospace;font-feature-settings:"tnum" 1}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:3px}
+  ::selection{background:rgba(12,151,176,.18)}
+
+  /* header */
+  header.bar{position:sticky;top:0;z-index:30;background:rgba(244,247,249,.82);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line)}
+  .bar-in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand svg{width:28px;height:28px}
+  .brand .t{font-family:"Archivo Expanded",sans-serif;font-weight:800;font-size:15px;color:var(--ink);letter-spacing:.01em}
+  .bar-right{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted2);white-space:nowrap}
+  .bar-right b{color:var(--teal-d)}
+  @media(max-width:540px){.bar-right{font-size:10px}}
+
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-d);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:20px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--violet))}
+
+  /* hero */
+  .hero{padding:60px 0 30px}
+  h1{font-family:"Archivo Expanded",sans-serif;font-weight:900;font-size:clamp(34px,6vw,62px);line-height:1.03;letter-spacing:-.015em;color:var(--ink);margin:18px 0 0}
+  h1 em{font-style:normal;background:linear-gradient(100deg,var(--teal),var(--blue) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(17px,2.1vw,20px);color:var(--slate);max-width:640px;margin:20px 0 0;line-height:1.55}
+  .hero .sub b{color:var(--ink);font-weight:600}
+  .toc{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0}
+  .toc a{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--teal-d);text-decoration:none;border:1px solid var(--line-2);background:var(--card);border-radius:999px;padding:7px 14px;transition:.15s}
+  .toc a:hover{border-color:var(--teal);box-shadow:0 2px 10px rgba(12,151,176,.12)}
+  .toc a span{color:var(--muted2);margin-right:6px}
+
+  .hero-vis{margin:34px 0 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 10px 30px -18px rgba(13,26,36,.25)}
+  .hero-vis svg{display:block;width:100%;height:auto}
+
+  /* sections */
+  section{padding:40px 0;border-top:1px solid var(--line)}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+  .kicker b{color:var(--teal-d);margin-right:8px}
+  h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(25px,4vw,36px);line-height:1.1;letter-spacing:-.01em;color:var(--ink);margin:8px 0 0}
+  .lead{font-size:19px;color:var(--ink);font-weight:500;margin:14px 0 0;max-width:680px;line-height:1.5}
+  p{margin:16px 0;color:var(--slate);max-width:680px}
+  p b{color:var(--ink);font-weight:600}
+  .pull{font-family:"Archivo",sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,26px);line-height:1.35;color:var(--ink);margin:24px 0;max-width:720px}
+  .pull em{font-style:normal;background:linear-gradient(100deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .vcard{margin:24px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 24px -18px rgba(13,26,36,.22)}
+  .vcard svg{display:block;width:100%;height:auto}
+  .vcaption{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted2);margin:14px 4px 0;line-height:1.5}
+  .vcaption b{color:var(--ink)}
+
+  /* framework chips */
+  .frame{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0 0}
+  .frame .f{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .frame .f .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+  .frame .f h4{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin:0 0 5px}
+  .frame .f p{font-size:14px;margin:0;color:var(--muted2);max-width:none}
+  @media(max-width:680px){.frame{grid-template-columns:1fr}}
+
+  /* pick cards */
+  .picks{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:26px 0 0}
+  @media(max-width:760px){.picks{grid-template-columns:1fr}}
+  .pick{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;overflow:hidden;box-shadow:0 12px 32px -22px rgba(13,26,36,.3)}
+  .pick::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--violet))}
+  .pick .ph{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .pick .nm{font-family:"Archivo Expanded",sans-serif;font-weight:800;font-size:24px;color:var(--ink)}
+  .pick .tic{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted2)}
+  .pick .does{font-size:15px;color:var(--slate);margin:12px 0 0;line-height:1.5}
+  .pick .does b{color:var(--ink)}
+  .hero-num{margin:18px 0;padding:14px 16px;border-radius:12px;background:linear-gradient(120deg,rgba(12,151,176,.08),rgba(109,77,240,.07));border:1px solid var(--line)}
+  .hero-num .lbl{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted2)}
+  .hero-num .val{font-family:"Archivo Expanded",sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:3px;background:linear-gradient(100deg,var(--teal-d),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero-num .val small{font-size:13px;color:var(--slate);font-family:"IBM Plex Sans";font-weight:500;-webkit-text-fill-color:var(--slate)}
+  .axes{margin:16px 0 0;display:grid;gap:10px}
+  .ax{display:grid;grid-template-columns:78px 1fr 30px;align-items:center;gap:10px}
+  .ax .al{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted2)}
+  .ax .at{height:7px;border-radius:4px;background:var(--paper-2);overflow:hidden}
+  .ax .af{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--violet))}
+  .ax .an{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink);font-weight:600;text-align:right}
+  .why{margin:16px 0 0;font-size:14.5px;color:var(--slate);line-height:1.5}
+  .why b{color:var(--ink)}
+  .cat{margin:14px 0 0;display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--teal-d);background:rgba(12,151,176,.06);border:1px solid rgba(12,151,176,.18);border-radius:10px;padding:11px 13px}
+  .cat .d{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:5px}
+  .cat b{color:var(--ink)}
+  .risk{margin:12px 0 0;font-size:13px;color:var(--muted2);display:flex;gap:8px;align-items:flex-start}
+  .risk .w{color:var(--coral);font-weight:700;flex:0 0 auto}
+
+  /* scatter closing */
+  .scat{margin:22px 0 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 8px 24px -18px rgba(13,26,36,.2)}
+  .scat svg{display:block;width:100%;height:auto}
+  .scat-leg{display:flex;flex-wrap:wrap;gap:16px;margin:12px 6px 0;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted2)}
+  .scat-leg span{display:inline-flex;align-items:center;gap:6px}
+  .scat-leg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:24px 0 60px}
+  .foot{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted2);line-height:1.85}
+  .foot b{color:var(--slate)}
+  .disc{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:11px}
+
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.rv{opacity:1;transform:none}}
+  .av-back{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.08em;color:var(--teal-d);text-decoration:none;white-space:nowrap;padding-right:12px;border-right:1px solid var(--line-2);transition:color .2s}.av-back:hover{color:var(--violet)}.av-back b{font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand">
+      <a class="av-back" href="../../index.html">← <b>ALPHA·VAULT</b></a>
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <line x1="3" y1="9" x2="17" y2="13" stroke="#14C0D4" stroke-width="1.6"/>
+        <line x1="3" y1="16" x2="17" y2="16" stroke="#2F7BF6" stroke-width="1.6"/>
+        <line x1="3" y1="23" x2="17" y2="19" stroke="#6D4DF0" stroke-width="1.6"/>
+        <rect x="19" y="8" width="11" height="16" rx="3" fill="#F4F7F9" stroke="#0C97B0" stroke-width="1.5"/>
+        <circle cx="24.5" cy="16" r="2" fill="#FF6A4D"/>
+      </svg>
+      <span class="t">光互连 · CPO</span>
+    </div>
+    <div class="bar-right">投研笔记 · 数据 <b>2026-06</b></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- HERO -->
+  <div class="hero">
+    <span class="eyebrow">AI 数据中心 · 光互连 / Co-Packaged Optics</span>
+    <h1>AI 的瓶颈,正在从<br>「算力」变成<em>「搬数据」</em>。</h1>
+    <p class="sub">而搬数据的尽头是<b>光</b>。这页只讲清三件事:<b>这是什么领域、为什么它重要、以及为什么是这两只票</b>——上詮(3363)和正淩(8147)。</p>
+    <div class="toc">
+      <a href="#what"><span>01</span>这是什么</a>
+      <a href="#why"><span>02</span>为什么重要</a>
+      <a href="#chain"><span>03</span>卡位在哪</a>
+      <a href="#picks"><span>04</span>为什么这两只</a>
+    </div>
+
+    <div class="hero-vis">
+      <svg viewBox="0 0 960 220" role="img" aria-label="光纤经 FAU 把光送进芯片">
+        <defs>
+          <linearGradient id="spec" x1="0" x2="1"><stop offset="0" stop-color="#14C0D4"/><stop offset=".5" stop-color="#2F7BF6"/><stop offset="1" stop-color="#6D4DF0"/></linearGradient>
+          <linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#14C0D4" stop-opacity="0"/><stop offset="1" stop-color="#6D4DF0" stop-opacity=".85"/></linearGradient>
+        </defs>
+        <text x="18" y="26" fill="#6B7C88" font-family="IBM Plex Mono" font-size="12">外部光纤</text>
+        <text x="640" y="26" fill="#077489" font-family="IBM Plex Mono" font-size="12">GPU / 硅光芯片</text>
+        <!-- fibers converging -->
+        <line x1="20" y1="60" x2="560" y2="98" stroke="url(#fade)" stroke-width="1.6"/>
+        <line x1="20" y1="100" x2="560" y2="106" stroke="url(#fade)" stroke-width="1.6"/>
+        <line x1="20" y1="140" x2="560" y2="114" stroke="url(#fade)" stroke-width="1.6"/>
+        <line x1="20" y1="180" x2="560" y2="122" stroke="url(#fade)" stroke-width="1.6"/>
+        <!-- FAU block -->
+        <rect x="548" y="84" width="34" height="56" rx="7" fill="#F4F7F9" stroke="#0C97B0" stroke-width="1.4"/>
+        <text x="565" y="160" fill="#0C97B0" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">FAU</text>
+        <!-- waveguides -->
+        <line x1="582" y1="103" x2="660" y2="106" stroke="#0C97B0" stroke-width="1.3" opacity=".6"/>
+        <line x1="582" y1="118" x2="660" y2="116" stroke="#0C97B0" stroke-width="1.3" opacity=".6"/>
+        <!-- chip -->
+        <rect x="658" y="64" width="270" height="100" rx="12" fill="#FFFFFF" stroke="#0C97B0" stroke-width="1.5"/>
+        <rect x="680" y="86" width="80" height="56" rx="6" fill="none" stroke="#D2DCE3" stroke-width="1.2"/>
+        <rect x="784" y="96" width="120" height="40" rx="6" fill="none" stroke="#D2DCE3" stroke-width="1.2"/>
+        <circle class="ph" cx="60" cy="93" r="4.5" fill="#14C0D4"/>
+        <text x="793" y="150" fill="#9aa9b3" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">COUPE / Rubin</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 01 WHAT -->
+  <section id="what" class="rv">
+    <div class="kicker"><b>01</b>这是什么领域</div>
+    <h2>把光纤「焊」进芯片,让 GPU 之间用光说话</h2>
+    <p class="lead">这件事叫 <b>CPO(Co-Packaged Optics,共同封装光学)</b>。</p>
+    <p>过去芯片之间用<b>铜线</b>传数据。但当 AI 训练把传输速率推到<b>每通道 200G 以上</b>,铜的物理极限就到了——信号衰减太快,传几英寸就废。唯一的出路:把光学引擎直接搬到芯片旁边,用光纤进出。NVIDIA(Rubin 平台)和台积电(COUPE 封装)正在<b>强推</b>这个转变。</p>
+
+    <div class="vcard">
+      <svg viewBox="0 0 920 240" role="img" aria-label="铜撞墙 vs 光通过">
+        <defs><linearGradient id="spec2" x1="0" x2="1"><stop offset="0" stop-color="#14C0D4"/><stop offset=".5" stop-color="#2F7BF6"/><stop offset="1" stop-color="#6D4DF0"/></linearGradient></defs>
+        <!-- divider -->
+        <line x1="460" y1="20" x2="460" y2="220" stroke="#E3EAEF" stroke-width="1.5"/>
+        <!-- LEFT: copper -->
+        <text x="40" y="38" fill="#0D1A24" font-family="Archivo" font-weight="700" font-size="17">铜 · COPPER</text>
+        <text x="40" y="58" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11.5">200G+/通道 → 撞墙</text>
+        <rect x="40" y="80" width="60" height="44" rx="6" fill="#F4F7F9" stroke="#9aa9b3" stroke-width="1.3"/>
+        <text x="70" y="107" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">GPU</text>
+        <!-- fraying copper lines hitting wall -->
+        <path d="M100 96 L300 96" stroke="#9aa9b3" stroke-width="2"/>
+        <path d="M100 104 L290 104" stroke="#bcc7ce" stroke-width="2" stroke-dasharray="6 5"/>
+        <path d="M100 112 L270 118" stroke="#cfd8de" stroke-width="2" stroke-dasharray="3 6"/>
+        <!-- wall -->
+        <rect x="318" y="66" width="9" height="92" rx="3" fill="#FF6A4D"/>
+        <text x="322" y="178" fill="#FF6A4D" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">墙</text>
+        <text x="200" y="150" fill="#b0606a" font-family="IBM Plex Sans" font-size="13" text-anchor="middle">衰减 → 只能传几英寸</text>
+        <!-- RIGHT: light -->
+        <text x="500" y="38" fill="#0D1A24" font-family="Archivo" font-weight="700" font-size="17">光 · CPO</text>
+        <text x="500" y="58" fill="#077489" font-family="IBM Plex Mono" font-size="11.5">光学引擎贴着芯片 → 通</text>
+        <rect x="500" y="80" width="60" height="44" rx="6" fill="#FFFFFF" stroke="#0C97B0" stroke-width="1.3"/>
+        <text x="530" y="107" fill="#077489" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">GPU</text>
+        <line x1="560" y1="96" x2="860" y2="96" stroke="url(#spec2)" stroke-width="2.4"/>
+        <line x1="560" y1="104" x2="860" y2="104" stroke="url(#spec2)" stroke-width="2.4"/>
+        <line x1="560" y1="112" x2="860" y2="112" stroke="url(#spec2)" stroke-width="2.4"/>
+        <circle cx="700" cy="100" r="4" fill="#2F7BF6"/><circle cx="790" cy="96" r="4" fill="#14C0D4"/>
+        <rect x="864" y="78" width="34" height="48" rx="6" fill="#FFFFFF" stroke="#6D4DF0" stroke-width="1.3"/>
+        <text x="700" y="150" fill="#077489" font-family="IBM Plex Sans" font-size="13" text-anchor="middle">几乎无损 → 距离不再是问题</text>
+      </svg>
+      <div class="vcaption">物理事实:数据速率越高,铜的有效距离越短。<b>CPO 把光直接接到芯片旁,是 AI 继续 scale 的硬前提。</b></div>
+    </div>
+  </section>
+
+  <!-- 02 WHY -->
+  <section id="why" class="rv">
+    <div class="kicker"><b>02</b>为什么这领域重要</div>
+    <h2>它是 AI 继续 scale 的物理前提,而且市场即将爆炸</h2>
+
+    <div class="vcard">
+      <svg viewBox="0 0 920 340" role="img" aria-label="CPO 市场规模与高盛长期 TAM">
+        <defs><linearGradient id="bar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0C97B0"/><stop offset="1" stop-color="#6D4DF0"/></linearGradient></defs>
+        <text x="40" y="32" fill="#0D1A24" font-family="Archivo" font-weight="700" font-size="17">CPO 实际市场规模(专业机构)</text>
+        <!-- baseline -->
+        <line x1="60" y1="278" x2="545" y2="278" stroke="#E3EAEF" stroke-width="1.5"/>
+        <!-- 2026 small bar -->
+        <rect x="150" y="266" width="110" height="12" rx="3" fill="url(#bar)"/>
+        <text x="205" y="300" fill="#6B7C88" font-family="IBM Plex Mono" font-size="13" text-anchor="middle">2026</text>
+        <text x="205" y="254" fill="#0D1A24" font-family="IBM Plex Mono" font-weight="600" font-size="13" text-anchor="middle">~$0.2B</text>
+        <!-- 2028 bar ~$3-5B -->
+        <rect x="380" y="128" width="120" height="150" rx="8" fill="url(#bar)"/>
+        <text x="440" y="300" fill="#6B7C88" font-family="IBM Plex Mono" font-size="13" text-anchor="middle">2028</text>
+        <text x="440" y="116" fill="#0D1A24" font-family="Archivo Expanded" font-weight="800" font-size="22" text-anchor="middle">$3–5B</text>
+        <!-- honest multiple -->
+        <text x="307" y="188" fill="#077489" font-family="Archivo" font-weight="700" font-size="17" text-anchor="middle">≈15–25×</text>
+        <text x="307" y="207" fill="#6B7C88" font-family="IBM Plex Mono" font-size="10.5" text-anchor="middle">到 2028</text>
+        <!-- divider -->
+        <line x1="600" y1="28" x2="600" y2="312" stroke="#E3EAEF" stroke-width="1.5"/>
+        <!-- Goldman long-run TAM (NOT 2028 revenue) -->
+        <text x="636" y="62" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11.5">高盛 · 长期 TAM(总机会)</text>
+        <text x="636" y="118" fill="#0D1A24" font-family="Archivo Expanded" font-weight="900" font-size="46">$91B</text>
+        <text x="636" y="148" fill="#FF6A4D" font-family="IBM Plex Mono" font-weight="600" font-size="12">⚠ 这不是 2028 营收</text>
+        <text x="636" y="184" fill="#3C4D58" font-family="IBM Plex Sans" font-size="13.5">若光 I/O 接管 scale-up 网络的</text>
+        <text x="636" y="206" fill="#3C4D58" font-family="IBM Plex Sans" font-size="13.5">「总机会」,2028–30+ 才兑现</text>
+        <text x="636" y="228" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11">ramp 从 2027 起</text>
+      </svg>
+      <div class="vcaption">口径要分清:CPO <b>实际市场规模</b>到 2028 约 <b>$3–5B</b>(专业机构,从极小基数 ~15–25×);高盛的 <b>$91B 是长期 TAM</b>——光 I/O 接管 scale-up 网络的总机会(2028–30+,ramp 2027 起),<b>不是 2028 营收</b>。各家估值分歧极大(从十亿到百亿)= 既是机会也是风险。</div>
+    </div>
+
+    <p class="pull">但最关键的逻辑是:<em>你不用押对哪颗 GPU 赢。</em></p>
+    <p>每一条光链——不管最后赢家是 NVIDIA 还是某个 ASIC——都必须用<b>同一批零件</b>。这就是"卖铲子":与其赌淘金者,不如卖每个淘金者都要买的铲子。下一节就讲,这条链上<b>哪个铲子最难替代</b>。</p>
+  </section>
+
+  <!-- 03 CHAIN -->
+  <section id="chain" class="rv">
+    <div class="kicker"><b>03</b>钱卡在链条哪一节</div>
+    <h2>光要进芯片,必经 FAU 这道关口</h2>
+    <p>把一束光纤,以<b>亚微米精度</b>对准芯片边缘再固定死——这个零件叫 <b>FAU(光纤阵列单元)</b>,被业界公认是 CPO 制造的<b>瓶颈</b>。对不准、固不牢,整块 CPO 报废。</p>
+
+    <div class="vcard">
+      <svg viewBox="0 0 920 200" role="img" aria-label="CPO 供应链与两只票的位置">
+        <defs><linearGradient id="hl" x1="0" x2="1"><stop offset="0" stop-color="#0C97B0"/><stop offset="1" stop-color="#6D4DF0"/></linearGradient></defs>
+        <!-- flow line -->
+        <line x1="70" y1="95" x2="850" y2="95" stroke="#E3EAEF" stroke-width="2"/>
+        <!-- nodes -->
+        <g font-family="IBM Plex Mono" font-size="11.5" text-anchor="middle">
+          <!-- node1 -->
+          <rect x="70" y="74" width="120" height="42" rx="9" fill="#F4F7F9" stroke="#D2DCE3" stroke-width="1.3"/>
+          <text x="130" y="100" fill="#6B7C88">激光源</text>
+          <!-- node2 FAU - highlighted -->
+          <rect x="225" y="66" width="140" height="58" rx="11" fill="#FFFFFF" stroke="url(#hl)" stroke-width="2.4"/>
+          <text x="295" y="90" fill="#0D1A24" font-weight="600">FAU</text>
+          <text x="295" y="108" fill="#077489" font-size="10">光纤进芯片</text>
+          <!-- node3 -->
+          <rect x="400" y="74" width="120" height="42" rx="9" fill="#F4F7F9" stroke="#D2DCE3" stroke-width="1.3"/>
+          <text x="460" y="100" fill="#6B7C88">封装</text>
+          <!-- node4 -->
+          <rect x="555" y="74" width="120" height="42" rx="9" fill="#F4F7F9" stroke="#D2DCE3" stroke-width="1.3"/>
+          <text x="615" y="100" fill="#6B7C88">检测</text>
+          <!-- node5 -->
+          <rect x="710" y="74" width="120" height="42" rx="9" fill="#F4F7F9" stroke="#D2DCE3" stroke-width="1.3"/>
+          <text x="770" y="100" fill="#6B7C88">整机</text>
+        </g>
+        <!-- FOCI marker -->
+        <line x1="295" y1="66" x2="295" y2="44" stroke="#0C97B0" stroke-width="1.4"/>
+        <rect x="238" y="22" width="114" height="24" rx="6" fill="#0C97B0"/>
+        <text x="295" y="38" fill="#fff" font-family="Archivo" font-weight="700" font-size="12.5" text-anchor="middle">上詮 FOCI</text>
+        <!-- 正淩 marker (connector/thermal, near 整机/封装) -->
+        <line x1="615" y1="124" x2="615" y2="146" stroke="#6D4DF0" stroke-width="1.4"/>
+        <rect x="548" y="146" width="134" height="38" rx="6" fill="#F1ECFE" stroke="#6D4DF0" stroke-width="1.2"/>
+        <text x="615" y="162" fill="#5a3ee0" font-family="Archivo" font-weight="700" font-size="12" text-anchor="middle">正淩 8147</text>
+        <text x="615" y="177" fill="#7a6bb0" font-family="IBM Plex Mono" font-size="9.5" text-anchor="middle">连接器+散热 · 早期</text>
+      </svg>
+      <div class="vcaption"><b>上詮(FOCI)做 FAU</b>——光要进芯片就得过它,法人看好成为台积<b>独家</b>供应商。<b>正淩</b>在连接器/散热,卡位较浅、CPO 仍早期。</div>
+    </div>
+  </section>
+
+  <!-- 04 PICKS -->
+  <section id="picks" class="rv">
+    <div class="kicker"><b>04</b>为什么是这两只</div>
+    <h2>三个条件:卡得住 · 进不来 · 还便宜</h2>
+    <p class="lead">不是看 K 线,是看这三根轴——<b>同时满足,才是埋伏。</b></p>
+
+    <div class="frame">
+      <div class="f">
+        <div class="ic" style="background:rgba(12,151,176,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z" stroke="#0C97B0" stroke-width="1.8"/></svg></div>
+        <h4>卡得住</h4>
+        <p>它是不是必经的瓶颈,别人短期替代不了?护城河越硬越好。</p>
+      </div>
+      <div class="f">
+        <div class="ic" style="background:rgba(109,77,240,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#6D4DF0" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#6D4DF0" stroke-width="1.8"/></svg></div>
+        <h4>进不来</h4>
+        <p>市值太小、零分析师覆盖 → 大基金结构性进不去 → <b>没人做功课 = 错价</b>。</p>
+      </div>
+      <div class="f">
+        <div class="ic" style="background:rgba(47,123,246,.12)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17 L9 11 L13 15 L21 7" stroke="#2F7BF6" stroke-width="1.8"/><path d="M16 7h5v5" stroke="#2F7BF6" stroke-width="1.8"/></svg></div>
+        <h4>还便宜</h4>
+        <p>市场给它"做成"的概率很低 → 真做成了,空间是<b>不对称</b>的。</p>
+      </div>
+    </div>
+
+    <div class="picks">
+      <!-- FOCI -->
+      <div class="pick">
+        <div class="ph"><span class="nm">上詮 FOCI</span><span class="tic">3363 · TPEx</span></div>
+        <p class="does">做 <b>FAU</b>——把光纤精准对进芯片的那个零件,CPO 每个模块都绕不开。</p>
+        <div class="hero-num">
+          <div class="lbl">大摩估 2028 营收</div>
+          <div class="val">NT$20B <small>现 ~$60M → 约 10×</small></div>
+        </div>
+        <div class="axes">
+          <div class="ax"><span class="al">卡得住</span><span class="at"><span class="af" style="width:90%"></span></span><span class="an">4.5</span></div>
+          <div class="ax"><span class="al">进不来</span><span class="at"><span class="af" style="width:50%"></span></span><span class="an">2.5</span></div>
+          <div class="ax"><span class="al">还便宜</span><span class="at"><span class="af" style="width:80%"></span></span><span class="an">4.0</span></div>
+        </div>
+        <p class="why"><b>为什么可以:</b>法人看好成为台积 FAU <b>独家</b>供应商,设计门槛已筑;法说会证实 2026 砸 <b>&gt;NT$10亿</b>建 FAU 产线,且按特定大客户量产排程投产 = 订单能见度高。</p>
+        <div class="cat"><span class="d"></span><span><b>催化:Q3'26 1.6T 模组认证</b> —— 把它从"梦想价"钉成"落实价"的事件。</span></div>
+        <div class="risk"><span class="w">风险</span><span>还在扩产亏损,CPO 尚未进损益表;须盯紧 Q3 认证进度。</span></div>
+      </div>
+
+      <!-- 正淩 -->
+      <div class="pick">
+        <div class="ph"><span class="nm">正淩</span><span class="tic">8147 · TPEx</span></div>
+        <p class="does">做 <b>AI 服务器连接器 + 液冷零件 + CPO 连接器/散热</b>,体量极小(~$216M)。</p>
+        <div class="hero-num">
+          <div class="lbl">2026 AI 营收</div>
+          <div class="val">占比 &gt;30% <small>且 +40–50% 增长</small></div>
+        </div>
+        <div class="axes">
+          <div class="ax"><span class="al">卡得住</span><span class="at"><span class="af" style="width:50%"></span></span><span class="an">2.5</span></div>
+          <div class="ax"><span class="al">进不来</span><span class="at"><span class="af" style="width:100%"></span></span><span class="an">5.0</span></div>
+          <div class="ax"><span class="al">还便宜</span><span class="at"><span class="af" style="width:60%"></span></span><span class="an">3.0</span></div>
+        </div>
+        <p class="why"><b>为什么可以:</b><b>体量锁死最纯</b>——零覆盖、基金进不来,没人做功课。而且它已是<b>真盈利</b>的 AI 成长股(毛利 40%、能见度到 2027)。</p>
+        <div class="cat"><span class="d"></span><span><b>免费期权:</b>CPO 连接器/散热 + 人形机器人,2027 才起量——现在不用为它付钱。</span></div>
+        <div class="risk"><span class="w">风险</span><span>CPO 仍小量试产 → 买它要当<b>成长股</b>买,不是当 CPO 卡位买。</span></div>
+      </div>
+    </div>
+
+    <!-- closing: where the rest sits -->
+    <h2 style="margin-top:40px;font-size:clamp(20px,3vw,26px)">放进全景看一眼</h2>
+    <p style="margin-bottom:0">研究过的票里,这两只在"卡位 × 不对称"上最值得埋伏;其余要么已被发现、要么该等回调、要么避开。</p>
+    <div class="scat">
+      <svg id="scatter" viewBox="0 0 920 420" role="img" aria-label="全景定位:卡位强度 vs 不对称性"></svg>
+    </div>
+    <div class="scat-leg">
+      <span><i style="background:#0C97B0"></i>这两只(埋伏)</span>
+      <span><i style="background:#2F7BF6"></i>等回调 / 质量</span>
+      <span><i style="background:#FF6A4D"></i>避开</span>
+      <span style="color:#9aa9b3">点越大 = 体量越小 / 越难被基金买</span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      数据来源:大摩(2028E 营收)、高盛(CPO TAM)、TSMC COUPE 路线图、公司法说会/股东会、第三方行情。价格与市值<b>截至 2026 年 6 月</b>,USD 为约数。上詮(3363)、正淩(8147)为台股。
+      <div class="disc">本页为个人投研笔记,<b>不构成投资建议</b>。两只均为高风险标的:上詮近端扩产亏损、正淩营收颠簸且 CPO 尚未放量;价格随时变动,数据过期即作废。仓位与止损请自行决定。</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  // closing scatter — focus on the two picks, others faint
+  var D=[
+    {l:"上詮",x:4.5,y:4.0,s:2.5,g:"pick"},
+    {l:"正淩",x:2.5,y:3.0,s:5.0,g:"pick"},
+    {l:"MSSC",x:4.5,y:2.5,s:2.0,g:"wait"},
+    {l:"3374",x:3.5,y:3.0,s:2.0,g:"wait"},
+    {l:"AEHR",x:3.5,y:3.0,s:2.5,g:"wait"},
+    {l:"CRDO",x:4.0,y:2.5,s:1.0,g:"wait"},
+    {l:"AXTI",x:4.0,y:2.0,s:1.5,g:"wait"},
+    {l:"SIVE",x:3.0,y:2.5,s:2.0,g:"wait"},
+    {l:"SOI",x:3.5,y:2.0,s:1.5,g:"wait"},
+    {l:"POET",x:2.5,y:1.5,s:2.5,g:"wait"},
+    {l:"LEU",x:3.0,y:1.5,s:1.5,g:"avoid"},
+    {l:"NVTS",x:2.5,y:1.0,s:1.0,g:"avoid"}
+  ];
+  var col={pick:"#0C97B0",wait:"#2F7BF6",avoid:"#FF6A4D"};
+  var svg=document.getElementById("scatter");
+  var W=920,H=420,ml=58,mr=40,mt=24,mb=50,pw=W-ml-mr,ph=H-mt-mb;
+  function X(v){return ml+(v-1)/4*pw;}
+  function Y(v){return mt+(5-v)/4*ph;}
+  var f="";
+  // sweet zone
+  f+='<rect x="'+X(3)+'" y="'+mt+'" width="'+(X(5)-X(3))+'" height="'+(Y(3)-mt)+'" fill="rgba(12,151,176,0.05)"/>';
+  for(var g=1;g<=5;g++){
+    f+='<line x1="'+X(g)+'" y1="'+mt+'" x2="'+X(g)+'" y2="'+(mt+ph)+'" stroke="#EEF3F6" stroke-width="1"/>';
+    f+='<line x1="'+ml+'" y1="'+Y(g)+'" x2="'+(ml+pw)+'" y2="'+Y(g)+'" stroke="#EEF3F6" stroke-width="1"/>';
+  }
+  f+='<text x="'+(ml+pw/2)+'" y="'+(H-12)+'" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11.5" text-anchor="middle">卡位强度 →</text>';
+  f+='<text transform="translate(16,'+(mt+ph/2)+') rotate(-90)" fill="#6B7C88" font-family="IBM Plex Mono" font-size="11.5" text-anchor="middle">不对称性 / 还便宜 →</text>';
+  f+='<text x="'+(X(5)-6)+'" y="'+(mt+15)+'" fill="#0C97B0" font-family="IBM Plex Mono" font-size="11" text-anchor="end" opacity="0.85">理想埋伏区</text>';
+  // faint first, picks last
+  D.slice().sort(function(a,b){return (a.g==="pick")-(b.g==="pick");}).forEach(function(d){
+    var cx=X(d.x),cy=Y(d.y),r=5+d.s*1.9,c=col[d.g],pick=d.g==="pick";
+    var op=pick?0.20:0.10, so=pick?1:0.55;
+    f+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+c+'" fill-opacity="'+op+'" stroke="'+c+'" stroke-width="'+(pick?2:1.2)+'" stroke-opacity="'+so+'"/>';
+    f+='<circle cx="'+cx+'" cy="'+cy+'" r="2" fill="'+c+'" fill-opacity="'+so+'"/>';
+    f+='<text x="'+(cx+r+5)+'" y="'+(cy+4)+'" fill="'+(pick?"#0D1A24":"#9aa9b3")+'" font-family="IBM Plex Mono" font-size="'+(pick?"12.5":"10.5")+'" font-weight="'+(pick?"600":"400")+'">'+d.l+'</text>';
+  });
+  svg.innerHTML=f;
+
+  // reveal
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items=document.querySelectorAll('.rv');
+  if(reduce||!('IntersectionObserver' in window)){items.forEach(function(e){e.classList.add('in');});}
+  else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -40px 0px'});items.forEach(function(e){io.observe(e);});}
+})();
+</script>
+</body>
+</html>
