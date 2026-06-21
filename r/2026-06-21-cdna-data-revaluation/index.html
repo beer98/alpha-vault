@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据价值重估 · CDNA 投资推演</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-900:#090B11; --ink-850:#0D1017; --ink-800:#11151E; --ink-780:#141925;
+    --ink-750:#171D2A; --line:#262E3D; --line-soft:#1C2330;
+    --gold-500:#D4AF6A; --gold-400:#E3C586; --gold-300:#EDD8A6; --gold-deep:#A07C3A;
+    --teal-500:#6FA8BB; --teal-400:#8AC0D1; --teal-deep:#477E90;
+    --brick-500:#CB7E64; --brick-400:#DC967D;
+    --green:#82B58D;
+    --t100:#ECEAE2; --t300:#B2B7C0; --t500:#7E848F; --t700:#535965;
+    --font-display:"Spectral","Songti SC","PingFang SC","Hiragino Sans GB",serif;
+    --font-body:"Inter","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+    --font-mono:"IBM Plex Mono","SF Mono",ui-monospace,monospace;
+    --mw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink-900); color:var(--t100); font-family:var(--font-body);
+    font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(900px 500px at 78% -8%, rgba(212,175,106,.10), transparent 60%),
+      radial-gradient(800px 600px at 8% 30%, rgba(111,168,187,.07), transparent 55%);
+  }
+  .wrap{max-width:var(--mw); margin:0 auto; padding:0 28px; position:relative; z-index:1}
+  ::selection{background:rgba(212,175,106,.28); color:#fff}
+  a{color:var(--teal-400); text-decoration:none}
+  :focus-visible{outline:2px solid var(--gold-500); outline-offset:3px; border-radius:2px}
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--gold-500); display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::before{content:""; width:26px; height:1px; background:var(--gold-deep)}
+  .mono{font-family:var(--font-mono)}
+  .tk{font-family:var(--font-mono); font-weight:600; letter-spacing:.04em}
+  .gold{color:var(--gold-400)} .teal{color:var(--teal-400)} .brick{color:var(--brick-400)}
+  .pos{color:var(--green)} .muted{color:var(--t500)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:88px 0 56px; border-bottom:1px solid var(--line-soft)}
+  .hero h1{
+    font-family:var(--font-display); font-weight:500; font-size:clamp(31px,5.0vw,56px);
+    line-height:1.18; letter-spacing:-.01em; margin:26px 0 4px; max-width:18ch;
+  }
+  .hero h1 .em{font-style:italic; color:var(--gold-400)}
+  .hero h1 .hl{
+    color:var(--teal-400); font-style:italic;
+  }
+  .hero .lede{
+    font-size:17px; color:var(--t300); max-width:60ch; margin-top:22px; line-height:1.7;
+  }
+  .target{
+    margin-top:40px; border:1px solid var(--line); border-left:3px solid var(--gold-500);
+    background:linear-gradient(180deg, rgba(212,175,106,.05), rgba(20,25,37,.45));
+    border-radius:4px; padding:26px 28px; display:grid; gap:18px;
+  }
+  .target .row1{display:flex; flex-wrap:wrap; align-items:baseline; gap:14px 20px}
+  .target .badge{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ink-900); background:var(--gold-500); padding:4px 9px; border-radius:3px; font-weight:600;
+  }
+  .target .ticker{font-family:var(--font-mono); font-weight:600; font-size:30px; color:var(--gold-300); letter-spacing:.02em}
+  .target .co{font-family:var(--font-display); font-size:20px; color:var(--t100)}
+  .target .ex{font-family:var(--font-mono); font-size:12px; color:var(--t500); letter-spacing:.12em}
+  .target .verdict{font-size:15.5px; color:var(--t300); line-height:1.72; max-width:74ch}
+  .target .verdict b{color:var(--gold-300); font-weight:600}
+  .target .punch{
+    font-family:var(--font-display); font-style:italic; font-size:19px; color:var(--t100);
+    border-top:1px solid var(--line-soft); padding-top:16px;
+  }
+  .metstrip{
+    display:flex; flex-wrap:wrap; gap:10px 26px; margin-top:30px;
+    font-family:var(--font-mono); font-size:12px; color:var(--t500); letter-spacing:.04em;
+  }
+  .metstrip span{display:flex; align-items:center; gap:8px}
+  .metstrip i{width:5px; height:5px; border-radius:50%; background:var(--teal-deep); font-style:normal}
+  .metstrip b{color:var(--t300); font-weight:500}
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:74px 0; border-bottom:1px solid var(--line-soft); position:relative}
+  .shead{margin-bottom:40px}
+  .shead h2{
+    font-family:var(--font-display); font-weight:500; font-size:clamp(24px,3.4vw,34px);
+    letter-spacing:-.01em; margin-top:14px; line-height:1.25; max-width:24ch;
+  }
+  .shead p{color:var(--t500); margin-top:12px; max-width:62ch; font-size:15px}
+
+  /* ---------- PYRAMID ---------- */
+  .pyr{display:grid; gap:14px}
+  .tier{
+    position:relative; margin:0 auto; border:1px solid var(--line); border-radius:5px;
+    background:var(--ink-800); padding:22px 26px;
+  }
+  .tier .tlab{
+    position:absolute; left:-2px; top:-11px; font-family:var(--font-mono); font-size:10.5px;
+    letter-spacing:.16em; text-transform:uppercase; padding:2px 9px; border-radius:3px;
+  }
+  .tier.t1{width:min(100%,640px); border-color:var(--gold-deep);
+    background:linear-gradient(180deg, rgba(212,175,106,.10), rgba(20,25,37,.4)); text-align:center}
+  .tier.t1 .tlab{background:var(--gold-500); color:var(--ink-900)}
+  .tier.t1 .big{font-family:var(--font-display); font-size:19px; line-height:1.5; color:var(--t100)}
+  .tier.t1 .big b{color:var(--gold-300)}
+  .tier.t1 .sub{font-family:var(--font-mono); font-size:12.5px; color:var(--teal-400); margin-top:10px; letter-spacing:.03em}
+  .tier.t2{width:min(100%,860px); padding:0; border:none; background:none}
+  .t2grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .t2cell{border:1px solid var(--line); border-radius:5px; background:var(--ink-800); padding:20px 18px; position:relative}
+  .t2cell .n{font-family:var(--font-mono); font-size:11px; color:var(--gold-500); letter-spacing:.12em}
+  .t2cell h4{font-family:var(--font-display); font-size:16px; font-weight:600; margin:8px 0 7px; color:var(--t100)}
+  .t2cell p{font-size:13.5px; color:var(--t300); line-height:1.6}
+  .tier.t3{width:100%; text-align:center; border-style:dashed; border-color:var(--line)}
+  .tier.t3 .tlab{background:var(--ink-750); color:var(--t500); border:1px solid var(--line)}
+  .tier.t3 .ev{display:flex; flex-wrap:wrap; justify-content:center; gap:10px 14px; font-family:var(--font-mono); font-size:12.5px; color:var(--t300)}
+  .tier.t3 .ev span{padding:5px 12px; border:1px solid var(--line-soft); border-radius:20px; background:var(--ink-850)}
+  .pyrhint{text-align:center; font-family:var(--font-mono); font-size:11px; color:var(--t700); letter-spacing:.1em; margin-top:6px}
+
+  /* ---------- REASONING SEAM ---------- */
+  .seam{position:relative; margin-top:8px; padding-left:0}
+  .stage{position:relative; padding:0 0 30px 64px}
+  .stage::before{ /* the gold vertical seam */
+    content:""; position:absolute; left:19px; top:6px; bottom:-6px; width:2px;
+    background:linear-gradient(180deg,var(--gold-deep),rgba(160,124,58,.25));
+  }
+  .stage:last-child{padding-bottom:0}
+  .stage:last-child::before{background:linear-gradient(180deg,var(--gold-deep),rgba(160,124,58,0))}
+  .stage .node{
+    position:absolute; left:0; top:0; width:40px; height:40px; border-radius:50%;
+    background:var(--ink-850); border:2px solid var(--gold-deep); color:var(--gold-300);
+    font-family:var(--font-mono); font-weight:600; font-size:14px;
+    display:flex; align-items:center; justify-content:center; z-index:2;
+  }
+  .stage.final .node{border-color:var(--gold-500); background:rgba(212,175,106,.14); box-shadow:0 0 0 4px rgba(212,175,106,.08)}
+  .stage .scard{border:1px solid var(--line); border-radius:5px; background:var(--ink-800); padding:18px 22px}
+  .stage.final .scard{border-color:var(--gold-deep); background:linear-gradient(180deg,rgba(212,175,106,.06),rgba(20,25,37,.4))}
+  .stage h3{font-family:var(--font-display); font-size:17px; font-weight:600; color:var(--t100); display:flex; gap:12px; align-items:baseline; flex-wrap:wrap}
+  .stage h3 .k{font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-400); font-weight:500}
+  .stage p{font-size:14px; color:var(--t300); margin-top:8px; line-height:1.65}
+  .stage p b{color:var(--gold-300); font-weight:600}
+  .stage p .x{color:var(--brick-400)}
+
+  /* ---------- SPECTRUM ---------- */
+  .spec{border:1px solid var(--line); border-radius:6px; background:var(--ink-800); padding:30px 28px 24px}
+  .specbar{position:relative; height:64px; border-radius:6px;
+    background:linear-gradient(90deg,
+      rgba(203,126,100,.42) 0%, rgba(203,126,100,.18) 22%,
+      rgba(126,132,143,.16) 38%, rgba(126,132,143,.16) 52%,
+      rgba(111,168,187,.20) 66%, rgba(212,175,106,.30) 86%, rgba(212,175,106,.55) 100%);
+    border:1px solid var(--line);
+  }
+  .specaxis{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11.5px; letter-spacing:.06em; margin-top:12px}
+  .specaxis .l{color:var(--brick-400)} .specaxis .r{color:var(--gold-400)}
+  .speczones{display:grid; grid-template-columns:1.1fr 1fr 1.5fr; gap:14px; margin-top:22px}
+  .zone{border:1px solid var(--line-soft); border-radius:5px; padding:16px; background:var(--ink-850)}
+  .zone .zt{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px}
+  .zone.z1 .zt{color:var(--brick-400)} .zone.z2 .zt{color:var(--t500)} .zone.z3 .zt{color:var(--gold-400)}
+  .zone p{font-size:13px; color:var(--t300); line-height:1.55}
+  .zone .mult{font-family:var(--font-mono); font-size:13px; font-weight:600; margin-top:8px; display:block}
+  .zone.z1 .mult{color:var(--brick-400)} .zone.z2 .mult{color:var(--t300)} .zone.z3 .mult{color:var(--gold-300)}
+  .specnote{margin-top:20px; padding:14px 18px; border-left:2px solid var(--teal-deep); background:rgba(111,168,187,.06);
+    font-size:14px; color:var(--t300); border-radius:0 4px 4px 0}
+  .specnote b{color:var(--teal-400)}
+  .marker-cdna{position:absolute; top:-36px; left:86%; transform:translateX(-50%); z-index:3; text-align:center; pointer-events:none}
+  .marker-cdna .pin{font-family:var(--font-mono); font-weight:600; font-size:11px; color:var(--ink-900); background:var(--gold-400); padding:3px 8px; border-radius:3px; white-space:nowrap; display:inline-block}
+  .marker-cdna .stem{width:2px; height:30px; background:var(--gold-400); margin:2px auto 0}
+
+  /* ---------- SCORECARD ---------- */
+  .matrix{border:1px solid var(--line); border-radius:6px; overflow:hidden}
+  .mrow{display:grid; grid-template-columns:1.7fr 1fr 1fr 1fr; align-items:stretch; border-top:1px solid var(--line-soft)}
+  .mrow:first-child{border-top:none}
+  .mrow.head{background:var(--ink-780)}
+  .mrow.head .mc{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--t500); padding:14px 16px}
+  .mrow.head .mc .crit{display:block; color:var(--teal-400); font-size:11px; margin-top:3px; text-transform:none; letter-spacing:0}
+  .mc{padding:16px; display:flex; flex-direction:column; justify-content:center; gap:3px; border-left:1px solid var(--line-soft)}
+  .mc:first-child{border-left:none}
+  .mco .nm{font-family:var(--font-mono); font-weight:600; font-size:15px; color:var(--t100)}
+  .mco .ds{font-size:12px; color:var(--t500)}
+  .pill{display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--t300)}
+  .dot{width:9px; height:9px; border-radius:50%; flex:none}
+  .d-hi{background:var(--gold-400)} .d-mid{background:var(--teal-deep)} .d-lo{background:var(--brick-500)}
+  .pill .lv{font-family:var(--font-mono); font-size:11px; color:var(--t500)}
+  .mrow.win{background:linear-gradient(90deg,rgba(212,175,106,.09),rgba(20,25,37,.2))}
+  .mrow.win .mco .nm{color:var(--gold-300)}
+  .mrow.win .mco .nm::after{content:"金子"; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; color:var(--ink-900); background:var(--gold-500); padding:2px 6px; border-radius:3px; margin-left:9px; vertical-align:middle; font-weight:600}
+  .verdcol{font-family:var(--font-mono); font-size:11.5px; color:var(--t500); padding:6px 16px 16px; border-left:1px solid var(--line-soft)}
+
+  .legend{display:flex; flex-wrap:wrap; gap:18px; margin-top:16px; font-family:var(--font-mono); font-size:11.5px; color:var(--t500)}
+  .legend span{display:flex; align-items:center; gap:7px}
+
+  /* ---------- COMMITMENT ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  .pillar{border:1px solid var(--line); border-radius:6px; background:var(--ink-800); padding:24px; position:relative; overflow:hidden}
+  .pillar::after{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold-deep)}
+  .pillar .pk{font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-500)}
+  .pillar h4{font-family:var(--font-display); font-size:18px; font-weight:600; margin:10px 0 12px}
+  .pillar p{font-size:14px; color:var(--t300); line-height:1.65}
+  .pillar p b{color:var(--t100); font-weight:600}
+  .pillar .tag{display:inline-block; font-family:var(--font-mono); font-size:11px; color:var(--teal-400); border:1px solid var(--teal-deep); border-radius:20px; padding:3px 11px; margin-top:14px}
+
+  .vantx{margin-top:24px; border:1px solid var(--line); border-radius:6px; background:var(--ink-850); padding:26px 28px}
+  .vantx .vh{display:flex; flex-wrap:wrap; align-items:baseline; gap:12px; margin-bottom:6px}
+  .vantx .vh .vt{font-family:var(--font-mono); font-weight:600; font-size:16px; color:var(--gold-300); letter-spacing:.04em}
+  .vantx .vh .vd{font-size:13px; color:var(--t500)}
+  .vantx .vsub{font-size:14px; color:var(--t300); margin-bottom:22px; max-width:70ch}
+  .vantx .vsub b{color:var(--teal-400)}
+  .vstack{display:grid; gap:10px}
+  .vlayer{display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:center; border-radius:5px; padding:16px 20px; border:1px solid var(--line-soft)}
+  .vlayer .vlk{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap}
+  .vlayer .vlbody strong{font-size:14.5px; color:var(--t100); font-weight:600}
+  .vlayer .vlbody span{display:block; font-size:12.5px; color:var(--t500); margin-top:2px}
+  .vl-top{background:rgba(111,168,187,.07); border-color:var(--teal-deep)}
+  .vl-top .vlk{color:var(--teal-400)}
+  .vl-mid{background:rgba(212,175,106,.05)}
+  .vl-mid .vlk{color:var(--gold-400)}
+  .vl-base{background:linear-gradient(90deg,rgba(212,175,106,.12),rgba(20,25,37,.3)); border-color:var(--gold-deep)}
+  .vl-base .vlk{color:var(--gold-300)}
+  .vmoat{text-align:center; font-family:var(--font-mono); font-size:11.5px; color:var(--gold-400); margin-top:16px; letter-spacing:.04em}
+  .vmoat b{color:var(--teal-400)}
+
+  /* ---------- VERDICT ---------- */
+  .judges{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:30px}
+  .judge{border:1px solid var(--line); border-radius:6px; padding:24px; background:var(--ink-800)}
+  .judge .jk{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--t500)}
+  .judge h4{font-family:var(--font-display); font-size:18px; font-weight:600; margin:8px 0 12px}
+  .judge .rule{font-family:var(--font-mono); font-size:12px; padding:4px 10px; border-radius:20px; display:inline-block; margin-bottom:14px}
+  .judge.ok .rule{color:var(--gold-300); border:1px solid var(--gold-deep); background:rgba(212,175,106,.08)}
+  .judge.cau .rule{color:var(--brick-400); border:1px solid var(--brick-500); background:rgba(203,126,100,.08)}
+  .judge p{font-size:14px; color:var(--t300); line-height:1.66}
+  .judge p b{color:var(--t100); font-weight:600}
+
+  .vspec{border:1px solid var(--line); border-radius:6px; background:var(--ink-850); padding:28px}
+  .vspec .vsh{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--t500); margin-bottom:24px}
+  .vline{position:relative; height:3px; border-radius:3px; margin:0 6% 0;
+    background:linear-gradient(90deg,var(--brick-500),var(--t700) 50%,var(--gold-500))}
+  .vpts{display:flex; justify-content:space-between; margin-top:0; position:relative}
+  .vpt{width:33%; text-align:center; position:relative}
+  .vpt .dotv{width:13px; height:13px; border-radius:50%; margin:-8px auto 0; border:2px solid var(--ink-850)}
+  .vpt.a .dotv{background:var(--brick-500)} .vpt.b .dotv{background:var(--gold-400); width:18px; height:18px; box-shadow:0 0 0 5px rgba(212,175,106,.12)} .vpt.c .dotv{background:var(--gold-deep)}
+  .vpt .vlab{font-family:var(--font-mono); font-size:12px; margin-top:10px; font-weight:600}
+  .vpt.a .vlab{color:var(--brick-400)} .vpt.b .vlab{color:var(--gold-300)} .vpt.c .vlab{color:var(--gold-500)}
+  .vpt .vds{font-size:12px; color:var(--t500); margin-top:5px; line-height:1.5; padding:0 6px}
+  .vpt.b .vds{color:var(--t300)}
+  .vpt .here{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; color:var(--ink-900); background:var(--gold-400); padding:2px 8px; border-radius:3px; display:inline-block; margin-top:8px; font-weight:600}
+
+  /* ---------- STOCK CARD ---------- */
+  .stock{border:1px solid var(--gold-deep); border-radius:8px; overflow:hidden;
+    background:linear-gradient(180deg, rgba(212,175,106,.06), var(--ink-800) 30%)}
+  .stop{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:24px; padding:28px 30px; border-bottom:1px solid var(--line)}
+  .stop .id .badge{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-500)}
+  .stop .id .tkr{font-family:var(--font-mono); font-weight:600; font-size:34px; color:var(--gold-300); letter-spacing:.02em; line-height:1.1; margin-top:4px}
+  .stop .id .co{font-family:var(--font-display); font-size:17px; color:var(--t300)}
+  .stop .px{text-align:right}
+  .stop .px .lab{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--t500)}
+  .stop .px .val{font-family:var(--font-mono); font-weight:600; font-size:38px; color:var(--t100); line-height:1.1}
+  .stop .px .asof{font-family:var(--font-mono); font-size:11px; color:var(--t500); margin-top:3px}
+
+  .range{padding:26px 30px; border-bottom:1px solid var(--line)}
+  .range .rlab{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:var(--t500); letter-spacing:.06em; margin-bottom:6px}
+  .rtrack{position:relative; height:10px; border-radius:6px; background:var(--ink-750); border:1px solid var(--line); margin-top:32px}
+  .rfill{position:absolute; left:0; top:0; bottom:0; border-radius:6px 0 0 6px;
+    background:linear-gradient(90deg,var(--teal-deep),var(--gold-500)); width:86.9%}
+  .rmark{position:absolute; top:50%; transform:translate(-50%,-50%); width:16px; height:16px; border-radius:50%;
+    background:var(--gold-300); border:3px solid var(--ink-800); left:86.9%; z-index:2}
+  .rmarklab{position:absolute; top:-26px; left:86.9%; transform:translateX(-50%); font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--gold-300); white-space:nowrap}
+  .rends{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; color:var(--t300); margin-top:10px}
+  .rtrend{font-family:var(--font-mono); font-size:12.5px; color:var(--teal-400); margin-top:14px; padding-top:14px; border-top:1px dashed var(--line-soft)}
+  .rtrend b{color:var(--gold-300)}
+
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--line)}
+  .stat{padding:20px; border-left:1px solid var(--line-soft)}
+  .stat:first-child{border-left:none}
+  .stat .sl{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--t500)}
+  .stat .sv{font-family:var(--font-mono); font-weight:600; font-size:21px; color:var(--t100); margin-top:6px}
+  .stat .sv.up{color:var(--green)}
+  .stat .sn{font-size:11px; color:var(--t500); margin-top:2px}
+
+  .assess{padding:28px 30px}
+  .assess h4{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-500); margin-bottom:18px}
+  .arow{display:grid; grid-template-columns:130px 1fr; gap:18px; padding:14px 0; border-top:1px solid var(--line-soft); align-items:start}
+  .arow:first-of-type{border-top:none}
+  .arow .ak{font-family:var(--font-mono); font-size:12px; color:var(--teal-400); letter-spacing:.04em; padding-top:2px}
+  .arow .av{font-size:14px; color:var(--t300); line-height:1.62}
+  .arow .av b{color:var(--gold-300); font-weight:600}
+  .arow .av .x{color:var(--brick-400)}
+  .arow.trig .av{color:var(--t100)}
+  .posn{margin-top:22px; padding:20px 22px; border-radius:6px; border:1px solid var(--gold-deep);
+    background:linear-gradient(180deg,rgba(212,175,106,.08),rgba(20,25,37,.3))}
+  .posn .pl{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-500); margin-bottom:8px}
+  .posn p{font-size:15px; color:var(--t100); line-height:1.6; font-family:var(--font-display)}
+  .posn p b{color:var(--gold-300)}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:50px 0 70px}
+  .disc{font-family:var(--font-mono); font-size:11.5px; color:var(--t700); line-height:1.8; max-width:80ch}
+  .disc b{color:var(--t500)}
+  .sig{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; color:var(--t500); margin-top:22px; display:flex; gap:10px; align-items:center}
+  .sig::before{content:""; width:22px; height:1px; background:var(--gold-deep)}
+
+  /* ---------- REVEAL ---------- */
+  .rv{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease}
+  .rv.in{opacity:1; transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:860px){
+    .t2grid{grid-template-columns:1fr}
+    .pillars{grid-template-columns:1fr}
+    .judges{grid-template-columns:1fr}
+    .speczones{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(3){border-left:none}
+    .mrow{grid-template-columns:1.4fr 1fr 1fr 1fr}
+    .verdcol{display:none}
+    .stop .px{text-align:left}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 18px}
+    .hero{padding:60px 0 44px}
+    .mrow{grid-template-columns:1fr; }
+    .mc{border-left:none; border-top:1px solid var(--line-soft)}
+    .mrow.head{display:none}
+    .mco{padding-top:18px}
+    .mc.crit-cell::before{content:attr(data-l)" — "; font-family:var(--font-mono); font-size:10px; color:var(--teal-deep); letter-spacing:.04em}
+    .stats{grid-template-columns:1fr 1fr}
+    .arow{grid-template-columns:1fr; gap:4px}
+    .vlayer{grid-template-columns:1fr; gap:8px}
+    .stop .px .val{font-size:30px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .rv{opacity:1; transform:none; transition:none}
+  }
+  .av-back{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;color:var(--teal-400);text-decoration:none;white-space:nowrap;transition:color .2s}.av-back:hover{color:var(--gold-400)}.av-back b{font-weight:600}.pubdate{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;color:var(--gold-500);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- ====================== HERO ====================== -->
+<header class="hero">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:6px"><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><a class="av-back" href="../../index.html">← <b>ALPHA·VAULT</b></a><div class="eyebrow">投资推演 · AI 时代的数据价值重估</div></div><div class="pubdate">发布 · 2026 / 06 / 21</div></div>
+    <h1>AI 不让所有数据更值钱。它只重估<span class="em">一类</span>——专有、不可复制、对世界的高维 <span class="hl">ground-truth</span>。</h1>
+    <p class="lede">不对称,不在"谁拥有值钱的数据"(那已被定价),而在"AI 会重估哪一类数据"——并在重估发生之前拥有它。这是一条完整推演的结论,以及它指向的那一只票。</p>
+
+    <div class="target">
+      <div class="row1">
+        <span class="badge">标的 · The Target</span>
+        <span class="ticker">CDNA</span>
+        <span class="co">CareDx, Inc.</span>
+        <span class="ex">NASDAQ · 移植精准诊断 The Transplant Company</span>
+      </div>
+      <div class="verdict">在生物数据(类别一)里,CareDx 是唯一一个把"用 AI 放大自有数据价值"从叙事变成<b>真决心</b>的公开标的——<b>重量级掌舵 + 真工程 + 持续兑现 + 盈利供养</b>。但它的利基(移植)把天花板封在 <b>3–10×</b>,不是 1000×;而且市场已部分定价。</div>
+      <div class="punch">一个有界的优质赌注,不是一次登月。</div>
+    </div>
+
+    <div class="metstrip">
+      <span><i></i>数据截至 <b>2026年5–6月</b></span>
+      <span><i></i>现价 <b>$21.63</b>（5/25）</span>
+      <span><i></i>框架 <b>Serenity × Taleb × 信风 × KEEL</b></span>
+      <span><i></i>判定 <b>决心真 / 不对称已收窄</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== PYRAMID ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">麦肯锡金字塔 · 结论先行</div>
+      <h2>先给结论,再给支撑,最后给证据</h2>
+      <p>整条推演的骨架。顶层是统领判断,中层是三条支撑论点,底层是可验证的证据。</p>
+    </div>
+
+    <div class="pyr">
+      <div class="tier t1 rv">
+        <span class="tlab">结论 · Governing Thought</span>
+        <div class="big">AI 重估专有 ground-truth 数据;<b>在重估前拥有它</b>。<br>CDNA 是类别一里"忠实但有界"的公开实例。</div>
+        <div class="sub">真决心 · 利基封顶 3–10× · 已部分定价</div>
+      </div>
+
+      <div class="tier t2 rv">
+        <div class="t2grid">
+          <div class="t2cell">
+            <div class="n">论点 01</div>
+            <h4>提问要换</h4>
+            <p>不对称在"AI 重估哪类数据",不在"谁拥有数据"——后者市场早已有效定价。</p>
+          </div>
+          <div class="t2cell">
+            <div class="n">论点 02</div>
+            <h4>数据要对</h4>
+            <p>只有专有、不可复制、高维的 ground-truth 会被 AI 大幅放大;聚合的公开信息反被商品化。</p>
+          </div>
+          <div class="t2cell">
+            <div class="n">论点 03</div>
+            <h4>决心要真</h4>
+            <p>用"人 + 工程 + 跟进 + 盈利"验真伪。CDNA 决定性通过,但利基把上限封住。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier t3 rv">
+        <span class="tlab">证据基础 · Evidence</span>
+        <div class="ev">
+          <span>5 候选 × 3 标准比较</span>
+          <span>VANTx 工程拆解(非套壳)</span>
+          <span>Chief Data &amp; AI Officer 背景</span>
+          <span>Q1 2026 财务(+39% / 73% GM)</span>
+          <span>估值 · 52 周区间 · 信风时点</span>
+        </div>
+      </div>
+      <div class="pyrhint">▽ 以下逐层展开完整推演</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== REASONING CHAIN ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">推演链 · The Derivation</div>
+      <h2>从"所有数据公司"蒸馏到一只票的六步</h2>
+      <p>这是一条真实的推理序列——每一步都收窄一次猎场,金线一路把它引向终点。</p>
+    </div>
+
+    <div class="seam">
+      <div class="stage rv">
+        <div class="node">01</div>
+        <div class="scard">
+          <h3><span class="k">修正提问</span>静态资产 → 技术冲击</h3>
+          <p>把数据当静态资产去估值,会撞上有效市场(好的贵、差的有伤)。正确的视角:<b>AI 是一次冲击,它重估某些数据类型的价值。</b>不对称,在于在重估前拥有它。</p>
+        </div>
+      </div>
+
+      <div class="stage rv">
+        <div class="node">02</div>
+        <div class="scard">
+          <h3><span class="k">锁定数据类型</span>AI 放大哪类数据</h3>
+          <p>高维 ground-truth(物理 / 生物 / 人类世界)、曾是"暗数据"、是某个前沿能力的瓶颈、且专有不可复制。<b>AlphaFold 是铁证</b>:蛋白质数据 + AI = 制药革命。</p>
+        </div>
+      </div>
+
+      <div class="stage rv">
+        <div class="node">03</div>
+        <div class="scard">
+          <h3><span class="k">选猎场</span>类别一 · 生物 / 分子</h3>
+          <p>避开已被炒热的纯玩家(<span class="x">Recursion / Tempus</span>);专找"暗数据飞轮、拐点之前"——被当成无聊诊断公司、却坐在专有基因 + 结局数据上。</p>
+        </div>
+      </div>
+
+      <div class="stage rv">
+        <div class="node">04</div>
+        <div class="scard">
+          <h3><span class="k">比较筛选</span>5 候选 × 3 标准</h3>
+          <p>Myriad / Veracyte / NeoGenomics / Castle / <b>CareDx</b>,按"①解锁是否落地 ②是否还没定价 ③业务能否活"打分。<b>CDNA 胜在"解锁已落地 + 业务在赢"</b>。</p>
+        </div>
+      </div>
+
+      <div class="stage rv">
+        <div class="node">05</div>
+        <div class="scard">
+          <h3><span class="k">验决心</span>人 · 工程 · 跟进 · 供养</h3>
+          <p>不是做样子:斯坦福统计博士 / ASA Fellow 掌舵 + VANTx 真工程(非套壳)+ 18 个月持续兑现 + 一个盈利、加速的业务供养。<b>四条全有。</b></p>
+        </div>
+      </div>
+
+      <div class="stage final rv">
+        <div class="node">06</div>
+        <div class="scard">
+          <h3><span class="k">诚实裁决</span>忠实,但有界</h3>
+          <p>决心是真的,但移植利基把天花板封在 <b>3–10×</b>(非 1000×),且市场已为"故事"部分定价。结论:<b>一个有界的优质赌注,不是登月</b>——该当稳健核心,而非博凸性的小注。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== SPECTRUM ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">底层逻辑 · 判断一</div>
+      <h2>AI 重估的是哪一段数据?——以及"1000×"在哪</h2>
+      <p>同一根轴:左端被 AI 摧毁价值,右端被 AI 放大。"1000×"是右端的极端尾部,不是中位数。</p>
+    </div>
+
+    <div class="spec rv">
+      <div class="specbar">
+        <div class="marker-cdna"><span class="pin">CDNA 在此 · 但封顶 3–10×</span><div class="stem"></div></div>
+      </div>
+      <div class="specaxis"><span class="l">◀ AI 摧毁价值（商品化）</span><span class="r">AI 放大价值（瓶颈级）▶</span></div>
+
+      <div class="speczones">
+        <div class="zone z1">
+          <div class="zt">被摧毁</div>
+          <p>聚合的公开信息——AI 让它人人可得。ZoomInfo 型"数据护城河"被商品化。</p>
+          <span class="mult">价值 → 下降</span>
+        </div>
+        <div class="zone z2">
+          <div class="zt">温和放大</div>
+          <p>一般的专有数据。AI 让它更有用,但拥有者只捕获一部分(授权 / 护城河)。</p>
+          <span class="mult">2–10×</span>
+        </div>
+        <div class="zone z3">
+          <div class="zt">极端放大 · 1000×</div>
+          <p>专有 · 不可复制 · 高维 ground-truth,卡住一个<b style="color:var(--gold-300)">巨大市场</b>里数十亿的能力,且拥有者能纵向捕获。AlphaFold 级。罕见。</p>
+          <span class="mult">100–1000×（尾部）</span>
+        </div>
+      </div>
+
+      <div class="specnote">
+        关键修正:价值涨了 ≠ 价值归数据拥有者。AlphaFold 里蛋白质数据多为公开,1000× 落给了造模型者与下游制药界。<b>拥有者要拿到 1000×,必须能纵向捕获大市场里的下游价值</b>——这是极高的门槛,大多数实现只有 2–10×。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== SCORECARD ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">比较筛选 · The Scorecard</div>
+      <h2>5 个候选,3 条标准,一个赢家</h2>
+      <p>"解锁落地"与"还没定价"天然反相关:一旦公司真发了产品、摆出 C 级承诺,市场就开始重估。</p>
+    </div>
+
+    <div class="matrix rv">
+      <div class="mrow head">
+        <div class="mc">公司</div>
+        <div class="mc">① 数据解锁<span class="crit">是否已落地</span></div>
+        <div class="mc">② 市场<span class="crit">是否还没定价</span></div>
+        <div class="mc">③ 业务<span class="crit">能否活</span></div>
+      </div>
+
+      <div class="mrow win">
+        <div class="mc mco"><span class="nm">CDNA</span><span class="ds">CareDx · 移植诊断</span></div>
+        <div class="mc crit-cell" data-l="解锁"><span class="pill"><span class="dot d-hi"></span>强 <span class="lv">已发 VANTx + CDAIO</span></span></div>
+        <div class="mc crit-cell" data-l="定价"><span class="pill"><span class="dot d-mid"></span>部分 <span class="lv">已涨 ~2.4× sales</span></span></div>
+        <div class="mc crit-cell" data-l="业务"><span class="pill"><span class="dot d-hi"></span>强 <span class="lv">+39% · EBITDA 转正</span></span></div>
+      </div>
+
+      <div class="mrow">
+        <div class="mc mco"><span class="nm">MYGN</span><span class="ds">Myriad · 遗传肿瘤</span></div>
+        <div class="mc crit-cell" data-l="解锁"><span class="pill"><span class="dot d-mid"></span>中 <span class="lv">CTO+Prolaris·AI</span></span></div>
+        <div class="mc crit-cell" data-l="定价"><span class="pill"><span class="dot d-hi"></span>最便宜 <span class="lv">~0.5× sales</span></span></div>
+        <div class="mc crit-cell" data-l="业务"><span class="pill"><span class="dot d-lo"></span>弱 <span class="lv">周转 · 现金流弱</span></span></div>
+      </div>
+
+      <div class="mrow">
+        <div class="mc mco"><span class="nm">NEO</span><span class="ds">NeoGenomics · 肿瘤检测</span></div>
+        <div class="mc crit-cell" data-l="解锁"><span class="pill"><span class="dot d-mid"></span>中 <span class="lv">数据平台 · 非中心</span></span></div>
+        <div class="mc crit-cell" data-l="定价"><span class="pill"><span class="dot d-mid"></span>中 <span class="lv">~1.6× sales</span></span></div>
+        <div class="mc crit-cell" data-l="业务"><span class="pill"><span class="dot d-lo"></span>中弱 <span class="lv">仍亏损</span></span></div>
+      </div>
+
+      <div class="mrow">
+        <div class="mc mco"><span class="nm">VCYT</span><span class="ds">Veracyte · 癌症诊断</span></div>
+        <div class="mc crit-cell" data-l="解锁"><span class="pill"><span class="dot d-mid"></span>中强 <span class="lv">新 CDTO</span></span></div>
+        <div class="mc crit-cell" data-l="定价"><span class="pill"><span class="dot d-lo"></span>已定价 <span class="lv">溢价 P/E</span></span></div>
+        <div class="mc crit-cell" data-l="业务"><span class="pill"><span class="dot d-hi"></span>强 <span class="lv">20%+ · 盈利</span></span></div>
+      </div>
+
+      <div class="mrow">
+        <div class="mc mco"><span class="nm">CSTL</span><span class="ds">Castle · 皮肤/肿瘤诊断</span></div>
+        <div class="mc crit-cell" data-l="解锁"><span class="pill"><span class="dot d-lo"></span>最弱 <span class="lv">无数据转向</span></span></div>
+        <div class="mc crit-cell" data-l="定价"><span class="pill"><span class="dot d-lo"></span>已定价 <span class="lv">溢价</span></span></div>
+        <div class="mc crit-cell" data-l="业务"><span class="pill"><span class="dot d-hi"></span>强 <span class="lv">增长 · 现金强</span></span></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="dot d-hi"></span>强 / 最优</span>
+      <span><span class="dot d-mid"></span>中 / 部分</span>
+      <span><span class="dot d-lo"></span>弱 / 已定价</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== COMMITMENT ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">决心拆解 · Conviction</div>
+      <h2>真决心,还是做样子?——四支柱,缺一不可,它全有</h2>
+      <p>如果没有决心,它就和以前的企业一样、没有改变。CDNA 在"人 / 工程 / 跟进 / 供养"四条上全部成立。</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar rv">
+        <div class="pk">① 让谁来做 · WHO</div>
+        <h4>重量级,且专为此外部空降</h4>
+        <p><b>Jing Huang 博士</b>——斯坦福统计学博士,2023 年当选美国统计协会(ASA)<b>终身 Fellow</b>,此前任 Veracyte 生物信息与数据科学 <b>SVP</b>。放进一个<b>新设的 C 级岗</b>,并配独立 CTO(Kashif Rathore)。</p>
+        <span class="tag">做样子长不成这个样子</span>
+      </div>
+
+      <div class="pillar rv">
+        <div class="pk">② 怎么做 · HOW</div>
+        <h4>真工程,不是 GPT 套壳</h4>
+        <p>VANTx 底子是 CareDx <b>自己已验证的专有模型</b>(肾/心/肺/肝各一套)+ <b>独家纵向移植数据集</b> + Databricks 实时架构。Llama 3 只是最上层的语言界面——壳里有东西。</p>
+        <span class="tag">LLM 是壳,护城河在底下</span>
+      </div>
+
+      <div class="pillar rv">
+        <div class="pk">③ 跟进 · FOLLOW-THROUGH</div>
+        <h4>18 个月兑现 + 多线转向</h4>
+        <p>2024/10 招人 → 列入 Investor Day → 2026/3 交付 VANTx;同时<b>剥离</b>非核心实验室产品、<b>收购 Naveris</b> 入肿瘤 MRD(NavDx 已用 13 万+ 次)、推进 AlloHeme / HistoMap。</p>
+        <span class="tag">不是一次性新闻稿</span>
+      </div>
+
+      <div class="pillar rv">
+        <div class="pk">④ 谁供养 · FUNDED</div>
+        <h4>被一个正在赢的业务供养</h4>
+        <p>Q1 2026 营收 <b>+39%</b> 到 $118M,检测服务 +48%,<b>非 GAAP 毛利 73%</b>,调整后 EBITDA <b>+300%</b> 到 $19M,上调全年指引。不是濒死企业的绝望一搏。</p>
+        <span class="tag">决心是可持续的</span>
+      </div>
+    </div>
+
+    <div class="vantx rv">
+      <div class="vh"><span class="vt">VANTx</span><span class="vd">AI 临床数据与分析平台 · 2026/3 发布 · 建于专有移植数据集</span></div>
+      <div class="vsub">为什么它不是套壳:<b>从下到上三层</b>——最上面的 LLM 只负责"自然语言提问",真正的价值在中层的自有验证模型和底层的独家数据。</div>
+      <div class="vstack">
+        <div class="vlayer vl-top">
+          <div class="vlk">界面层 · 最薄</div>
+          <div class="vlbody"><strong>Llama 3 自然语言界面</strong><span>把"用 LLM 提问"接到数据上 —— 可替换、不构成护城河</span></div>
+        </div>
+        <div class="vlayer vl-mid">
+          <div class="vlk">智能层 · 自有</div>
+          <div class="vlbody"><strong>专有验证模型 KOAR · SHORE · ALAMO · MAPLE + Databricks</strong><span>肾 / 心 / 肺 / 肝各一套,做排斥、移植物功能、癌症风险等子分析 —— 多年验证,难复制</span></div>
+        </div>
+        <div class="vlayer vl-base">
+          <div class="vlk">数据层 · 护城河</div>
+          <div class="vlbody"><strong>专有 · 大规模 · 纵向 实体器官移植数据集</strong><span>移植利基市场领导者多年沉淀的前后基因组 + 患者结局 —— 不可复制的 ground-truth</span></div>
+        </div>
+      </div>
+      <div class="vmoat">变现路径:临床医生自助访问(2026 晚些)+ <b>药企 RWE / 试验设计</b>(高价值,但仍是期权)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== VERDICT ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">两个判断 · The Honest Call</div>
+      <h2>我们的逻辑对不对?这家公司是不是也想这么做?</h2>
+      <p>用 KEEL 反谄媚条款,把两个判断分开,各自压力测试——哪怕它部分戳破"1000×"。</p>
+    </div>
+
+    <div class="judges">
+      <div class="judge ok rv">
+        <div class="jk">判断一 · 我们的底层逻辑</div>
+        <h4>方向对,但"1000×"是尾部</h4>
+        <span class="rule">✓ 成立（需精确化）</span>
+        <p>AI 确实大幅放大"专有 · 不可复制 · 高维 ground-truth"。但<b>1000× 是极端尾部</b>——要求数据卡住一个<b>巨大市场</b>里数十亿的能力,且拥有者能纵向捕获。大多数实现是 2–10×。这是正确的北极星,不是中位赔率。</p>
+      </div>
+
+      <div class="judge cau rv">
+        <div class="jk">判断二 · CDNA 是否想做这件事</div>
+        <h4>真想做,但利基把它封住</h4>
+        <span class="rule">△ 意图真 / 上限有界</span>
+        <p>它<b>确实想</b>用 AI 放大自有数据。但移植是<b>利基</b>(免疫抑制药市场远小于肿瘤),且它捕获不了下游药价。现实路径 = 强化核心 + 高毛利 RWE 收入线 = <b>3–10×</b>,不是 1000×。<b>忠实但有界的实例。</b></p>
+      </div>
+    </div>
+
+    <div class="vspec rv">
+      <div class="vsh">CDNA 在"决心光谱"上的位置</div>
+      <div class="vline"></div>
+      <div class="vpts">
+        <div class="vpt a">
+          <div class="dotv"></div>
+          <div class="vlab">做样子</div>
+          <div class="vds">GPT 套壳 · 一次性新闻稿 · 无承诺 · 无变现</div>
+        </div>
+        <div class="vpt b">
+          <div class="dotv"></div>
+          <div class="vlab">忠实但有界</div>
+          <div class="vds">真决心 · 真工程 · 独家数据 · 但利基封顶 3–10×</div>
+          <span class="here">CDNA 在此</span>
+        </div>
+        <div class="vpt c">
+          <div class="dotv"></div>
+          <div class="vlab">1000× 极端</div>
+          <div class="vds">已被定价（Tempus）· 或私有（Isomorphic）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== STOCK CARD ====================== -->
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <div class="eyebrow">标的卡 · The Position</div>
+      <h2>现价 · 趋势 · 收益评估</h2>
+      <p>把判断落到价格上:它处在哪、走势如何、未来的收益和它的不对称还剩多少。</p>
+    </div>
+
+    <div class="stock rv">
+      <div class="stop">
+        <div class="id">
+          <div class="badge">NASDAQ · 移植 + 肿瘤精准诊断</div>
+          <div class="tkr">CDNA</div>
+          <div class="co">CareDx, Inc.</div>
+        </div>
+        <div class="px">
+          <div class="lab">现价 Current</div>
+          <div class="val">$21.63</div>
+          <div class="asof">截至 2026/05/25 · 复核实时价后操作</div>
+        </div>
+      </div>
+
+      <div class="range">
+        <div class="rlab"><span>52 周区间 · 趋势</span><span>贴近高点 ≈ 87%</span></div>
+        <div class="rtrack">
+          <div class="rfill"></div>
+          <div class="rmarklab">$21.63</div>
+          <div class="rmark"></div>
+        </div>
+        <div class="rends"><span>低 $10.96</span><span>高 $23.24</span></div>
+        <div class="rtrend">信风时点:较低点 <b>近翻倍</b>,贴近 52 周高点 —— 已是<b>延伸</b>,不是新错位。早期的错杀入场($11–15)已经过去。</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="sl">市值 Mkt Cap</div><div class="sv">~$1.1B</div><div class="sn">小盘 · P/S ~2.4×</div></div>
+        <div class="stat"><div class="sl">Q1 营收增速</div><div class="sv up">+39%</div><div class="sn">检测服务 +48%</div></div>
+        <div class="stat"><div class="sl">非 GAAP 毛利</div><div class="sv">73%</div><div class="sn">数据级别毛利</div></div>
+        <div class="stat"><div class="sl">调整 EBITDA</div><div class="sv up">$19M</div><div class="sn">同比 +300%</div></div>
+      </div>
+
+      <div class="assess">
+        <h4>未来收益评估 · Return Assessment</h4>
+
+        <div class="arow">
+          <div class="ak">共识空间</div>
+          <div class="av">平均目标价 <b>$25.80</b>(高 $28 / 低 $21)。低估即现价 —— <b>上行有界 ~15–19%</b>。核心业务的重估基本已被奖励。</div>
+        </div>
+        <div class="arow trig">
+          <div class="ak">未定价的扳机</div>
+          <div class="av"><b>VANTx 药企 RWE 从期权变成单列、有规模的收入线</b> —— 这是它从"优质成长股"重估成"数据 / AI 资产"的唯一扳机。你白拿的就是这层期权。</div>
+        </div>
+        <div class="arow">
+          <div class="ak">主要风险</div>
+          <div class="av"><span class="x">报销悬顶(ADLT / LCD)</span> —— 诊断股老风险(2021 qui tam 已于 2026/4/23 驳回 = 部分去险);<span class="x">内部人持续减持</span>(对照 Myriad 是董事增持)。</div>
+        </div>
+        <div class="arow">
+          <div class="ak">天花板</div>
+          <div class="av">利基封顶 <b>3–10×</b>(数据线),非 1000×;下行由"正在赢的业务"托底。这是"下行有底 + 上行有界"。</div>
+        </div>
+
+        <div class="posn">
+          <div class="pl">定位 · Positioning</div>
+          <p>按 <b>Taleb barbell 的稳健核心</b>下注(下行有底 / 上行有界 / 决心真),<b>不是</b>博 1000× 的凸性小注。仓位按"有界、部分已定价"来定,别按登月来定。下一催化:<b>Q2 财报 2026/07/30</b>。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== FOOTER ====================== -->
+<footer>
+  <div class="wrap">
+    <p class="disc">
+      <b>说明 · Disclaimer</b><br>
+      本页为基于公开信息的研究推演综合,非投资建议。所有价格与财务数据均带时点:CDNA 现价 $21.63(2026/05/25),Q1 2026 财报为 2026/04/28 公布,估值与目标价为 2026 年 5–6 月数据。<b>价格会变;任何操作前请复核实时价。</b>市场有效性高,文中反复证明:公开、便宜、健康、且在用 AI 变现专有数据的卡点,极其稀缺。
+    </p>
+    <div class="sig">推演框架 · SERENITY 卡点 × TALEB 杠铃 × 信风 时点 × KEEL 宪法（反谄媚）</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var els = document.querySelectorAll('.rv');
+    if(rm || !('IntersectionObserver' in window)){
+      els.forEach(function(e){e.classList.add('in')}); return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
