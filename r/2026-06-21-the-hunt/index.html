@@ -147,6 +147,42 @@
   strong{color:var(--bone);font-weight:500}
   .hl{color:var(--gold-hi);font-weight:400}
 
+  /* ---- protagonist card ---- */
+  .intel-profile{
+    max-width:860px;margin:clamp(38px,7vh,82px) auto 0;
+    display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:clamp(24px,4vw,44px);
+    align-items:center;position:relative;overflow:hidden;
+    border:1px solid var(--line);border-radius:8px;padding:clamp(18px,3vw,28px);
+    background:linear-gradient(150deg,rgba(200,162,76,.12),rgba(19,17,12,.74) 46%,rgba(10,9,7,.9));
+    box-shadow:0 28px 80px rgba(0,0,0,.26);
+  }
+  .intel-profile::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg,rgba(200,162,76,.22),transparent 28%,transparent 72%,rgba(210,112,63,.12));
+    opacity:.42;
+  }
+  .portrait{
+    position:relative;z-index:1;aspect-ratio:4/5;min-height:300px;overflow:hidden;
+    border:1px solid rgba(200,162,76,.45);border-radius:6px;
+    background:var(--panel);
+  }
+  .portrait::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent 58%,rgba(10,9,7,.56));
+  }
+  .portrait img{width:100%;height:100%;display:block;object-fit:cover;filter:grayscale(.08) contrast(1.05)}
+  .profile-copy{position:relative;z-index:1}
+  .profile-copy h3{font-size:clamp(1.8rem,4vw,3rem);line-height:1;margin-top:12px}
+  .profile-copy h3 span{display:block;margin-top:8px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase}
+  .profile-copy p{font-size:1rem;color:#d4cbbb;font-weight:300;line-height:1.7;max-width:46ch;margin-top:18px}
+  .profile-facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .profile-facts span{
+    border:1px solid rgba(200,162,76,.34);border-radius:999px;padding:7px 10px 6px;
+    font-family:'Cinzel','Noto Sans SC',serif;font-size:.6rem;letter-spacing:.16em;
+    color:var(--gold-hi);text-transform:uppercase;background:rgba(10,9,7,.36);
+  }
+  .photo-credit{font-size:.68rem!important;line-height:1.55!important;color:var(--ash-dim)!important;margin-top:16px!important}
+
   /* ---- big number block ---- */
   .bignum{text-align:center;margin:clamp(40px,8vh,90px) auto 0;position:relative}
   .bignum .n{
@@ -261,6 +297,8 @@
 
   @media (max-width:560px){
     .date-stamp,.home-link{width:100%;max-width:320px;letter-spacing:.12em}
+    .intel-profile{grid-template-columns:1fr;padding:16px}
+    .portrait{min-height:0}
     .scan .row{flex-direction:column;gap:6px}
     .scan .verdict{text-align:left}
     .stats{grid-template-columns:1fr}
@@ -311,6 +349,23 @@
       <p class="body reveal">能干成这件事的，往往不是稳稳守业的老板，而是像投资人、像创业者那样——<span class="hl">敢押重注、敢对自己人动刀</span>的人。</p>
       <p class="body reveal">最好的例子是 Intel。一个做风险投资出身的人，陈立武，接手了这家快不行的芯片巨头。他做了很多老板不敢做的事：把美国政府和英伟达拉进来当股东，砍掉自己的旧部，放弃"什么都自己造"的老规矩。</p>
     </div>
+
+    <figure class="intel-profile reveal d1" aria-label="陈立武人物卡">
+      <div class="portrait">
+        <img src="assets/lip-bu-tan.jpg" alt="陈立武（Lip-Bu Tan），Intel CEO" loading="lazy">
+      </div>
+      <figcaption class="profile-copy">
+        <div class="eyebrow">样本人物 · The Operator</div>
+        <h3 class="display">陈立武<span>Lip-Bu Tan</span></h3>
+        <p>这篇文章要找的，不是一个简单的“新 CEO”，而是这种人：懂资本、懂技术产业、敢把老公司的资产负债表重新写一遍。</p>
+        <div class="profile-facts" aria-label="陈立武关键信息">
+          <span>Intel CEO</span>
+          <span>VC 出身</span>
+          <span>Cadence 前 CEO</span>
+        </div>
+        <p class="photo-credit">图片：United States Department of Commerce / Wikimedia Commons，Public domain。</p>
+      </figcaption>
+    </figure>
 
     <div class="bignum reveal">
       <div class="n display gold-text">6×</div>
