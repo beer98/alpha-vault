@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>猎手笔记 · 谁能让一家老公司在 AI 时代起死回生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0907;
+    --void2:#0d0b08;
+    --panel:#13110c;
+    --panel2:#181410;
+    --line:#2c2618;
+    --line-soft:#211c12;
+    --gold:#c8a24c;
+    --gold-hi:#ecd089;
+    --gold-deep:#9a7b38;
+    --bone:#ece6d7;
+    --ash:#928c7b;
+    --ash-dim:#605b4e;
+    --ember:#d2703f;
+    --maxw:1080px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:'Inter','Noto Sans SC',sans-serif;
+    font-weight:300;
+    line-height:1.75;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* film grain + vignette atmosphere */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity:.035;mix-blend-mode:screen;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(120% 80% at 50% -10%, transparent 40%, rgba(0,0,0,.55) 100%);
+  }
+
+  .wrap{position:relative;z-index:1}
+
+  /* ---- type helpers ---- */
+  .display{font-family:'Fraunces','Noto Serif SC',serif;font-optical-sizing:auto;font-weight:500;letter-spacing:-.01em;line-height:1.04}
+  .engrave{font-family:'Cinzel',serif;text-transform:uppercase}
+  .gold-text{
+    background:linear-gradient(176deg,var(--gold-hi) 0%,var(--gold) 48%,var(--gold-deep) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .eyebrow{
+    font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:.42em;
+    font-size:.7rem;font-weight:600;color:var(--gold);opacity:.85;
+  }
+
+  /* ---- fixed thin masthead ---- */
+  .mast{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px clamp(20px,5vw,54px);
+    font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:.3em;
+    font-size:.62rem;color:var(--ash);
+    background:linear-gradient(180deg,rgba(10,9,7,.85),transparent);
+    transition:opacity .6s ease;
+  }
+  .mast .dot{color:var(--gold)}
+
+  /* ---- section frame ---- */
+  section{position:relative;padding:clamp(80px,12vh,150px) clamp(22px,6vw,40px)}
+  .col{max-width:var(--maxw);margin:0 auto}
+  .narrow{max-width:760px}
+
+  /* ---- HERO ---- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding-top:90px;padding-bottom:60px;overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+    width:min(1100px,140vw);height:min(900px,120vh);pointer-events:none;
+    background:radial-gradient(circle at 50% 35%, rgba(200,162,76,.22), rgba(200,162,76,.06) 38%, transparent 62%);
+    filter:blur(6px);
+    animation:bloom 4s ease-out both;
+  }
+  @keyframes bloom{from{opacity:0;transform:translateX(-50%) scale(.92)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+
+  .hero .kick{margin-bottom:30px;animation:fadeIn 1.4s ease .3s both}
+  .hero h1{
+    font-size:clamp(2.5rem,6.6vw,5.7rem);max-width:16ch;margin:0 auto;
+    animation:rise 1.5s cubic-bezier(.2,.7,.2,1) .5s both;
+  }
+  .hero h1 em{font-style:normal}
+  .hero .sub{
+    margin:38px auto 0;max-width:46ch;color:var(--ash);
+    font-size:clamp(1rem,1.7vw,1.18rem);font-weight:300;line-height:1.7;
+    animation:rise 1.5s cubic-bezier(.2,.7,.2,1) .8s both;
+  }
+  .hero-meta{
+    margin:30px auto 0;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;
+    animation:rise 1.5s cubic-bezier(.2,.7,.2,1) 1s both;
+  }
+  .date-stamp,
+  .home-link{
+    min-height:38px;display:inline-flex;align-items:center;justify-content:center;
+    border:1px solid rgba(200,162,76,.34);border-radius:999px;
+    padding:9px 16px 8px;background:rgba(19,17,12,.62);
+    font-family:'Cinzel','Noto Sans SC',serif;font-size:.64rem;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ash);
+    backdrop-filter:blur(10px);
+  }
+  .date-stamp strong{color:var(--gold-hi);font-weight:600}
+  .home-link{color:var(--gold-hi);transition:border-color .25s ease,background .25s ease,transform .25s ease}
+  .home-link:hover{border-color:var(--gold);background:rgba(200,162,76,.12);transform:translateY(-1px)}
+  .home-link .arrow{font-family:'Inter',sans-serif;font-size:.86rem;letter-spacing:0;margin-right:8px}
+  .rule{width:1px;height:64px;margin:48px auto 0;background:linear-gradient(var(--gold),transparent);animation:fadeIn 2s ease 1.2s both}
+  .scrollcue{margin-top:18px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.4em;color:var(--ash-dim);text-transform:uppercase;animation:fadeIn 2s ease 1.4s both}
+
+  @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ---- chapter card (signature) ---- */
+  .chapter{text-align:center;padding-top:clamp(70px,14vh,170px);padding-bottom:clamp(40px,7vh,90px)}
+  .chapter .num{
+    font-family:'Cinzel',serif;font-weight:600;
+    font-size:clamp(3.2rem,11vw,8rem);line-height:1;letter-spacing:.06em;
+    -webkit-text-stroke:1px var(--gold-deep);color:transparent;
+    text-shadow:0 0 40px rgba(200,162,76,.12);
+  }
+  .chapter .tag{display:block;margin:6px 0 20px;font-size:.62rem;letter-spacing:.5em}
+  .chapter h2{font-size:clamp(1.9rem,4.6vw,3.3rem);max-width:18ch;margin:0 auto}
+  .chapter .hr{width:54px;height:2px;background:var(--gold);margin:34px auto 0;opacity:.7}
+
+  /* ---- body copy ---- */
+  .lede{font-family:'Fraunces','Noto Serif SC',serif;font-weight:400;font-size:clamp(1.25rem,2.3vw,1.6rem);line-height:1.5;color:var(--bone);max-width:24ch}
+  p.body{font-size:1.06rem;color:#cfc8b8;font-weight:300;margin-top:22px;max-width:62ch}
+  p.body + p.body{margin-top:18px}
+  .muted{color:var(--ash)}
+  strong{color:var(--bone);font-weight:500}
+  .hl{color:var(--gold-hi);font-weight:400}
+
+  /* ---- big number block ---- */
+  .bignum{text-align:center;margin:clamp(40px,8vh,90px) auto 0;position:relative}
+  .bignum .n{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(5.5rem,22vw,15rem);line-height:.9;display:inline-block;position:relative;
+  }
+  .bignum .n::after{
+    content:"";position:absolute;inset:-30% -20%;z-index:-1;
+    background:radial-gradient(circle,rgba(200,162,76,.18),transparent 65%);filter:blur(10px);
+  }
+  .bignum .cap{margin-top:22px;color:var(--ash);font-size:.95rem;letter-spacing:.02em}
+
+  /* ---- already-ran strip ---- */
+  .ran{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:clamp(40px,6vh,70px)}
+  .ran .item{
+    position:relative;border:1px solid var(--line);background:rgba(255,255,255,.012);
+    padding:18px 22px;border-radius:3px;min-width:150px;text-align:center;opacity:.62;
+    transition:opacity .5s ease;
+  }
+  .ran .item:hover{opacity:.9}
+  .ran .name{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--bone)}
+  .ran .gain{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.08em;color:var(--gold);margin-top:6px}
+  .ran .stamp{
+    position:absolute;top:-10px;right:-8px;font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.18em;
+    color:var(--ember);border:1px solid rgba(210,112,63,.5);border-radius:2px;padding:3px 7px;
+    transform:rotate(-7deg);background:var(--void);text-transform:uppercase;
+  }
+
+  /* ---- scan list ---- */
+  .scan{margin-top:clamp(40px,6vh,70px);border-top:1px solid var(--line-soft)}
+  .scan .row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+    padding:24px 4px;border-bottom:1px solid var(--line-soft);
+  }
+  .scan .place{font-family:'Fraunces',serif;font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--ash)}
+  .scan .verdict{font-size:.95rem;color:var(--ash-dim);text-align:right;font-weight:300}
+  .scan .row.win .place{color:var(--gold-hi)}
+  .scan .row.win .verdict{color:var(--bone)}
+  .scan .row.win{background:linear-gradient(90deg,rgba(200,162,76,.06),transparent);margin:0 -8px;padding-left:8px;padding-right:8px;border-bottom:1px solid var(--line)}
+
+  /* ---- dossier cards ---- */
+  .dossiers{display:grid;gap:34px;margin-top:clamp(40px,7vh,80px)}
+  .dossier{
+    position:relative;background:linear-gradient(165deg,var(--panel2),var(--panel));
+    border:1px solid var(--line);border-radius:6px;padding:clamp(26px,4vw,46px);
+    overflow:hidden;
+  }
+  .dossier::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6;
+  }
+  .dossier .tick{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .dossier .tick .nm{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.8rem,4vw,2.7rem);color:var(--bone)}
+  .dossier .tick .sym{font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.2em;color:var(--gold);border:1px solid var(--line);padding:5px 10px;border-radius:3px}
+  .dossier .one{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(1.05rem,1.9vw,1.3rem);color:var(--bone);margin-top:18px;line-height:1.5;max-width:46ch}
+
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:4px;margin-top:28px;overflow:hidden}
+  .stat{background:var(--panel);padding:16px 18px}
+  .stat .k{font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.22em;color:var(--ash-dim);text-transform:uppercase}
+  .stat .v{font-family:'Fraunces',serif;font-size:clamp(1.05rem,2.3vw,1.45rem);color:var(--bone);margin-top:5px;line-height:1.2}
+  .stat .v small{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ash);font-weight:300;display:block;margin-top:3px;letter-spacing:0}
+
+  .block{margin-top:26px}
+  .block h4{font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+  .block p{font-size:1rem;color:#cfc8b8;font-weight:300;line-height:1.7;max-width:60ch}
+
+  .priceline{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:6px}
+  .priceline .big{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.6rem,7vw,4rem)}
+  .priceline .date{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.18em;color:var(--ash-dim);text-transform:uppercase}
+
+  .flags{margin-top:26px;border-top:1px solid var(--line-soft);padding-top:24px}
+  .flags h4{color:var(--ember)}
+  .flag{display:flex;gap:14px;margin-top:14px;align-items:flex-start}
+  .flag .mk{color:var(--ember);font-size:.9rem;line-height:1.6;flex:none}
+  .flag p{font-size:.98rem;color:#cabfb0;font-weight:300;line-height:1.6}
+  .flag strong{color:var(--ember);font-weight:500}
+
+  .verdict-tag{
+    margin-top:28px;padding:18px 22px;border-left:2px solid var(--gold);
+    background:linear-gradient(90deg,rgba(200,162,76,.06),transparent);border-radius:0 4px 4px 0;
+  }
+  .verdict-tag .lbl{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.24em;color:var(--gold);text-transform:uppercase}
+  .verdict-tag p{margin-top:7px;font-family:'Fraunces',serif;font-weight:400;font-size:1.08rem;color:var(--bone);line-height:1.5}
+
+  /* ---- verdict / takeaways ---- */
+  .takes{counter-reset:t;margin-top:clamp(36px,5vh,60px);display:grid;gap:2px}
+  .take{display:flex;gap:24px;padding:26px 4px;border-top:1px solid var(--line-soft);align-items:flex-start}
+  .take:last-child{border-bottom:1px solid var(--line-soft)}
+  .take .ti{counter-increment:t;font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);flex:none;width:2ch}
+  .take .ti::before{content:counter(t,decimal)}
+  .take p{font-size:clamp(1.02rem,1.9vw,1.18rem);color:#d6cfbf;font-weight:300;line-height:1.6}
+  .take p strong{color:var(--gold-hi);font-weight:400}
+
+  .closing{text-align:center;padding-top:clamp(50px,9vh,110px)}
+  .closing .big{font-family:'Fraunces','Noto Serif SC',serif;font-weight:400;font-size:clamp(1.5rem,3.4vw,2.5rem);line-height:1.45;max-width:22ch;margin:0 auto;color:var(--bone)}
+  .closing .big .hl{font-weight:500}
+
+  .disclaimer{
+    max-width:640px;margin:clamp(50px,8vh,90px) auto 0;text-align:center;
+    font-size:.78rem;color:var(--ash-dim);line-height:1.7;font-weight:300;
+    border-top:1px solid var(--line-soft);padding-top:30px;
+  }
+
+  footer{padding:50px 24px 70px;text-align:center}
+  footer .mark{font-family:'Cinzel',serif;letter-spacing:.34em;font-size:.66rem;color:var(--ash);text-transform:uppercase}
+  footer .mark .dot{color:var(--gold)}
+
+  /* ---- reveal ---- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+  @media (max-width:560px){
+    .date-stamp,.home-link{width:100%;max-width:320px;letter-spacing:.12em}
+    .scan .row{flex-direction:column;gap:6px}
+    .scan .verdict{text-align:left}
+    .stats{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .hero-glow,.hero .kick,.hero h1,.hero .sub,.hero-meta,.rule,.scrollcue{animation:none;opacity:1;transform:none}
+  }
+  *:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="mast" id="mast">
+  <span>猎手笔记 <span class="dot">·</span> The Hunt</span>
+  <span>2026</span>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="kick eyebrow">序 — Prologue</div>
+    <h1 class="display">谁能让一家老公司，<br>在 <em class="gold-text">AI 时代</em>起死回生？</h1>
+    <p class="sub">答案不是一家公司，而是<strong>一种人</strong>。<br>这是一场横跨五大市场的搜寻——最后，只剩下两个名字。</p>
+    <div class="hero-meta" aria-label="页面信息">
+      <div class="date-stamp">发布 <strong>2026.06.21</strong> · 数据 <strong>2026.06</strong></div>
+      <a class="home-link" href="https://ai98.club/" aria-label="回到 Alpha Vault 主页"><span class="arrow" aria-hidden="true">←</span>回到主页</a>
+    </div>
+    <div class="rule"></div>
+    <div class="scrollcue">往下看</div>
+  </section>
+
+  <!-- ACT I -->
+  <section class="chapter">
+    <div class="col">
+      <div class="num reveal">I</div>
+      <span class="tag engrave gold-text reveal">那个想法</span>
+      <h2 class="display reveal d1">一种新的老板，正在赢下 AI 时代</h2>
+      <div class="hr reveal d2"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col narrow">
+      <p class="body reveal">AI 来了。对很多老牌公司来说，这不是一次普通的升级，而是被逼着<strong>"重新创业"一次</strong>。</p>
+      <p class="body reveal">能干成这件事的，往往不是稳稳守业的老板，而是像投资人、像创业者那样——<span class="hl">敢押重注、敢对自己人动刀</span>的人。</p>
+      <p class="body reveal">最好的例子是 Intel。一个做风险投资出身的人，陈立武，接手了这家快不行的芯片巨头。他做了很多老板不敢做的事：把美国政府和英伟达拉进来当股东，砍掉自己的旧部，放弃"什么都自己造"的老规矩。</p>
+    </div>
+
+    <div class="bignum reveal">
+      <div class="n display gold-text">6×</div>
+      <div class="cap">Intel 一年涨了约 6 倍 — 从约 $19（2024 年 8 月）到约 $134（2026 年 6 月）。</div>
+    </div>
+  </section>
+
+  <!-- ACT II -->
+  <section class="chapter">
+    <div class="col">
+      <div class="num reveal">II</div>
+      <span class="tag engrave gold-text reveal">那个坑</span>
+      <h2 class="display reveal d1">等你看明白，钱已经被赚走了</h2>
+      <div class="hr reveal d2"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col narrow">
+      <p class="body reveal">这就是残酷的地方。Intel、诺基亚、三星……这些大公司，<strong>全都涨完了</strong>。一整队跟着 Intel 涨了上去。</p>
+      <p class="body reveal">当一个故事清楚到上了头条、人人都能讲出来的时候，便宜早就没了。<span class="hl">在那时候买，就是接最后一棒。</span></p>
+    </div>
+    <div class="col">
+      <div class="ran">
+        <div class="item reveal"><div class="name">Intel</div><div class="gain">约 6 倍</div><div class="stamp">已涨完</div></div>
+        <div class="item reveal d1"><div class="name">诺基亚</div><div class="gain">+119%</div><div class="stamp">已涨完</div></div>
+        <div class="item reveal d2"><div class="name">三星</div><div class="gain">创历史新高</div><div class="stamp">已涨完</div></div>
+        <div class="item reveal d1"><div class="name">Lattice</div><div class="gain">已翻倍</div><div class="stamp">已涨完</div></div>
+        <div class="item reveal d2"><div class="name">微芯科技</div><div class="gain">+96%</div><div class="stamp">已涨完</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT III -->
+  <section class="chapter">
+    <div class="col">
+      <div class="num reveal">III</div>
+      <span class="tag engrave gold-text reveal">换个问法</span>
+      <h2 class="display reveal d1">所以，我们把问题改了</h2>
+      <div class="hr reveal d2"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col narrow">
+      <p class="body reveal">不一定非得是大公司。真正重要的，是<strong>三件事同时成立</strong>：</p>
+      <p class="body reveal d1">一、公司真的在转型，扑向 AI 这条新路。<br>二、推动它的，是一个刚来的、<span class="hl">"投资人型"的新人</span>。<br>三、市场还没反应过来，股价还没涨。</p>
+      <p class="body reveal d2">然后我们把美国、欧洲、日本、韩国、台湾全扫了一遍。结果让人意外——几乎全都涨完了，或者根本不符合。这种机会，现在基本只活在一个地方。</p>
+    </div>
+    <div class="col">
+      <div class="scan">
+        <div class="row win reveal"><span class="place display">美国</span><span class="verdict">小芯片公司 + 投资人进场推动 — 唯一还活着的地方</span></div>
+        <div class="row reveal"><span class="place display">欧洲</span><span class="verdict">扎堆炒作，早涨疯了（Soitec 一年 +300%）</span></div>
+        <div class="row reveal"><span class="place display">日本</span><span class="verdict">维权多，但都在搞回购、治理，不是转型</span></div>
+        <div class="row reveal"><span class="place display">韩国</span><span class="verdict">同上，冲着"折价"去的，标的也早涨完</span></div>
+        <div class="row reveal"><span class="place display">台湾</span><span class="verdict">家族控股为主，几乎没有这种机会</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT IV -->
+  <section class="chapter">
+    <div class="col">
+      <div class="num reveal">IV</div>
+      <span class="tag engrave gold-text reveal">两个幸存者</span>
+      <h2 class="display reveal d1">最后，只剩两个名字</h2>
+      <div class="hr reveal d2"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="lede reveal" style="margin:0 auto 8px;text-align:center;max-width:30ch">两家小芯片公司，都在为 AI 重新改造自己，背后各有一个买了一大块、正在推动改变的投资人。</p>
+
+      <div class="dossiers">
+
+        <!-- MAGNACHIP -->
+        <div class="dossier reveal">
+          <div class="tick"><span class="nm display">Magnachip</span><span class="sym">NYSE&nbsp;·&nbsp;MX</span></div>
+          <p class="one">一家有 45 年历史的韩国芯片老厂，正在把自己改造成"专门给 AI 数据中心供电"的公司。</p>
+
+          <div class="stats">
+            <div class="stat"><div class="k">现价</div><div class="v">$6.25 <small>2026 年 6 月 15 日</small></div></div>
+            <div class="stat"><div class="k">一年区间</div><div class="v">$2.18 — $9.86</div></div>
+            <div class="stat"><div class="k">背后的投资人</div><div class="v">Byreforge <small>持股 8.5%，成本约 $2.73</small></div></div>
+            <div class="stat"><div class="k">转型目标</div><div class="v">3 年做到 $300M <small>营收 / 毛利率 30%（现约 $185M / 16%）</small></div></div>
+          </div>
+
+          <div class="block">
+            <h4>它在做什么</h4>
+            <p>卖掉了老的显示屏芯片业务，把全部力气压在电源芯片上——专门给 AI 服务器、数据中心供电。这是一个完整的"老厂换跑道"。</p>
+          </div>
+          <div class="block">
+            <h4>谁在推</h4>
+            <p>投资机构 Byreforge 买了 8.5%，创始人进了董事会、拿下三个关键委员会。更关键的是——公司还换了 CEO（原董事长接任）。投资人进董事会 + 新 CEO 执行转型，这正是我们一路在找的样子。</p>
+          </div>
+          <div class="block">
+            <h4>现在什么状态</h4>
+            <p>6 月初一场 AI 服务器芯片发布会后，它单日涨了 29%，冲到近 $8.9，又回落到 $6.25。投资人的成本是 $2.73，已经赚了一倍多。还在亏钱，但手里有净现金，撑得住。</p>
+          </div>
+
+          <div class="verdict-tag">
+            <div class="lbl">一句话结论</div>
+            <p>两个里面，它更符合这个想法，也更"干净"。但已经跳起来了——现在是"高位等确认"，不是"底部捡"。下次财报：7 月 30 日。</p>
+          </div>
+        </div>
+
+        <!-- GSI -->
+        <div class="dossier reveal">
+          <div class="tick"><span class="nm display">GSI Technology</span><span class="sym">NASDAQ&nbsp;·&nbsp;GSIT</span></div>
+          <p class="one">一家做了 30 年内存芯片的小公司，正在转型做一种"超省电的 AI 芯片"。</p>
+
+          <div class="stats">
+            <div class="stat"><div class="k">现价</div><div class="v">$7.63 <small>2026 年 6 月 9 日</small></div></div>
+            <div class="stat"><div class="k">一年区间</div><div class="v">$2.82 — $18.14</div></div>
+            <div class="stat"><div class="k">背后的投资人</div><div class="v">Galloway <small>持股 5.02%，公开喊"被严重低估"</small></div></div>
+            <div class="stat"><div class="k">真正放量</div><div class="v">要等 2027 年底 <small>新芯片那时才商业化</small></div></div>
+          </div>
+
+          <div class="block">
+            <h4>它在做什么</h4>
+            <p>老本行是内存（SRAM），现在押注一种叫"存内计算"的新芯片，专做边缘 AI 推理——又快又省电。康奈尔大学的论文证明：它能跑出英伟达某款 GPU 的速度，却<span class="hl">省 98% 的电</span>。技术故事是两个里面最硬的。</p>
+          </div>
+          <div class="block">
+            <h4>谁在推</h4>
+            <p>一个有长期战绩的小盘维权投资人 Galloway 买了 5.02%，公开说公司被严重低估，要推董事会"解锁价值"。</p>
+          </div>
+
+          <div class="flags">
+            <h4>但要小心三面红旗</h4>
+            <div class="flag"><span class="mk">▲</span><p><strong>没有新领导人。</strong>CEO 还是创始人本人——这里只有外面喊话的投资人，没有"投资人型新人"上位。</p></div>
+            <div class="flag"><span class="mk">▲</span><p><strong>自己人在卖。</strong>最近几个月，公司高管（包括 CEO）一边涨一边卖自己的股票。嘴上说低估，手上在减持。</p></div>
+            <div class="flag"><span class="mk">▲</span><p><strong>头上有官司。</strong>已经有律所在发起证券集体诉讼调查。</p></div>
+          </div>
+
+          <div class="verdict-tag">
+            <div class="lbl">一句话结论</div>
+            <p>技术最硬，麻烦也最多。在创始人停止卖股票、官司说清楚之前，它是"看"，不是"买"。（6 月底被纳入 Russell 2000 可能带来一波被动买盘——但那是事件，不是基本面。）</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT V -->
+  <section class="chapter">
+    <div class="col">
+      <div class="num reveal">V</div>
+      <span class="tag engrave gold-text reveal">诚实的结论</span>
+      <h2 class="display reveal d1">那么，到底怎么看</h2>
+      <div class="hr reveal d2"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col narrow">
+      <div class="takes">
+        <div class="take reveal"><span class="ti"></span><p>两个都<strong>已经跳起来了</strong>。现在都不是"在底部捡便宜"的位置——这一点必须先认。</p></div>
+        <div class="take reveal"><span class="ti"></span><p><strong>Magnachip</strong> 更符合这个想法，也更干净。但别现在追，等它回踩、等 7 月底财报证明 AI 订单是真的。</p></div>
+        <div class="take reveal"><span class="ti"></span><p><strong>GSI 技术</strong>故事最酷，红旗最多。先看着——等自己人停止卖股票、官司说清楚再说。</p></div>
+      </div>
+    </div>
+
+    <div class="col closing">
+      <p class="big reveal">这套方法真正的价值，不在于现在追这两个，<br>而在于学会在<span class="hl">下一个 Magnachip 还在底部、还没人注意</span>的时候，<br>就先一步认出它。</p>
+    </div>
+
+    <p class="disclaimer reveal">以上是基于公开信息的分析推演，所有价格与事实截至 2026 年 6 月，均带日期标注。市场会变，红旗会变，结论也会随之改变——做决定前，请自己再核一遍最新数据。本文不构成任何投资建议。</p>
+  </section>
+
+  <footer>
+    <div class="mark">猎手笔记 <span class="dot">·</span> The Hunt <span class="dot">·</span> MMXXVI</div>
+  </footer>
+
+</div>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // hide masthead near the very top so hero breathes, show on scroll
+  const mast = document.getElementById('mast');
+  let lastY = 0;
+  window.addEventListener('scroll', ()=>{
+    const y = window.scrollY;
+    mast.style.opacity = (y < 80) ? '0' : '1';
+    lastY = y;
+  }, {passive:true});
+  mast.style.opacity = '0';
+</script>
+</body>
+</html>
