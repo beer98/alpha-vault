@@ -1,0 +1,1496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>感知层 5 票｜AI 成瘾迁移的公开市场代理</title>
+  <style>
+    :root {
+      --bg: #f7f8f6;
+      --paper: #ffffff;
+      --ink: #151817;
+      --text: #38423f;
+      --muted: #79837f;
+      --line: #dfe5e1;
+      --line-2: #c9d2cc;
+      --blue: #246ee9;
+      --cyan: #00a7b5;
+      --orange: #ef7b22;
+      --green: #16885e;
+      --red: #d3423a;
+      --violet: #6f53d5;
+      --yellow: #d4a017;
+      --black: #151817;
+      --soft-blue: #e9f1ff;
+      --soft-cyan: #e5f8fa;
+      --soft-orange: #fff0e2;
+      --soft-green: #e7f6ef;
+      --soft-red: #fff0ef;
+      --soft-violet: #f0ecff;
+      --shadow: 0 22px 60px rgba(21, 24, 23, .08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 85% 4%, rgba(239, 123, 34, .12), transparent 30rem),
+        radial-gradient(circle at 4% 18%, rgba(0, 167, 181, .12), transparent 28rem),
+        linear-gradient(180deg, #fbfcfb 0, var(--bg) 44rem);
+      font-family: var(--sans);
+      line-height: 1.55;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(21,24,23,.035) 1px, transparent 1px);
+      background-size: 100% 44px;
+      z-index: -1;
+    }
+    button, input { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: rgba(239, 123, 34, .22); }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+    .wrap { width: min(var(--max), calc(100vw - 40px)); margin: 0 auto; }
+    .mono { font-family: var(--mono); }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-bottom: 1px solid rgba(223, 229, 225, .92);
+      background: rgba(247, 248, 246, .88);
+      backdrop-filter: blur(14px) saturate(140%);
+    }
+    .topbar .wrap {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: white;
+      box-shadow: 0 10px 22px rgba(21, 24, 23, .16);
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    .nav a {
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 7px 9px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .nav a:hover { color: var(--ink); background: #fff; }
+
+    .hero {
+      padding: 74px 0 38px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+      gap: 34px;
+      align-items: stretch;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--orange);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--orange));
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin: 18px 0 18px;
+      max-width: 9.8ch;
+      color: var(--ink);
+      font-size: clamp(44px, 7vw, 88px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+    .hero-kernel {
+      margin: 0 0 22px;
+      max-width: 620px;
+      color: var(--ink);
+      font-size: clamp(19px, 2.1vw, 24px);
+      line-height: 1.38;
+      font-weight: 760;
+    }
+    .hero-kernel mark {
+      color: var(--orange);
+      background: transparent;
+    }
+    .hero-copy {
+      margin: 0;
+      max-width: 600px;
+      color: var(--text);
+      font-size: 16px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      padding: 7px 11px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .pill strong { color: var(--ink); }
+    .pill.hot {
+      border-color: rgba(211, 66, 58, .3);
+      color: var(--red);
+      background: var(--soft-red);
+    }
+
+    .thesis-board {
+      min-height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow: hidden;
+    }
+    .board-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .board-label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .board-title {
+      color: var(--ink);
+      font-size: 22px;
+      font-weight: 860;
+      line-height: 1.15;
+    }
+    .signal {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 22px 0 18px;
+    }
+    .signal-card {
+      min-height: 120px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      display: grid;
+      align-content: center;
+      box-shadow: 0 12px 28px rgba(21, 24, 23, .05);
+    }
+    .signal-card .k {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .signal-card .v {
+      margin-top: 9px;
+      color: var(--ink);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+    .signal-card .s {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .arrow-block {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--ink);
+      box-shadow: 0 12px 24px rgba(21, 24, 23, .18);
+      font-family: var(--mono);
+      font-weight: 900;
+    }
+    .role-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+    .role {
+      border-top: 4px solid var(--tone);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--tone) 9%, #fff);
+      padding: 12px;
+      min-height: 116px;
+    }
+    .role .name {
+      color: var(--ink);
+      font-weight: 900;
+      line-height: 1.08;
+    }
+    .role .ticker {
+      margin-top: 5px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .role .why {
+      margin-top: 13px;
+      color: var(--text);
+      font-size: 12.5px;
+      line-height: 1.34;
+    }
+
+    section {
+      padding: 64px 0;
+      border-top: 1px solid var(--line);
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(280px, 1.18fr);
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    .kicker {
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(29px, 4.3vw, 48px);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+    .section-copy {
+      margin: 0;
+      max-width: 720px;
+      color: var(--text);
+      font-size: 16px;
+    }
+    .section-copy strong { color: var(--ink); }
+
+    .logic-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .principle-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+    .principle {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+    .principle .num {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: white;
+      font-family: var(--mono);
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .principle .line {
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.25;
+      font-weight: 850;
+    }
+    .principle p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.44;
+    }
+    .path-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .path {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+      min-height: 330px;
+    }
+    .path-step {
+      position: relative;
+      border: 1px solid color-mix(in srgb, var(--tone) 28%, var(--line));
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--tone) 8%, white);
+      padding: 14px 12px;
+      display: grid;
+      align-content: space-between;
+      gap: 16px;
+      overflow: hidden;
+    }
+    .path-step::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      top: 50%;
+      width: 48px;
+      height: 48px;
+      border-top: 1px solid color-mix(in srgb, var(--tone) 48%, transparent);
+      border-right: 1px solid color-mix(in srgb, var(--tone) 48%, transparent);
+      transform: translateY(-50%) rotate(45deg);
+      background: color-mix(in srgb, var(--tone) 5%, white);
+      z-index: 2;
+    }
+    .path-step:last-child::after { display: none; }
+    .path-step .verb {
+      color: var(--tone);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .path-step .claim {
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1.08;
+    }
+    .path-step .note {
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.38;
+    }
+    .drop {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: #edf0ee;
+      color: #75807a;
+      padding: 4px 8px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+    .drop.keep {
+      background: var(--soft-green);
+      color: var(--green);
+    }
+
+    .stack {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .stack-row {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr) 260px;
+      min-height: 94px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--tone) 13%, white), white);
+    }
+    .stack-row:last-child { border-bottom: 0; }
+    .stack-row.visual {
+      background: linear-gradient(90deg, rgba(239, 123, 34, .2), white);
+      box-shadow: inset 5px 0 0 var(--orange);
+    }
+    .stack-row .depth {
+      padding: 16px 18px;
+      display: grid;
+      align-content: center;
+      border-right: 1px solid var(--line);
+    }
+    .stack-row .depth b {
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.1;
+    }
+    .stack-row .depth span {
+      margin-top: 5px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .stack-row .read {
+      padding: 16px 18px;
+      display: grid;
+      align-content: center;
+      gap: 10px;
+    }
+    .read-title {
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 850;
+    }
+    .read-sub {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 25px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--tone) 38%, var(--line));
+      background: #fff;
+      color: color-mix(in srgb, var(--tone) 82%, #111);
+      padding: 4px 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .stack-row .public {
+      padding: 16px 18px;
+      display: grid;
+      align-content: center;
+      border-left: 1px solid var(--line);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .public b { color: var(--ink); }
+    .voice-note {
+      margin-top: 14px;
+      border: 1px dashed rgba(111, 83, 213, .42);
+      border-radius: 10px;
+      background: var(--soft-violet);
+      padding: 14px 16px;
+      color: var(--ink);
+      font-weight: 760;
+    }
+    .voice-note span { color: var(--violet); }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .scatter {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .scatter svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--tone);
+    }
+    .ranking {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .rank-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 11px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--tone);
+      border-radius: 8px;
+      padding: 12px;
+      background: color-mix(in srgb, var(--tone) 7%, white);
+    }
+    .rank-no {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: white;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .rank-name {
+      color: var(--ink);
+      font-weight: 900;
+      line-height: 1.2;
+    }
+    .rank-text {
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.38;
+    }
+
+    .stock-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 13px;
+    }
+    .stock {
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--tone);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: 0 16px 42px rgba(21, 24, 23, .06);
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+    .stock.primary {
+      border-color: rgba(239, 123, 34, .45);
+      box-shadow: 0 0 0 2px rgba(239, 123, 34, .09), var(--shadow);
+    }
+    .stock-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--tone) 12%, white);
+      border: 1px solid color-mix(in srgb, var(--tone) 35%, transparent);
+      color: color-mix(in srgb, var(--tone) 86%, #111);
+      padding: 3px 8px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--tone);
+    }
+    .stock-name {
+      margin-top: 12px;
+      color: var(--ink);
+      font-size: 23px;
+      line-height: 1;
+      font-weight: 930;
+    }
+    .stock-code {
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .stock-one {
+      margin: 12px 0 0;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.36;
+      font-weight: 780;
+    }
+    .stock-body {
+      padding: 14px 16px 16px;
+      display: grid;
+      gap: 12px;
+      flex: 1;
+    }
+    .fact {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 11px;
+    }
+    .fact:last-child { border-bottom: 0; padding-bottom: 0; }
+    .fact .label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10.5px;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .fact .value {
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.38;
+    }
+    .fact .value strong { color: var(--ink); }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 22px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 41px;
+      height: 4px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--orange), var(--red), var(--green), var(--violet));
+    }
+    .time {
+      position: relative;
+      padding-top: 38px;
+    }
+    .time::before {
+      content: "";
+      position: absolute;
+      top: 27px;
+      left: 15px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 5px solid var(--bg);
+      background: var(--tone);
+      box-shadow: 0 0 0 1px var(--line-2);
+      z-index: 1;
+    }
+    .time-box {
+      height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      padding: 14px;
+      box-shadow: 0 14px 34px rgba(21, 24, 23, .05);
+    }
+    .time.hot .time-box {
+      border-color: rgba(211, 66, 58, .45);
+      box-shadow: 0 0 0 2px rgba(211, 66, 58, .08), var(--shadow);
+    }
+    .date {
+      color: var(--tone);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .time-title {
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.18;
+      font-weight: 900;
+    }
+    .time-copy {
+      margin-top: 8px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.38;
+    }
+
+    .table-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      min-width: 940px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 13px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #fbfcfb;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    tr:last-child td { border-bottom: 0; }
+    td:first-child {
+      color: var(--ink);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .mini {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .risk { color: #70513f; }
+
+    .closing {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--ink);
+      color: white;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .7fr);
+      gap: 24px;
+      align-items: end;
+    }
+    .closing h2 { color: white; }
+    .closing p {
+      margin: 14px 0 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, .76);
+      font-size: 16px;
+    }
+    .closing strong { color: #fff; }
+    .rules {
+      display: grid;
+      gap: 9px;
+    }
+    .rule {
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      padding: 11px 12px;
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      line-height: 1.35;
+      background: rgba(255,255,255,.045);
+    }
+    .rule b { color: #fff; }
+
+    footer {
+      padding: 34px 0 54px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.75;
+    }
+    footer b { color: var(--ink); }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .logic-grid,
+      .map-grid,
+      .closing,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+      .role-strip,
+      .stock-grid,
+      .timeline {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .path {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(var(--max), calc(100vw - 28px)); }
+      .topbar .wrap {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px 0;
+      }
+      .nav { justify-content: flex-start; }
+      .hero { padding-top: 42px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(42px, 15vw, 64px); }
+      .signal {
+        grid-template-columns: 1fr;
+      }
+      .arrow-block {
+        transform: rotate(90deg);
+        margin: 0 auto;
+      }
+      .role-strip,
+      .stock-grid,
+      .timeline,
+      .path {
+        grid-template-columns: 1fr;
+      }
+      .path-step::after { display: none; }
+      .stack-row {
+        grid-template-columns: 1fr;
+      }
+      .stack-row .depth,
+      .stack-row .public {
+        border: 0;
+      }
+      .stack-row .depth { border-bottom: 1px solid var(--line); }
+      .stack-row .public { border-top: 1px solid var(--line); }
+      .stock { min-height: auto; }
+      .timeline::before { display: none; }
+      .time { padding-top: 0; padding-left: 42px; }
+      .time::before {
+        top: 12px;
+        left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="返回顶部">
+        <span class="brand-mark" aria-hidden="true">5</span>
+        <span>AI 感知层公开代理</span>
+      </a>
+      <nav class="nav" aria-label="页面导航">
+        <a href="../../index.html">Vault</a>
+        <a href="#logic">逻辑</a>
+        <a href="#stack">分层</a>
+        <a href="#map">地图</a>
+        <a href="#stocks">5 票</a>
+        <a href="#matrix">矩阵</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Perception layer thesis</div>
+          <h1>别买屏幕，买读数。</h1>
+          <p class="hero-kernel">
+            AI 成瘾的下一站不是某个陪伴 app，而是能持续读取人的<mark>传入通道</mark>。
+          </p>
+          <p class="hero-copy">
+            公开市场里，最干净的暴露不在神经层，也不在陪伴应用层，而在视觉层与语音模态。核心判断很简单：谁能把“人的状态”变成机器可读数据，谁就站在闭环刺激的入口。
+          </p>
+          <div class="hero-actions" aria-label="关键标签">
+            <span class="pill"><strong>日期戳</strong> 发布 2026.06.21 · 数据 2026.05–06</span>
+            <span class="pill"><strong>核心地板</strong> EU DMS 2026-07</span>
+            <span class="pill hot"><strong>核心期权</strong> interior-legibility</span>
+            <span class="pill"><strong>公开甜区</strong> 视觉 + 语音</span>
+          </div>
+        </div>
+
+        <aside class="thesis-board" aria-label="投资结论图">
+          <div class="board-top">
+            <div>
+              <div class="board-label">one-page answer</div>
+              <div class="board-title">从“刺激人”到“读取人”</div>
+            </div>
+            <span class="pill hot">结论先行</span>
+          </div>
+
+          <div class="signal">
+            <div class="signal-card">
+              <div class="k">old internet</div>
+              <div class="v">分发刺激</div>
+              <div class="s">Feed / Search / Video</div>
+            </div>
+            <div class="arrow-block" aria-hidden="true">→</div>
+            <div class="signal-card">
+              <div class="k">ai loop</div>
+              <div class="v">读取反应</div>
+              <div class="s">Eye / Face / Voice / Body / Brain</div>
+            </div>
+          </div>
+
+          <div class="role-strip" id="roleStrip"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="logic">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">01 · compressed logic</div>
+            <h2>推理不展开，直接收敛。</h2>
+          </div>
+          <p class="section-copy">
+            这页不再展示“我怎么纠结”，只展示最后成立的判断链：从定价权，到新载体，到传入通道，再到公开市场代理。
+          </p>
+        </div>
+
+        <div class="logic-grid">
+          <div class="principle-card">
+            <div class="principle">
+              <div class="num">01</div>
+              <div>
+                <div class="line">成瘾不是重点，定价权才是重点。</div>
+                <p>Kraft Heinz 证明：有成瘾但没定价权，仍然失败。</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="num">02</div>
+              <div>
+                <div class="line">下一代载体总是更近、更快、更个性化。</div>
+                <p>烟糖咖啡因 → 电视 → 搜索 → 社交 → 短视频 → AI 闭环。</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="num">03</div>
+              <div>
+                <div class="line">公开市场不买 app，买 chokepoint。</div>
+                <p>陪伴 app 多在私有市场；公开市场买它们绕不开的传入通道。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="path-card">
+            <div class="path" aria-label="收敛路径">
+              <div class="path-step" style="--tone:var(--blue)">
+                <div class="verb">correct</div>
+                <div class="claim">成瘾 → 定价权</div>
+                <div class="note">真正变量是“能涨价不掉量”。</div>
+              </div>
+              <div class="path-step" style="--tone:var(--violet)">
+                <div class="verb">migrate</div>
+                <div class="claim">刺激越来越近</div>
+                <div class="note">个性化↑ 速度↑ 摩擦↓ 距离↓</div>
+              </div>
+              <div class="path-step" style="--tone:var(--red)">
+                <div class="verb">reject</div>
+                <div class="claim">剔除三类噪音</div>
+                <div class="note">
+                  <span class="drop">× 大盘</span>
+                  <span class="drop">× 陪伴 app</span>
+                  <span class="drop">× AR PR</span>
+                </div>
+              </div>
+              <div class="path-step" style="--tone:var(--cyan)">
+                <div class="verb">locate</div>
+                <div class="claim">价值在环路入口</div>
+                <div class="note">AI 要实时适应，就要读人。</div>
+              </div>
+              <div class="path-step" style="--tone:var(--green)">
+                <div class="verb">screen</div>
+                <div class="claim">公开甜区 = 视觉</div>
+                <div class="note">声学/生理无纯标的；神经多私有。</div>
+              </div>
+              <div class="path-step" style="--tone:var(--orange)">
+                <div class="verb">buy list</div>
+                <div class="claim">4 视觉 + 1 语音</div>
+                <div class="note"><span class="drop keep">→ 5 票</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">02 · stack map</div>
+            <h2>越往下，越接近奖励系统。</h2>
+          </div>
+          <p class="section-copy">
+            但公开市场不是哪里最深买哪里，而是哪里“足够相关 + 公开可买 + 有地板”。所以最终不是神经层，而是视觉层。
+          </p>
+        </div>
+
+        <div class="stack" id="stackRows"></div>
+        <div class="voice-note">
+          语音是横跨多层的模态：<span>Cerence</span> 不是“读脑”，但它是公开市场里最纯的车载对话入口。
+        </div>
+      </div>
+    </section>
+
+    <section id="map">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">03 · portfolio map</div>
+            <h2>这 5 票不是同一种东西。</h2>
+          </div>
+          <p class="section-copy">
+            正确读法不是平均看多，而是分角色：Smart Eye 是核心凸性，Tobii 是高 beta 并购彩票，韦尔是收费站，Cerence 是语音观察位。
+          </p>
+        </div>
+
+        <div class="map-grid">
+          <div class="scatter">
+            <svg viewBox="0 0 760 430" role="img" aria-label="五只标的按存活能力和主题契合定位">
+              <defs>
+                <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L7,3 Z" fill="#79837f"></path>
+                </marker>
+              </defs>
+              <rect x="42" y="20" width="675" height="350" rx="10" fill="#fbfcfb" stroke="#dfe5e1"></rect>
+              <line x1="90" y1="328" x2="682" y2="328" stroke="#79837f" stroke-width="1.6" marker-end="url(#arr)"></line>
+              <line x1="90" y1="328" x2="90" y2="60" stroke="#79837f" stroke-width="1.6" marker-end="url(#arr)"></line>
+              <text x="386" y="404" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" font-weight="700" fill="#79837f">存活能力 / 财务地板 →</text>
+              <text x="23" y="196" transform="rotate(-90 23 196)" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" font-weight="700" fill="#79837f">主题契合 / 凸性 ↑</text>
+              <line x1="90" y1="238" x2="682" y2="238" stroke="#dfe5e1"></line>
+              <line x1="90" y1="148" x2="682" y2="148" stroke="#dfe5e1"></line>
+              <line x1="250" y1="328" x2="250" y2="60" stroke="#dfe5e1"></line>
+              <line x1="430" y1="328" x2="430" y2="60" stroke="#dfe5e1"></line>
+              <line x1="590" y1="328" x2="590" y2="60" stroke="#dfe5e1"></line>
+
+              <g>
+                <circle cx="406" cy="122" r="27" fill="#ef7b22"></circle>
+                <text x="406" y="126" text-anchor="middle" fill="white" font-weight="900" font-size="13">SEYE</text>
+                <text x="406" y="87" text-anchor="middle" fill="#151817" font-weight="900" font-size="16">Smart Eye</text>
+                <text x="406" y="105" text-anchor="middle" fill="#79837f" font-size="12">核心凸性</text>
+              </g>
+              <g>
+                <circle cx="176" cy="105" r="24" fill="#ef7b22" opacity=".92"></circle>
+                <text x="176" y="109" text-anchor="middle" fill="white" font-weight="900" font-size="13">TOB</text>
+                <text x="176" y="67" text-anchor="middle" fill="#151817" font-weight="900" font-size="16">Tobii</text>
+                <text x="176" y="85" text-anchor="middle" fill="#79837f" font-size="12">最高 beta</text>
+              </g>
+              <g>
+                <circle cx="268" cy="190" r="24" fill="#ef7b22" opacity=".78"></circle>
+                <text x="268" y="194" text-anchor="middle" fill="white" font-weight="900" font-size="13">SEE</text>
+                <text x="268" y="156" text-anchor="middle" fill="#151817" font-weight="900" font-size="16">Seeing</text>
+                <text x="268" y="174" text-anchor="middle" fill="#79837f" font-size="12">DMS 份额</text>
+              </g>
+              <g>
+                <circle cx="645" cy="206" r="26" fill="#246ee9"></circle>
+                <text x="645" y="210" text-anchor="middle" fill="white" font-weight="900" font-size="13">韦尔</text>
+                <text x="645" y="170" text-anchor="middle" fill="#151817" font-weight="900" font-size="16">Will Semi</text>
+                <text x="645" y="188" text-anchor="middle" fill="#79837f" font-size="12">收费站</text>
+              </g>
+              <g>
+                <circle cx="548" cy="240" r="25" fill="#16885e"></circle>
+                <text x="548" y="244" text-anchor="middle" fill="white" font-weight="900" font-size="13">CRNC</text>
+                <text x="548" y="204" text-anchor="middle" fill="#151817" font-weight="900" font-size="16">Cerence</text>
+                <text x="548" y="222" text-anchor="middle" fill="#79837f" font-size="12">语音半彩票</text>
+              </g>
+            </svg>
+            <div class="legend">
+              <span><i class="dot" style="--tone:var(--orange)"></i>凸性彩票</span>
+              <span><i class="dot" style="--tone:var(--blue)"></i>收费站</span>
+              <span><i class="dot" style="--tone:var(--green)"></i>半彩票</span>
+            </div>
+          </div>
+
+          <div class="ranking" id="ranking"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stocks">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">04 · five cards</div>
+            <h2>每张卡只回答四件事。</h2>
+          </div>
+          <p class="section-copy">
+            为什么它在这里；靠什么活；什么事件推动；最大风险是什么。其余都放进矩阵。
+          </p>
+        </div>
+        <div class="stock-grid" id="stockGrid"></div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">05 · catalyst runway</div>
+            <h2>地板来自监管，弹性来自消费化。</h2>
+          </div>
+          <p class="section-copy">
+            欧盟 DMS 硬截止不是故事，是订单与量产的时间表。真正的上行，是 DMS 之外的注意力、情绪、语音和 in-cabin sensing。
+          </p>
+        </div>
+        <div class="timeline" id="timelineRows"></div>
+      </div>
+    </section>
+
+    <section id="matrix">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">06 · matrix</div>
+            <h2>最终对比矩阵。</h2>
+          </div>
+          <p class="section-copy">
+            这张表用于投资动作，不用于讲故事：角色、地板、期权、风险，一眼区分。
+          </p>
+        </div>
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>标的</th>
+                <th>角色</th>
+                <th>层</th>
+                <th>地板</th>
+                <th>上行期权</th>
+                <th>最大风险</th>
+                <th>日期戳</th>
+              </tr>
+            </thead>
+            <tbody id="matrixRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="closing">
+          <div>
+            <div class="kicker" style="color:rgba(255,255,255,.54)">final read</div>
+            <h2>这不是“5 个股票推荐”，而是一个公开市场替代方案。</h2>
+            <p>
+              真正最深的价值在私有市场：NextSense、Neurable、Beacon、Emotiv、Muse 等。公开市场只能买代理，所以要承认代理的不完美，再按角色下注。
+            </p>
+          </div>
+          <div class="rules">
+            <div class="rule"><b>首选：</b>Smart Eye，地板和期权最均衡。</div>
+            <div class="rule"><b>最弹：</b>Tobii，小盘专利/并购 beta。</div>
+            <div class="rule"><b>最稳：</b>韦尔股份，视觉收费站但无 100x。</div>
+            <div class="rule"><b>观察：</b>Cerence，语音模态纯但期权间接。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div><b>数据日期戳：</b>Smart Eye Q1 2026 / 2026-05-18；Tobii 2026-05-18 / 2026-06-09；Seeing Machines 2026-06-12；韦尔股份 2024 年报；Cerence 2026-06-05 / Q1 FY26。</div>
+      <div><b>纪律：</b>本文是网页化投研表达，不是实时行情，也不是投资建议。实盘前刷新 live quote，并重新检查业务是否仍在主题内。</div>
+    </div>
+  </footer>
+
+  <script>
+    const stocks = [
+      {
+        name: "Smart Eye",
+        code: "SEYE.ST / SMTEF",
+        tone: "#ef7b22",
+        badge: "凸性彩票 · 首选",
+        role: "核心凸性仓",
+        layer: "视觉：眼动 + 面部情绪 AI",
+        one: "DMS 监管地板 + Affectiva 情绪数据期权，组合最完整。",
+        why: "Affectiva 情绪数据集、iMotions、Sightic 损伤检测，形成“人类洞察 AI”入口。",
+        floor: "EU DMS 2026-07；汽车 +122%、版税 +200%。",
+        option: "酒精/毒品检测、消费级情绪 AI、神经营销。",
+        risk: "仍亏损；汽车周期；面部情绪科学有争议。",
+        date: "2026-05",
+        primary: true
+      },
+      {
+        name: "Tobii",
+        code: "TOBII.ST / TBIIF",
+        tone: "#ef7b22",
+        badge: "凸性彩票 · 高 beta",
+        role: "专利/并购彩票",
+        layer: "视觉：眼动纯标的",
+        one: "最小、最纯、最弹；成也专利，败也烧钱。",
+        why: "眼动专利组合 + ASIC / 传感器 / 算法 / 软件垂直整合。",
+        floor: "EU DMS 放量；Tobii Pro 研究标准。",
+        option: "AR/VR、游戏、手机、神经营销、潜在并购。",
+        risk: "营收 -17%；持续稀释；FCF 转正推迟。",
+        date: "2026-05 / 06"
+      },
+      {
+        name: "Seeing Machines",
+        code: "SEE.L / SEEMF",
+        tone: "#ef7b22",
+        badge: "凸性彩票 · DMS 份额",
+        role: "汽车安全凸性",
+        layer: "视觉：驾驶员监测",
+        one: "最纯 DMS 份额，但最不像“读心”。",
+        why: "Stifel 估计欧洲待售车辆 DMS 份额约 30%，量产实绩强。",
+        floor: "EU DMS 2026-07；车企扩展与 Guardian 订单。",
+        option: "航空、矿山、车队售后、安全监控。",
+        risk: "AIM 仙股；interior-legibility 期权较弱。",
+        date: "2026-06"
+      },
+      {
+        name: "韦尔股份",
+        code: "603501.SZ",
+        tone: "#246ee9",
+        badge: "收费站",
+        role: "A 股稳态暴露",
+        layer: "视觉：CMOS 图像传感器",
+        one: "不押谁赢，只收“眼睛”的过路费。",
+        why: "豪威科技全球第三 CIS，11.5% 份额；CIS 占营收 74.8%。",
+        floor: "盈利修复，2024 归母净利 ¥33.2 亿，+498%。",
+        option: "车载 CIS、in-cabin DMS、AR/VR 传入端。",
+        risk: "大盘，100x 无可能；A 股周期与地缘。",
+        date: "2024 年报"
+      },
+      {
+        name: "Cerence",
+        code: "CRNC",
+        tone: "#16885e",
+        badge: "半彩票",
+        role: "语音观察位",
+        layer: "语音：车载对话式 AI",
+        one: "语音模态最纯公开标的，但不是最直接的情绪读取。",
+        why: "语音方案装机 5.25 亿+ 辆车；xUI / CaLLM Edge 转型。",
+        floor: "TTM 营收 $2.518 亿，毛利率 72.7%，运营现金流为正。",
+        option: "LLM 座舱、工业语音、IP 许可、车内 Copilot。",
+        risk: "核心增速弱；一次性专利赔款灌水；上市后大跌。",
+        date: "2026-06"
+      }
+    ];
+
+    const stack = [
+      {
+        depth: "行为",
+        hint: "最浅",
+        read: "点击、停留、打字节奏",
+        sub: "纯软件层，通常被 app 自己吃掉。",
+        public: "公开纯标的：无独立 chokepoint",
+        tags: [],
+        tone: "#79837f"
+      },
+      {
+        depth: "声学",
+        hint: "麦克风",
+        read: "语音、语调、情绪线索",
+        sub: "方向重要，但公开市场没有干净纯标的。",
+        public: "Knowles 已退出；Goertek / AAC 更像 ODM",
+        tags: [],
+        tone: "#00a7b5"
+      },
+      {
+        depth: "视觉",
+        hint: "公开甜区",
+        read: "注视、表情、图像、驾驶员状态",
+        sub: "足够接近人，又有监管订单，是公开市场最可买的一层。",
+        public: "有：Smart Eye / Tobii / Seeing Machines / 韦尔股份",
+        tags: ["Smart Eye", "Tobii", "Seeing Machines", "韦尔股份"],
+        tone: "#ef7b22",
+        visual: true
+      },
+      {
+        depth: "生理",
+        hint: "HRV / PPG",
+        read: "心率变异、皮电、PPG",
+        sub: "情绪金标准之一，但公开纯标的缺席。",
+        public: "Empatica / Whoop / Oura 私有；ADI / TI 太大",
+        tags: [],
+        tone: "#16885e"
+      },
+      {
+        depth: "神经",
+        hint: "最深",
+        read: "EEG / BCI，最接近奖励系统",
+        sub: "终极价值点在这里，但主要仍在私有市场。",
+        public: "公开多为医疗代理；NextSense / Neurable 等私有",
+        tags: ["NextSense", "Neurable", "Emotiv", "Muse"],
+        tone: "#6f53d5"
+      }
+    ];
+
+    const timeline = [
+      { date: "2026-02", title: "Smart Eye + Sightic", copy: "损伤检测进入监管期权池。", tone: "#00a7b5" },
+      { date: "2026-05", title: "Smart Eye 经营验证", copy: "有机 +51%、汽车 +122%、版税 +200%。", tone: "#ef7b22" },
+      { date: "2026-06", title: "DMS 订单继续落地", copy: "Seeing Machines 车企、Guardian、日本客户推进。", tone: "#16885e" },
+      { date: "2026-07", title: "EU DMS 硬截止", copy: "全组最硬地板事件。", tone: "#d3423a", hot: true },
+      { date: "2026+", title: "消费化期权", copy: "AR/VR 眼动、in-cabin sensing、LLM 座舱。", tone: "#6f53d5" }
+    ];
+
+    const roleStrip = document.getElementById("roleStrip");
+    roleStrip.innerHTML = stocks.map((stock) => `
+      <article class="role" style="--tone:${stock.tone}">
+        <div class="name">${stock.name}</div>
+        <div class="ticker">${stock.code}</div>
+        <div class="why">${stock.role}</div>
+      </article>
+    `).join("");
+
+    document.getElementById("stackRows").innerHTML = stack.map((row) => `
+      <article class="stack-row ${row.visual ? "visual" : ""}" style="--tone:${row.tone}">
+        <div class="depth"><b>${row.depth}</b><span>${row.hint}</span></div>
+        <div class="read">
+          <div class="read-title">${row.read}</div>
+          <div class="read-sub">${row.sub}</div>
+          ${row.tags.length ? `<div class="tags">${row.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>` : ""}
+        </div>
+        <div class="public"><b>${row.public.split("：")[0]}：</b>${row.public.includes("：") ? row.public.split("：").slice(1).join("：") : row.public}</div>
+      </article>
+    `).join("");
+
+    document.getElementById("ranking").innerHTML = [
+      ["1", stocks[0], "核心仓：地板与期权最平衡。"],
+      ["2", stocks[1], "弹性仓：小盘、专利、并购想象。"],
+      ["3", stocks[3], "稳态仓：收费站好，但不是 100x。"],
+      ["4", stocks[4], "观察仓：语音方向对，应用层偏间接。"],
+      ["5", stocks[2], "末位仓：DMS 纯，但读人期权弱。"]
+    ].map(([no, stock, text]) => `
+      <article class="rank-item" style="--tone:${stock.tone}">
+        <div class="rank-no">${no}</div>
+        <div>
+          <div class="rank-name">${stock.name}</div>
+          <div class="rank-text">${text}</div>
+        </div>
+      </article>
+    `).join("");
+
+    document.getElementById("stockGrid").innerHTML = stocks.map((stock) => `
+      <article class="stock ${stock.primary ? "primary" : ""}" style="--tone:${stock.tone}">
+        <div class="stock-head">
+          <span class="badge">${stock.badge}</span>
+          <div class="stock-name">${stock.name}</div>
+          <div class="stock-code">${stock.code}</div>
+          <p class="stock-one">${stock.one}</p>
+        </div>
+        <div class="stock-body">
+          <div class="fact"><div class="label">why here</div><div class="value">${stock.why}</div></div>
+          <div class="fact"><div class="label">floor</div><div class="value">${stock.floor}</div></div>
+          <div class="fact"><div class="label">option</div><div class="value">${stock.option}</div></div>
+          <div class="fact"><div class="label">risk</div><div class="value">${stock.risk}</div></div>
+        </div>
+      </article>
+    `).join("");
+
+    document.getElementById("timelineRows").innerHTML = timeline.map((item) => `
+      <article class="time ${item.hot ? "hot" : ""}" style="--tone:${item.tone}">
+        <div class="time-box">
+          <div class="date">${item.date}</div>
+          <div class="time-title">${item.title}</div>
+          <div class="time-copy">${item.copy}</div>
+        </div>
+      </article>
+    `).join("");
+
+    document.getElementById("matrixRows").innerHTML = stocks.map((stock) => `
+      <tr>
+        <td>${stock.name}<div class="mini">${stock.code}</div></td>
+        <td>${stock.role}</td>
+        <td>${stock.layer}</td>
+        <td>${stock.floor}</td>
+        <td>${stock.option}</td>
+        <td class="risk">${stock.risk}</td>
+        <td>${stock.date}</td>
+      </tr>
+    `).join("");
+  </script>
+</body>
+</html>
