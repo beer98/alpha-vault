@@ -52,8 +52,8 @@
   /* ---------- HERO ---------- */
   .hero{padding:88px 0 56px; border-bottom:1px solid var(--line-soft)}
   .hero h1{
-    font-family:var(--font-display); font-weight:500; font-size:clamp(31px,5.0vw,56px);
-    line-height:1.18; letter-spacing:-.01em; margin:26px 0 4px; max-width:18ch;
+    font-family:var(--font-display); font-weight:500; font-size:clamp(27px,3.4vw,40px);
+    line-height:1.3; letter-spacing:-.01em; margin:24px 0 4px; max-width:30ch;
   }
   .hero h1 .em{font-style:italic; color:var(--gold-400)}
   .hero h1 .hl{
@@ -269,10 +269,10 @@
   .range .rlab{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:var(--t500); letter-spacing:.06em; margin-bottom:6px}
   .rtrack{position:relative; height:10px; border-radius:6px; background:var(--ink-750); border:1px solid var(--line); margin-top:32px}
   .rfill{position:absolute; left:0; top:0; bottom:0; border-radius:6px 0 0 6px;
-    background:linear-gradient(90deg,var(--teal-deep),var(--gold-500)); width:86.9%}
+    background:linear-gradient(90deg,var(--teal-deep),var(--gold-500)); width:99%}
   .rmark{position:absolute; top:50%; transform:translate(-50%,-50%); width:16px; height:16px; border-radius:50%;
-    background:var(--gold-300); border:3px solid var(--ink-800); left:86.9%; z-index:2}
-  .rmarklab{position:absolute; top:-26px; left:86.9%; transform:translateX(-50%); font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--gold-300); white-space:nowrap}
+    background:var(--gold-300); border:3px solid var(--ink-800); left:99%; z-index:2}
+  .rmarklab{position:absolute; top:-26px; left:99%; transform:translateX(-50%); font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--gold-300); white-space:nowrap}
   .rends{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; color:var(--t300); margin-top:10px}
   .rtrend{font-family:var(--font-mono); font-size:12.5px; color:var(--teal-400); margin-top:14px; padding-top:14px; border-top:1px dashed var(--line-soft)}
   .rtrend b{color:var(--gold-300)}
@@ -365,7 +365,7 @@
 
     <div class="metstrip">
       <span><i></i>数据截至 <b>2026年5–6月</b></span>
-      <span><i></i>现价 <b>$21.63</b>（5/25）</span>
+      <span><i></i>现价 <b>$26.18</b>（6/18 收盘 +11.5%）</span>
       <span><i></i>框架 <b>Serenity × Taleb × 信风 × KEEL</b></span>
       <span><i></i>判定 <b>决心真 / 不对称已收窄</b></span>
     </div>
@@ -714,24 +714,24 @@
         </div>
         <div class="px">
           <div class="lab">现价 Current</div>
-          <div class="val">$21.63</div>
-          <div class="asof">截至 2026/05/25 · 复核实时价后操作</div>
+          <div class="val">$26.18</div>
+          <div class="asof">截至 2026/06/18 收盘 · 复核实时价后操作</div>
         </div>
       </div>
 
       <div class="range">
-        <div class="rlab"><span>52 周区间 · 趋势</span><span>贴近高点 ≈ 87%</span></div>
+        <div class="rlab"><span>52 周区间 · 趋势</span><span>贴近高点 ≈ 99%</span></div>
         <div class="rtrack">
           <div class="rfill"></div>
-          <div class="rmarklab">$21.63</div>
+          <div class="rmarklab">$26.18</div>
           <div class="rmark"></div>
         </div>
-        <div class="rends"><span>低 $10.96</span><span>高 $23.24</span></div>
-        <div class="rtrend">信风时点:较低点 <b>近翻倍</b>,贴近 52 周高点 —— 已是<b>延伸</b>,不是新错位。早期的错杀入场($11–15)已经过去。</div>
+        <div class="rends"><span>低 $10.96</span><span>高 $26.26</span></div>
+        <div class="rtrend">信风时点:较低点 <b>×2.4</b>、贴着 52 周高、06-18 单日 <b>+11.5%</b> —— 已是<b>延伸</b>,不是新错位。早期错杀入场($11–15)早过去;现价更吃掉了大部分共识空间。</div>
       </div>
 
       <div class="stats">
-        <div class="stat"><div class="sl">市值 Mkt Cap</div><div class="sv">~$1.1B</div><div class="sn">小盘 · P/S ~2.4×</div></div>
+        <div class="stat"><div class="sl">市值 Mkt Cap</div><div class="sv">~$1.35B</div><div class="sn">小盘 · P/S ~3.3×</div></div>
         <div class="stat"><div class="sl">Q1 营收增速</div><div class="sv up">+39%</div><div class="sn">检测服务 +48%</div></div>
         <div class="stat"><div class="sl">非 GAAP 毛利</div><div class="sv">73%</div><div class="sn">数据级别毛利</div></div>
         <div class="stat"><div class="sl">调整 EBITDA</div><div class="sv up">$19M</div><div class="sn">同比 +300%</div></div>
@@ -742,7 +742,7 @@
 
         <div class="arow">
           <div class="ak">共识空间</div>
-          <div class="av">平均目标价 <b>$25.80</b>(高 $28 / 低 $21)。低估即现价 —— <b>上行有界 ~15–19%</b>。核心业务的重估基本已被奖励。</div>
+          <div class="av">平均目标价 <b>$25.80</b>(高 $28 / 低 $21)。<b>现价 $26.18 已略超均值目标</b> —— 近端共识空间基本吃光:对高目标 $28 仅 ~7%、对均值已转负。</div>
         </div>
         <div class="arow trig">
           <div class="ak">未定价的扳机</div>
@@ -771,7 +771,7 @@
   <div class="wrap">
     <p class="disc">
       <b>说明 · Disclaimer</b><br>
-      本页为基于公开信息的研究推演综合,非投资建议。所有价格与财务数据均带时点:CDNA 现价 $21.63(2026/05/25),Q1 2026 财报为 2026/04/28 公布,估值与目标价为 2026 年 5–6 月数据。<b>价格会变;任何操作前请复核实时价。</b>市场有效性高,文中反复证明:公开、便宜、健康、且在用 AI 变现专有数据的卡点,极其稀缺。
+      本页为基于公开信息的研究推演综合,非投资建议。所有价格与财务数据均带时点:CDNA 现价 $26.18(2026/06/18 收盘,当日 +11.5%),Q1 2026 财报为 2026/04/28 公布,估值与目标价为 2026 年 5–6 月数据。<b>价格会变;任何操作前请复核实时价。</b>市场有效性高,文中反复证明:公开、便宜、健康、且在用 AI 变现专有数据的卡点,极其稀缺。
     </p>
     <div class="sig">推演框架 · SERENITY 卡点 × TALEB 杠铃 × 信风 时点 × KEEL 宪法（反谄媚）</div>
   </div>
