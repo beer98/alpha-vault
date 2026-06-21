@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LPKF — 给玻璃打孔的那个收费站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#050914;
+    --paper-2:#0A1322;
+    --paper-3:#101B2E;
+    --ink:#F5F8FF;
+    --ink-soft:#A9B7CE;
+    --line:rgba(174,206,255,.16);
+    --laser:#20A7FF;
+    --laser-2:#78C7FF;
+    --hot:#FF4D6A;
+    --amber:#FFC15A;
+    --cyan:#37D6FF;
+    --mag:#B667FF;
+    --green:#38D39F;
+    --night:#02050C;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:
+      radial-gradient(circle at 78% 12%, rgba(32,167,255,.22), transparent 30vw),
+      radial-gradient(circle at 18% 0%, rgba(55,214,255,.10), transparent 26vw),
+      linear-gradient(180deg,#050914 0%,#07101D 52%,#03060C 100%);
+    color:var(--ink);
+    font-family:'Inter','Noto Sans SC',system-ui,sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* faint film grain for the cinematic feel */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--laser);color:#fff}
+
+  .mono{font-family:'Space Mono',monospace}
+  .disp{font-family:'Archivo','Noto Sans SC',sans-serif;letter-spacing:0;line-height:1.06}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+  .sec{padding:104px 0;position:relative}
+  .sec--tight{padding:72px 0}
+
+  .kicker{
+    font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--laser);
+    display:flex;align-items:center;gap:12px;margin-bottom:26px;
+  }
+  .kicker::before{content:"";width:30px;height:2px;background:var(--laser);display:inline-block}
+  .kicker .num{color:var(--ink);opacity:.32}
+
+  h2.h2{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;letter-spacing:0;line-height:1.12;
+    font-size:clamp(31px,5.2vw,58px);max-width:18ch;margin-bottom:22px}
+  .lede{font-size:clamp(17px,2vw,21px);color:var(--ink-soft);max-width:60ch;font-weight:450}
+  .lede strong{color:var(--ink);font-weight:650}
+
+  /* ---------------- letterbox + hero ---------------- */
+  .bar{position:fixed;left:0;right:0;height:9px;background:#000;z-index:200}
+  .bar--top{top:0}.bar--bot{bottom:0}
+
+  .topnav{position:fixed;top:9px;left:0;right:0;z-index:201;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 26px;mix-blend-mode:normal;
+    background:linear-gradient(180deg,rgba(2,5,12,.88),rgba(2,5,12,.22),transparent);
+    backdrop-filter:blur(14px)}
+  .nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+  .ticker-tag{font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;
+    display:flex;gap:14px;align-items:center;color:var(--ink-soft)}
+  .ticker-tag .px{color:var(--laser)}
+  .ticker-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 0 rgba(17,176,122,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(17,176,122,.45)}70%{box-shadow:0 0 0 8px rgba(17,176,122,0)}100%{box-shadow:0 0 0 0 rgba(17,176,122,0)}}
+
+  /* official logo from lpkf.com */
+  .logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .logo img{display:block;width:154px;height:auto}
+  .logo-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:4px;
+    background:rgba(255,255,255,.94);padding:8px 10px;box-shadow:0 12px 38px rgba(0,0,0,.22)}
+  .home-btn{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:8px 12px;
+    border:1px solid var(--line);border-radius:999px;color:var(--ink);background:rgba(255,255,255,.06);
+    font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    transition:background .2s ease,border-color .2s ease,transform .2s ease}
+  .home-btn:hover{background:rgba(32,167,255,.13);border-color:rgba(32,167,255,.55);transform:translateY(-1px)}
+
+  .hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:128px 0 64px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      linear-gradient(90deg,rgba(5,9,20,.98) 0%,rgba(5,9,20,.85) 42%,rgba(5,9,20,.32) 72%,rgba(5,9,20,.85) 100%),
+      url("assets/lpkf-semiconductor-hero.svg") right center / min(920px,70vw) auto no-repeat;
+    opacity:.88;
+  }
+  .hero::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:32vh;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,transparent,var(--paper));
+  }
+  .hero .wrap{position:relative;z-index:1}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;width:100%}
+  .hero-eye{font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-soft);display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+  .hero-eye span{padding:5px 11px;border:1px solid var(--line);border-radius:100px;background:rgba(255,255,255,.05)}
+  .hero-meta{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px}
+  .date-pill{display:inline-flex;align-items:center;min-height:34px;padding:8px 12px;border:1px solid rgba(32,167,255,.35);
+    border-radius:999px;background:rgba(32,167,255,.09);color:var(--laser-2);
+    font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .hero h1{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;letter-spacing:0;line-height:1.08;
+    font-size:clamp(40px,7.1vw,84px);margin-bottom:30px}
+  .hero h1 .split{
+    color:var(--ink);
+    text-shadow:-.022em 0 0 rgba(255,46,77,.55), .022em 0 0 rgba(22,200,230,.6);
+  }
+  .hero h1 em{font-style:normal;color:var(--laser)}
+  .hero-sub{font-size:clamp(16px,1.9vw,20px);color:var(--ink-soft);max-width:52ch;font-weight:450}
+  .hero-sub b{color:var(--ink);font-weight:650}
+  .hero-stats{display:flex;gap:0;margin-top:38px;border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;background:rgba(7,16,29,.72);max-width:540px;backdrop-filter:blur(12px)}
+  .hstat{padding:16px 18px;flex:1;border-right:1px solid var(--line)}
+  .hstat:last-child{border-right:none}
+  .hstat .v{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:22px;letter-spacing:0}
+  .hstat .v.up{color:var(--green)}
+  .hstat .k{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:3px}
+
+  /* hero glass+beam svg holder */
+  .hero-art{position:relative;width:100%;max-width:460px;margin:0 auto}
+  .cinema-frame{position:relative;border:1px solid rgba(120,199,255,.24);background:rgba(2,5,12,.62);
+    min-height:520px;border-radius:4px;overflow:hidden;box-shadow:0 32px 90px rgba(0,0,0,.42)}
+  .cinema-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.78;filter:saturate(.92) contrast(1.08)}
+  .cinema-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,12,.16),rgba(2,5,12,.88))}
+  .vision-card{position:absolute;left:22px;right:22px;bottom:22px;z-index:1;
+    border-top:1px solid rgba(120,199,255,.36);padding-top:18px}
+  .vision-card .over{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--laser-2);margin-bottom:10px}
+  .vision-card p{font-size:18px;line-height:1.5;color:var(--ink);font-weight:600}
+  .vision-keys{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .vision-keys span{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.08em;
+    color:var(--ink-soft);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 8px;background:rgba(255,255,255,.05)}
+  .beam-line{transform-origin:center top;animation:beamPulse 3.2s ease-in-out infinite}
+  @keyframes beamPulse{0%,100%{opacity:.55}50%{opacity:1}}
+  .via-dot{animation:viaBlink 3.2s ease-in-out infinite}
+  @keyframes viaBlink{0%,40%{opacity:.25}55%{opacity:1}100%{opacity:.45}}
+
+  /* ---------------- generic blocks ---------------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  .band{background:linear-gradient(180deg,var(--night),#07111F);color:#fff}
+  .band .kicker{color:var(--cyan)}
+  .band .kicker::before{background:var(--cyan)}
+  .band .kicker .num{color:#fff;opacity:.4}
+  .band .lede{color:#B9C2D4}
+  .band .lede strong{color:#fff}
+
+  .rule{height:1px;background:var(--line);width:100%}
+
+  /* value cards */
+  .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:42px}
+  .vcard{background:var(--paper-3);border:1px solid var(--line);border-radius:16px;padding:24px;
+    position:relative;transition:transform .25s ease,box-shadow .25s ease}
+  .vcard:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(10,14,22,.4)}
+  .vcard .vn{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--laser);
+    letter-spacing:.1em}
+  .vcard h3{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:22px;letter-spacing:0;
+    margin:14px 0 9px}
+  .vcard p{font-size:14.5px;color:var(--ink-soft)}
+  .vcard .big{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:40px;color:var(--ink);
+    letter-spacing:0;line-height:1.05}
+  .vcard .big small{font-size:16px;color:var(--ink-soft);font-weight:600}
+
+  /* explainer split */
+  .ex{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:46px}
+  .ex-copy p{font-size:16px;color:var(--ink-soft);margin-bottom:16px}
+  .ex-copy p b{color:var(--ink);font-weight:650}
+  .ex-copy p .hl{background:linear-gradient(transparent 62%, rgba(27,67,255,.18) 0);padding:0 2px;color:var(--ink);font-weight:600}
+
+  /* compare drill vs laser */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .cc{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--paper-3)}
+  .cc.bad{border-color:rgba(255,46,77,.4)}
+  .cc.good{border-color:rgba(27,67,255,.4)}
+  .cc .lab{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .cc.bad .lab{color:var(--hot)}.cc.good .lab{color:var(--laser)}
+  .cc .res{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:15px;margin-top:12px}
+  .cc.bad .res{color:var(--hot)}.cc.good .res{color:var(--laser)}
+
+  /* leadership timeline */
+  .tl{position:relative;margin-top:48px;padding-left:4px}
+  .tl-line{position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--laser),var(--hot))}
+  .tl-item{position:relative;padding-left:42px;padding-bottom:30px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-dot{position:absolute;left:3px;top:2px;width:18px;height:18px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--laser)}
+  .tl-item.end .tl-dot{border-color:var(--hot);background:var(--hot)}
+  .tl-yr{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;color:var(--laser);letter-spacing:.05em}
+  .tl-item.end .tl-yr{color:var(--hot)}
+  .tl-item h4{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:19px;margin:5px 0 6px;letter-spacing:0}
+  .tl-item p{font-size:14.5px;color:var(--ink-soft);max-width:60ch}
+
+  .ldr-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  .lcard{background:var(--paper-3);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .lcard .role{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--laser);margin-bottom:6px}
+  .lcard h4{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:20px;letter-spacing:0;margin-bottom:10px}
+  .lcard p{font-size:14px;color:var(--ink-soft)}
+
+  .callout{margin-top:34px;border-left:4px solid var(--hot);background:var(--paper-3);
+    border-radius:0 14px 14px 0;padding:22px 26px}
+  .callout .tag{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--hot);
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+  .callout p{font-size:15.5px;color:var(--ink);max-width:74ch}
+  .callout p b{color:var(--hot)}
+
+  /* discovery funnel */
+  .funnel{margin-top:46px;display:flex;flex-direction:column;gap:9px;align-items:center}
+  .fstep{position:relative;border:1px solid var(--line);background:var(--paper-3);border-radius:12px;
+    padding:16px 22px;display:flex;align-items:center;gap:16px;transition:transform .2s}
+  .fstep:hover{transform:scale(1.012)}
+  .fstep .fi{font-family:'Space Mono',monospace;font-weight:700;font-size:12px;color:var(--laser);
+    min-width:24px}
+  .fstep .ft{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(15px,2vw,19px);letter-spacing:0}
+  .fstep .fd{font-size:13.5px;color:var(--ink-soft);margin-left:auto;text-align:right;max-width:42ch}
+  .fstep.kill{border-color:rgba(255,46,77,.45)}
+  .fstep.kill .ft{color:var(--hot)}
+  .fstep.win{background:var(--laser);border-color:var(--laser)}
+  .fstep.win .fi,.fstep.win .ft{color:#fff}
+  .fstep.win .fd{color:rgba(255,255,255,.85)}
+  .farrow{color:var(--line);font-size:18px;line-height:1}
+  /* width tapering = funnel */
+  .fstep:nth-child(1){width:100%}
+  .fstep:nth-child(3){width:94%}
+  .fstep:nth-child(5){width:82%}
+  .fstep:nth-child(7){width:70%}
+  .fstep:nth-child(9){width:58%}
+  .fstep:nth-child(11){width:46%;min-width:280px;justify-content:center}
+  .fstep.win .fd{display:none}
+
+  /* scorecard */
+  .score{margin-top:40px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper-3)}
+  .score-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.1fr;border-bottom:1px solid var(--line)}
+  .score-row:last-child{border-bottom:none}
+  .score-row.head{background:var(--night);color:#fff}
+  .score-cell{padding:16px;font-size:13.5px;border-right:1px solid var(--line);display:flex;align-items:center}
+  .score-row.head .score-cell{border-right-color:rgba(255,255,255,.12);font-family:'Space Mono',monospace;
+    font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .score-cell:last-child{border-right:none}
+  .score-cell.name{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:16px}
+  .yes{color:var(--green);font-weight:700;font-family:'Archivo','Noto Sans SC',sans-serif;font-size:18px}
+  .no{color:var(--hot);font-weight:700;font-family:'Archivo','Noto Sans SC',sans-serif;font-size:18px}
+
+  /* price ladder */
+  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:46px;align-items:end}
+  .lrung{background:var(--paper-3);border:1px solid var(--line);border-radius:16px 16px 0 0;
+    padding:22px;position:relative;display:flex;flex-direction:column;justify-content:flex-end;
+    border-bottom:4px solid var(--line)}
+  .lrung .tier{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:auto}
+  .lrung.bear{border-bottom-color:var(--hot);min-height:200px}
+  .lrung.base{border-bottom-color:var(--laser);min-height:280px}
+  .lrung.bull{border-bottom-color:var(--amber);min-height:380px}
+  .lrung.moon{border-bottom-color:var(--green);min-height:470px}
+  .lrung.bear .tier{color:var(--hot)}.lrung.base .tier{color:var(--laser)}
+  .lrung.bull .tier{color:var(--amber)}.lrung.moon .tier{color:var(--green)}
+  .lrung .price{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:clamp(26px,3.3vw,40px);
+    letter-spacing:0;line-height:1.05;margin-top:18px}
+  .lrung .chg{font-family:'Space Mono',monospace;font-weight:700;font-size:14px;margin-top:6px}
+  .lrung.bear .chg{color:var(--hot)}.lrung.base .chg{color:var(--laser)}
+  .lrung.bull .chg{color:var(--amber)}.lrung.moon .chg{color:var(--green)}
+  .lrung .mc{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .lrung .ass{font-size:13px;color:var(--ink-soft);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+  .nowline{display:flex;align-items:center;gap:12px;margin-top:18px;font-family:'Space Mono',monospace;
+    font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+  .nowline .ln{flex:1;height:0;border-top:2px dashed rgba(169,183,206,.42)}
+
+  /* real talk list */
+  .rt{margin-top:40px;display:grid;gap:12px}
+  .rtitem{display:flex;gap:16px;align-items:flex-start;background:var(--paper-3);
+    border:1px solid var(--line);border-radius:13px;padding:18px 20px}
+  .rtitem .x{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;color:var(--hot);font-size:20px;line-height:1.2}
+  .rtitem p{font-size:15px;color:var(--ink)}
+  .rtitem p b{color:var(--hot);font-weight:650}
+
+  /* play + watchlist */
+  .play{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+  .pcard{background:var(--paper-3);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .pcard.alt{background:var(--laser);color:#fff;border-color:var(--laser)}
+  .pcard .opt{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:10px;color:var(--laser)}
+  .pcard.alt .opt{color:rgba(255,255,255,.8)}
+  .pcard h4{font-family:'Archivo','Noto Sans SC',sans-serif;font-weight:900;font-size:21px;letter-spacing:0;margin-bottom:10px}
+  .pcard p{font-size:14.5px;color:var(--ink-soft)}
+  .pcard.alt p{color:rgba(255,255,255,.92)}
+
+  .watch{margin-top:18px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper-3)}
+  .wrow{display:grid;grid-template-columns:130px 1fr;border-bottom:1px solid var(--line);
+    font-family:'Space Mono',monospace}
+  .wrow:last-child{border-bottom:none}
+  .wrow .wd{padding:14px 16px;font-weight:700;font-size:13px;color:var(--laser);border-right:1px solid var(--line)}
+  .wrow .ww{padding:14px 16px;font-size:13px;color:var(--ink);font-family:'Inter',sans-serif}
+  .wrow.hot .wd{color:var(--hot)}
+
+  /* footer */
+  footer{background:var(--night);color:#fff;padding:64px 0 48px}
+  footer .foot-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
+  footer .logo-badge{background:rgba(255,255,255,.96)}
+  .disc{max-width:54ch;font-size:14px;color:#9AA6BC}
+  .disc b{color:#fff}
+  .foot-tick{font-family:'Space Mono',monospace;font-size:12px;color:#6E7A92;margin-top:30px}
+
+  @media(max-width:880px){
+    .topnav{align-items:flex-start}
+    .nav-right{gap:8px}
+    .home-btn{font-size:10px;padding:7px 10px}
+    .hero-grid{grid-template-columns:1fr;gap:10px}
+    .hero-art{max-width:360px;order:-1;margin-bottom:6px}
+    .cinema-frame{min-height:360px}
+    .vgrid,.ldr-cards,.play{grid-template-columns:1fr}
+    .ex{grid-template-columns:1fr;gap:30px}
+    .ladder{grid-template-columns:repeat(2,1fr)}
+    .lrung{min-height:auto!important}
+    .lrung.base,.lrung.bull,.lrung.moon{min-height:auto}
+    .score-row{grid-template-columns:1fr;}
+    .score-cell{border-right:none;border-bottom:1px solid var(--line)}
+    .score-row.head{display:none}
+    .score-cell::before{content:attr(data-l);font-family:'Space Mono',monospace;font-size:10px;
+      font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);
+      margin-right:auto;opacity:.7}
+    .fstep{width:100%!important;min-width:0!important;flex-wrap:wrap}
+    .fstep .fd{margin-left:0;text-align:left;max-width:100%}
+    .hero-stats{flex-wrap:wrap}
+    .hstat{min-width:50%;border-bottom:1px solid var(--line)}
+    .topnav .ticker-tag{display:none}
+    .wrow{grid-template-columns:1fr}
+    .wrow .wd{border-right:none;border-bottom:1px solid var(--line)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar bar--top"></div>
+<div class="bar bar--bot"></div>
+
+<nav class="topnav">
+  <a class="logo" href="https://www.lpkf.com/en/" aria-label="LPKF official website">
+    <span class="logo-badge">
+      <img src="assets/lpkf-logo-official.svg" alt="LPKF Laser & Electronics official logo">
+    </span>
+  </a>
+  <div class="nav-right">
+    <a class="home-btn" href="https://ai98.club/" aria-label="回到 Alpha Vault 主页">← 回到主页</a>
+    <div class="ticker-tag">
+      <span class="dot"></span>
+      <span>ETR: LPK</span>
+      <span class="px">€29.5</span>
+      <span>· 2026.06.22</span>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eye">
+          <span>Advanced Packaging</span><span>Glass Core</span><span>Precision Laser</span>
+        </div>
+        <div class="hero-meta">
+          <span class="date-pill">发布 2026.06.22 · 数据截至 2026.06.22</span>
+        </div>
+        <h1 class="disp">
+          全世界在抢 <em>GPU</em>。<br>
+          没人盯着那台<br>
+          <span class="split">给玻璃打孔</span>的<br>
+          德国激光机。
+        </h1>
+        <p class="hero-sub">
+          一句话讲明白:AI 芯片正在从塑料基板换成<b>玻璃基板</b>,玻璃上必须用激光打微孔(TGV)。
+          全世界能把这事干到量产的<b>就俩公司</b>,LPKF 是老大,<b>&gt;80%</b> 的大厂都选了它的设备。
+          说白了——这是一座没人注意的<b>收费站</b>。
+        </p>
+        <div class="hero-stats">
+          <div class="hstat"><div class="v">LPK</div><div class="k">Xetra 代码</div></div>
+          <div class="hstat"><div class="v">€29.5</div><div class="k">现价</div></div>
+          <div class="hstat"><div class="v up">+330%</div><div class="k">年内涨幅</div></div>
+          <div class="hstat"><div class="v">~€7亿</div><div class="k">市值</div></div>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="cinema-frame">
+          <img src="assets/lpkf-semiconductor-hero.svg" alt="LPKF advanced semiconductor packaging visual" loading="eager">
+          <div class="vision-card">
+            <div class="over">LPKF Vision Lens</div>
+            <p>“Pioneers in technological progress” 不是一句口号；在玻璃基板这条线上，它对应的是量产良率里的每一个通孔。</p>
+            <div class="vision-keys">
+              <span>Pioneering</span><span>Precision</span><span>Performance</span><span>Partnership</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 what is it -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">01</span> 这公司到底干嘛的</div>
+    <h2 class="h2 reveal">它给玻璃打孔。但「打孔」俩字配不上它。</h2>
+    <div class="ex">
+      <div class="ex-copy reveal">
+        <p>玻璃又平、又耐热、信号损耗还低,是 AI 大芯片的<b>完美地基</b>。唯一的问题:玻璃太脆。</p>
+        <p>你拿机械钻头去钻它,<span class="hl">微裂纹瞬间扩散</span>,芯片一发热就碎——一颗一万美金的 GPU 当场变板砖。</p>
+        <p>LPKF 的解法叫 <b>LIDE</b>(激光诱导深蚀刻):激光先在玻璃<b>内部</b>「画」出一条隐形通道,再用化学药水<b>只</b>把这条道咬穿。孔壁光滑、零裂纹。</p>
+        <p>全球能把这套做到<b>量产规模</b>的,数来数去只有两家。LPKF 是主导的那家,技术领先同行<b>约十年</b>。</p>
+      </div>
+      <div class="compare reveal">
+        <div class="cc bad">
+          <div class="lab">❌ 机械钻头</div>
+          <svg viewBox="0 0 160 110" width="100%"><rect x="14" y="38" width="132" height="34" rx="4" fill="#16C8E6" opacity="0.12" stroke="#FF2E4D" stroke-width="1.3"/><path d="M80 6 L80 38" stroke="#0A0E16" stroke-width="3"/><path d="M70 38 q10 18 20 0" fill="none" stroke="#FF2E4D" stroke-width="1.4"/><path d="M62 44 l-10 26 M98 44 l10 26 M80 50 l-4 22 M80 50 l5 20" stroke="#FF2E4D" stroke-width="1.2"/></svg>
+          <div class="res">→ 裂了 = 良率崩</div>
+        </div>
+        <div class="cc good">
+          <div class="lab">✅ 激光 LIDE</div>
+          <svg viewBox="0 0 160 110" width="100%"><rect x="14" y="38" width="132" height="34" rx="4" fill="#16C8E6" opacity="0.16" stroke="#1B43FF" stroke-width="1.3"/><line x1="80" y1="6" x2="80" y2="38" stroke="#FF2E4D" stroke-width="2.4"/><line x1="80" y1="38" x2="80" y2="72" stroke="#1B43FF" stroke-width="2.4"/><ellipse cx="80" cy="38" rx="6" ry="2.4" fill="#fff" stroke="#1B43FF" stroke-width="1.2"/><ellipse cx="80" cy="72" rx="6" ry="2.4" fill="#EAEEF4" stroke="#1B43FF" stroke-width="1.2"/></svg>
+          <div class="res">→ 光滑孔 = 高良率</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<!-- 02 why now -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">02</span> 为什么是现在</div>
+    <h2 class="h2 reveal">玻璃,就是 AI 时代的「新铜」。</h2>
+    <p class="lede reveal">
+      封装越做越大(Rubin Ultra 那种怪兽级),老的有机 <strong>ABF 基板</strong>一受热就翘、就裂,
+      大概到 55mm 就卡死。玻璃没这毛病,所以全行业在往玻璃上跑——这不是「会不会」,是「哪年」。
+    </p>
+    <div class="vgrid reveal">
+      <div class="vcard">
+        <div class="vn">已量产</div>
+        <h3>Intel</h3>
+        <p>Clearwater Forest(Xeon 6+)已在 CES 2026 出货——<b>全球第一颗量产的玻璃基板商用芯片</b>。这是赛道唯一的「存在证明」。</p>
+      </div>
+      <div class="vcard">
+        <div class="vn">在搞</div>
+        <h3>台积电 / 三星</h3>
+        <p>台积电做 CoPoS 面板级封装;三星电机把玻璃基板样品送给了<b>苹果和博通</b>。大厂排队进场。</p>
+      </div>
+      <div class="vcard">
+        <div class="vn">下注</div>
+        <h3>NVIDIA → Corning</h3>
+        <p>老黄砸了 <b>$30 多亿</b>进玻璃巨头 Corning(光纤 + 玻璃)。「AI 不只是技术故事,更是制造故事。」</p>
+      </div>
+    </div>
+    <p class="lede reveal" style="margin-top:34px">
+      行业共识时间表:<strong>2027 放量,2029 上大量</strong>。换句话说,这趟车还在站台。
+    </p>
+  </div>
+</section>
+
+<!-- 03 value / toll booth -->
+<section class="sec band">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">03</span> 它凭什么值钱</div>
+    <h2 class="h2 reveal" style="color:#fff">每一片玻璃基板量产,<br>都要从它的闸口过一遍。</h2>
+    <p class="lede reveal">这就是「收费站模型」:你不用赌谁家基板厂赢,因为不管谁赢,打孔这道工序都绕不开 LPKF。</p>
+    <div class="vgrid reveal">
+      <div class="vcard">
+        <div class="vn">市场份额</div>
+        <div class="big">80%<small>+</small></div>
+        <h3 style="font-size:18px;margin-top:8px">大厂已选定</h3>
+        <p>全球主要玩家超过八成的玻璃项目,选了 LPKF 的设备做验证和量产。</p>
+      </div>
+      <div class="vcard">
+        <div class="vn">竞争格局</div>
+        <div class="big">2选1</div>
+        <h3 style="font-size:18px;margin-top:8px">全球仅两家</h3>
+        <p>能把 LIDE 做到量产规模的全世界只有两家,LPKF 是主导那家。专利在欧盟、韩国都打赢了防御战。</p>
+      </div>
+      <div class="vcard">
+        <div class="vn">护城河升级</div>
+        <div class="big">×4</div>
+        <h3 style="font-size:18px;margin-top:8px">不止打孔</h3>
+        <p>现在是全套平台:打孔(LIDE)+ 烧蚀(Tensor)+ 玻璃-玻璃激光键合 + 玻璃基 CPO。每条线能收的费更多了。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 transformation / leadership -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">04</span> 转型 & 新班子</div>
+    <h2 class="h2 reveal">一个从玻璃巨头挖来的 CEO,<br>把激光老厂改成了收费站。</h2>
+    <p class="lede reveal">重点:这<strong>不是</strong>激光公司临时「蹭」玻璃概念。是有人提前四年,悄悄把方向盘打过来了。</p>
+
+    <div class="tl reveal">
+      <div class="tl-line"></div>
+      <div class="tl-item">
+        <div class="tl-yr">2022.01</div>
+        <h4>Klaus Fiedler 空降 CEO</h4>
+        <p>上一站是德国特种玻璃巨头 <b>SCHOTT</b> 的「新业务孵化」负责人。一个既懂玻璃、又专门做新业务的物理学博士,来给激光公司做玻璃基板转型——这选角合适到离谱。上任就把产品组合掰向半导体/玻璃。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">2024.04</div>
+        <h4>合同提前续到 2028</h4>
+        <p>董事会用一句「完成公司的转型」把他锁住。连续性 ✅,人没换。</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">2025.04 / 2026.06</div>
+        <h4>财务 + 董事会补强</h4>
+        <p>新 CFO(西门子 25 年、带过公司上 NASDAQ)管降本;监事会拉进 <b>Elmos 半导体的 CEO</b>,专门给先进封装转型背书。</p>
+      </div>
+      <div class="tl-item end">
+        <div class="tl-yr">2026</div>
+        <h4>市场终于看懂了 → 股价 6 个月 +330%</h4>
+        <p>玻璃基板上了热搜,信号兑现。从一家 €2.5 亿的「传统激光厂」,变成十年期收费站的故事。</p>
+      </div>
+    </div>
+
+    <div class="ldr-cards reveal">
+      <div class="lcard">
+        <div class="role">CEO · 2022 至今</div>
+        <h4>Klaus Fiedler</h4>
+        <p>物理博士。前 SCHOTT(玻璃巨头)新业务孵化负责人。被董事会点名的关键词:<b>企业家精神 + 搞定 Tier-1 大客户</b>。转型的总设计师。</p>
+      </div>
+      <div class="lcard">
+        <div class="role">CFO · 2025 至今</div>
+        <h4>Peter Mümmler</h4>
+        <p>西门子 25 年 + Alstom 整合 + 带公司上 NASDAQ。<b>重组降本老手</b>,正好操盘 North Star 降本、目标 2028 双位数利润率。</p>
+      </div>
+      <div class="lcard">
+        <div class="role">监事会 · 2026 新增</div>
+        <h4>Arne Schneider</h4>
+        <p>Elmos 半导体现任 CEO。把<b>半导体行业的专业度</b>直接搬进董事会——给玻璃封装这步棋背书。</p>
+      </div>
+    </div>
+
+    <div class="callout reveal">
+      <div class="tag">插一句真心话</div>
+      <p>你最早找的就是「<b>变革型领导带企业转型、在重估前埋伏</b>」。LPKF 是这套逻辑最纯正的一次兑现——只不过:信号(2022 换帅)到重估(2026)整整隔了<b>四年</b>。教训写下来:深科技里,真正的埋伏点是「刚换帅、正在掉头」那会儿,<b>不是</b>等 TAM 上了热搜之后。你现在是兑现之后才到场。</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rule"></div></div>
+
+<!-- 05 how we found it -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">05</span> 我们是怎么挖到它的</div>
+    <h2 class="h2 reveal">从 8 个换帅票,筛到这一个收费站。</h2>
+    <p class="lede reveal">挖掘逻辑全程公开,没有黑箱。每一层都在做减法:</p>
+
+    <div class="funnel reveal">
+      <div class="fstep"><span class="fi">1</span><span class="ft">8 个「新帅 + AI 转型」的票</span><span class="fd">MCHP / NOK / AMKR / POWI / SYNA …一通扫</span></div>
+      <div class="farrow">▼</div>
+      <div class="fstep kill"><span class="fi">2</span><span class="ft">发现:全重估完了</span><span class="fd">全部 2–5 倍涨完、在历史高位、内部人在卖。追高 = 违纪</span></div>
+      <div class="farrow">▼</div>
+      <div class="fstep"><span class="fi">3</span><span class="ft">换把尺子:看「新 TAM」</span><span class="fd">不看涨了多少,看市场是不是还在用旧业务给它定价</span></div>
+      <div class="farrow">▼</div>
+      <div class="fstep"><span class="fi">4</span><span class="ft">缩到一条赛道:玻璃基板</span><span class="fd">唯一「TAM 全新、又没被定透」的地方</span></div>
+      <div class="farrow">▼</div>
+      <div class="fstep"><span class="fi">5</span><span class="ft">找到真瓶颈:给玻璃打孔(TGV)</span><span class="fd">基板厂是混战;真正卡脖子的是打孔这一步</span></div>
+      <div class="farrow">▼</div>
+      <div class="fstep win"><span class="fi">=</span><span class="ft">LPKF · 全链唯一干净垄断</span><span class="fd"></span></div>
+    </div>
+
+    <div class="kicker reveal" style="margin-top:60px;color:var(--ink)"><span style="background:var(--ink)"></span>四关检验记分卡</div>
+    <div class="score reveal">
+      <div class="score-row head">
+        <div class="score-cell">名字</div>
+        <div class="score-cell">① 全新 TAM</div>
+        <div class="score-cell">② 垄断</div>
+        <div class="score-cell">③ 体量够大</div>
+        <div class="score-cell">④ 还没被定价</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cell name" data-l="名字">LPKF</div>
+        <div class="score-cell" data-l="① 全新 TAM"><span class="yes">✓</span></div>
+        <div class="score-cell" data-l="② 垄断"><span class="yes">✓</span>&nbsp;<span style="font-size:12px;color:var(--ink-soft)">唯一拿满</span></div>
+        <div class="score-cell" data-l="③ 体量够大"><span class="yes">✓</span></div>
+        <div class="score-cell" data-l="④ 还没被定价"><span class="no">✗</span>&nbsp;<span style="font-size:12px;color:var(--ink-soft)">已涨上来</span></div>
+      </div>
+      <div class="score-row">
+        <div class="score-cell name" data-l="名字">前 8 个票</div>
+        <div class="score-cell" data-l="① 全新 TAM"><span class="yes">✓</span></div>
+        <div class="score-cell" data-l="② 垄断"><span class="no">✗</span></div>
+        <div class="score-cell" data-l="③ 体量够大">看情况</div>
+        <div class="score-cell" data-l="④ 还没被定价"><span class="no">✗</span></div>
+      </div>
+    </div>
+    <div class="callout reveal" style="border-left-color:var(--laser)">
+      <div class="tag" style="color:var(--laser)">结论</div>
+      <p>前 8 个票全栽在 <b style="color:var(--laser)">②(没垄断)</b>。LPKF 是唯一 ② 拿满分的——代价是 <b style="color:var(--laser)">④ 已经翻了</b>。所以分歧只在「<b style="color:var(--laser)">什么时候上</b>」,不在「值不值得上」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 TAM to price -->
+<section class="sec band">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">06</span> TAM 能把股价顶到哪</div>
+    <h2 class="h2 reveal" style="color:#fff">Napkin math 时间。<br>看完别拿这个去梭哈。</h2>
+    <p class="lede reveal">
+      四个情景,假设全写在牌面上。约 <strong>2450 万股</strong>,现价 <strong>~€29.5</strong>(市值 ~€7 亿)。
+      这是「<strong>如果…那么…</strong>」,不是预测,更不是投资建议。假设错一个,数字全变。
+    </p>
+
+    <div class="nowline reveal"><span>现在 · €29.5</span><span class="ln"></span><span>↓ 情景在下面</span></div>
+
+    <div class="ladder reveal">
+      <div class="lrung bear">
+        <div class="tier">Bear</div>
+        <div class="price">€12–15</div>
+        <div class="chg">约 -50%</div>
+        <div class="mc">市值 ~€3–3.7 亿</div>
+        <div class="ass">订单一再跳票 + 韩系量产份额被本土厂(Philoptics/UTI)抢走,情绪退潮,跌回卖方目标价。</div>
+      </div>
+      <div class="lrung base">
+        <div class="tier">Base</div>
+        <div class="price">€37–50</div>
+        <div class="chg">+25%~+70%</div>
+        <div class="mc">市值 ~€9–12 亿</div>
+        <div class="ass">Montega 口径:2028 收入 €2 亿、EBIT 15%。给 6x P/S 或 30x EBIT。现价大致公允到略低估。</div>
+      </div>
+      <div class="lrung bull">
+        <div class="tier">Bull</div>
+        <div class="price">€115–145</div>
+        <div class="chg">+3~4 倍</div>
+        <div class="mc">市值 ~€28–35 亿</div>
+        <div class="ass">玻璃成 AI 封装主流、LPKF 守住收费站,2029–30 收入冲 €3.5–4.5 亿、EBIT 20%+,再叠 CPO。给 8x P/S。</div>
+      </div>
+      <div class="lrung moon">
+        <div class="tier">Moonshot</div>
+        <div class="price">€160–245+</div>
+        <div class="chg">+5 倍起</div>
+        <div class="mc">市值 ~€40–60 亿+</div>
+        <div class="ass">全套收费站吃下一个巨大的 AI 封装 TAM,市场像给 NVDA 周边垄断那样给估值。彩票区,真信才碰。</div>
+      </div>
+    </div>
+    <p class="lede reveal" style="margin-top:30px;font-size:15px">
+      这是情景框架，不是预测模型。每一格都建立在「订单兑现 + 韩系份额守住 + 玻璃如期放量」这串<strong>连乘</strong>上，断一环就回熊格。
+    </p>
+  </div>
+</section>
+
+<!-- 07 the catch -->
+<section class="sec">
+  <div class="wrap">
+    <div class="kicker reveal" style="color:var(--hot)"><span style="background:var(--hot)"></span><span class="num">07</span> 但是(说点不好听的)</div>
+    <h2 class="h2 reveal">别在 52 周高位、订单还没影的时候,<br>因为指数今天纳入就梭哈。</h2>
+    <div class="rt reveal">
+      <div class="rtitem"><span class="x">!</span><p><b>9 天大限。</b>管理层亲口说 Q2(6/30 前)出首张量产订单。今天还没公告。这时间表已经滑过好几次了。</p></div>
+      <div class="rtitem"><span class="x">!</span><p><b>最近这波冲高水分大。</b>主要是今天(6/22)纳入 SDAX 的指数买盘 + 一个已经辟谣的「SpaceX 供应商」传闻。不是硬订单。</p></div>
+      <div class="rtitem"><span class="x">!</span><p><b>卖方在唱反调。</b>分析师均价 ~€15,大概是现价一半。空头(Voleon 2.13%)在加注。</p></div>
+      <div class="rtitem"><span class="x">!</span><p><b>收入真正起来要 2027,不是 2026。</b>现在还在亏(Q1 EBIT -690 万欧),太阳能业务拖后腿。</p></div>
+      <div class="rtitem"><span class="x">!</span><p><b>最该怕的一条:</b>韩国那几家 fab 更爱用本土设备商。「&gt;80% 选定」≠「&gt;80% 量产份额」。这条若坐实,垄断溢价打折。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 how to play -->
+<section class="sec sec--tight">
+  <div class="wrap">
+    <div class="kicker reveal"><span class="num">08</span> 真要上车怎么上</div>
+    <h2 class="h2 reveal">标的你选对了。问题只剩「入场结构」。</h2>
+    <div class="play reveal">
+      <div class="pcard">
+        <div class="opt">打法 A</div>
+        <h4>小底仓 + 确认加仓</h4>
+        <p>先放个小底仓,<b>订单确认后再加大</b>。为「确认」付一点溢价,换掉这个二元风险。设备股在订单落地后通常还有腿。</p>
+      </div>
+      <div class="pcard alt">
+        <div class="opt">打法 B</div>
+        <h4>等 6/30 揭晓</h4>
+        <p>订单来了→买强势;跳票了→大概率给你那个 <b>-30%~-50%</b> 的回调,那才是埋伏点。耐心是这里唯一的 alpha。</p>
+      </div>
+    </div>
+    <p class="lede reveal" style="margin-top:24px;font-size:16px">
+      就一句话:<strong>别在指数买盘 + 传闻把它推到高位、订单还没定的时候一把梭。</strong>
+    </p>
+
+    <div class="kicker reveal" style="margin-top:50px"><span></span>盯盘清单</div>
+    <div class="watch reveal">
+      <div class="wrow hot"><div class="wd">≤ 6/30</div><div class="ww">首张量产订单公告 — THE 催化,二元;看有没有具名客户</div></div>
+      <div class="wrow"><div class="wd">7/23</div><div class="ww">Q2 财报 — 重点看<b>指引是否开始纳入半导体订单</b>(= 收入坐实信号)</div></div>
+      <div class="wrow"><div class="wd">滚动</div><div class="ww">三星电机量产时点 — 全行业头号催化</div></div>
+      <div class="wrow"><div class="wd">滚动</div><div class="ww">韩系量产份额花落谁家 — 对垄断论的最大反向证据</div></div>
+      <div class="wrow"><div class="wd">2026H2</div><div class="ww">首份美国券商覆盖 — 零覆盖,初评买入可推 ~30%</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <a class="logo" href="https://www.lpkf.com/en/" aria-label="LPKF official website">
+        <span class="logo-badge">
+          <img src="assets/lpkf-logo-official.svg" alt="LPKF Laser & Electronics official logo">
+        </span>
+      </a>
+      <p class="disc">
+        这是一份 <b>独立投研归档</b>,不是投资建议,也不是劝你买。
+        所有价格与数据截至 <b>2026.06.22</b>,会很快过期。数字会变、传闻会翻车、订单会跳票。
+        自己做功课(DYOR),仓位自己扛。
+      </p>
+    </div>
+    <div class="foot-tick">ETR: LPK · LIDE® 是 LPKF 的注册商标 · 本页为独立分析、与公司无任何关联 · 情景测算为示意,非预测</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+    },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e);});
+  })();
+</script>
+</body>
+</html>
