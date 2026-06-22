@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI时代 · 创业者型CEO框架</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS ═══════════════════════════════════════════════ */
+:root {
+  --ink:       #0D1B2E;   /* deep navy */
+  --ink2:      #1A2E4A;
+  --ink3:      #253A58;
+  --gold:      #C8962E;
+  --gold-lt:   #E8B84B;
+  --gold-pale: #F5DFA0;
+  --ivory:     #F8F3EA;
+  --parchment: #EDE5D2;
+  --rose:      #7D2027;
+  --rose-lt:   #B93030;
+  --teal:      #1A6B5A;
+  --teal-lt:   #2EA88C;
+  --white:     #FFFDF8;
+  --muted:     #6B7E96;
+
+  --r: 0px; /* sharp corners - war room aesthetic */
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ═══ UTILITIES ════════════════════════════════════════════ */
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.rule { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+.rule-full { height: 2px; background: var(--gold); }
+
+.page-nav {
+  position: fixed;
+  top: 18px;
+  left: 24px;
+  right: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  pointer-events: none;
+}
+.nav-pill {
+  pointer-events: auto;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(200,150,46,.36);
+  background: rgba(13,27,46,.72);
+  color: var(--gold-pale);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+}
+a.nav-pill:hover { background: rgba(200,150,46,.14); }
+
+/* ═══ HERO ═════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  background: var(--ink);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* cinematic light cone */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%; left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 140%;
+  background: conic-gradient(
+    from 270deg at 50% 0%,
+    transparent 40%,
+    rgba(200,150,46,.07) 50%,
+    rgba(200,150,46,.12) 55%,
+    rgba(200,150,46,.07) 60%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* grid overlay */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,150,46,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,150,46,.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 32px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.hero-kicker-line { flex: 1; height: 1px; width: 60px; background: rgba(200,150,46,.4); }
+.hero-kicker span { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .25em; color: rgba(200,150,46,.7); }
+
+.hero-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 10vw, 120px);
+  font-weight: 900;
+  color: var(--ivory);
+  line-height: .95;
+  letter-spacing: -.02em;
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--gold-lt);
+  display: block;
+}
+
+.hero-sub {
+  margin-top: 36px;
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(248,243,234,.45);
+  max-width: 560px;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* big stat row in hero */
+.hero-stats {
+  display: flex;
+  gap: 0;
+  margin-top: 72px;
+  border: 1px solid rgba(200,150,46,.2);
+  position: relative;
+  z-index: 1;
+}
+.hero-stat {
+  padding: 28px 48px;
+  border-right: 1px solid rgba(200,150,46,.2);
+  text-align: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--gold-lt);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: rgba(248,243,234,.35);
+  margin-top: 8px;
+}
+
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+}
+.scroll-hint span { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .3em; color: rgba(200,150,46,.4); }
+.scroll-hint svg { animation: scrollBounce 2s ease-in-out infinite; }
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* ═══ DNA SECTION — 4 conditions ══════════════════════════ */
+.dna-section {
+  background: var(--parchment);
+  padding: 100px 0 0;
+}
+.dna-header {
+  padding: 0 64px 64px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.dna-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 16px;
+  line-height: 1.1;
+}
+
+.dna-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 2px solid var(--ink);
+}
+
+.dna-card {
+  padding: 52px 44px 60px;
+  border-right: 1px solid rgba(13,27,46,.15);
+  position: relative;
+  background: var(--parchment);
+  transition: background .25s;
+}
+.dna-card:last-child { border-right: none; }
+.dna-card:hover { background: var(--ivory); }
+
+.dna-icon-wrap {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 28px;
+  position: relative;
+}
+/* SVG icons drawn inline — all same geometric style */
+
+.dna-condition {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.dna-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+.dna-visual {
+  /* visual explanation replaces prose */
+}
+
+/* condition 1: founder track record — timeline dots */
+.track-record {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+.track-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.track-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.track-dot.green { background: var(--teal-lt); }
+.track-dot.gold  { background: var(--gold); }
+.track-dot.red   { background: var(--rose-lt); }
+.track-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 2px;
+}
+
+/* condition 2: restructure willingness — bar chart */
+.reorg-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 60px;
+  margin-top: 12px;
+}
+.reorg-bar {
+  flex: 1;
+  background: linear-gradient(180deg, var(--gold), var(--rose));
+  border-radius: 0;
+  position: relative;
+  min-height: 8px;
+}
+.reorg-bar-label {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* condition 3: network — node graph */
+.network-viz {
+  position: relative;
+  height: 72px;
+  margin-top: 8px;
+}
+.net-node {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.net-center { width: 16px; height: 16px; top: 28px; left: 50%; transform: translateX(-50%); }
+.net-s1 { width: 10px; height: 10px; background: var(--gold-lt); }
+.net-s2 { width: 8px; height: 8px; background: var(--ink3); }
+.net-line {
+  position: absolute;
+  height: 1px;
+  background: rgba(200,150,46,.4);
+  transform-origin: left center;
+}
+
+/* condition 4: AI pivot arrow */
+.pivot-viz {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.pivot-from {
+  padding: 8px 14px;
+  border: 1px solid var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  background: transparent;
+}
+.pivot-arrow {
+  font-size: 20px;
+  color: var(--gold);
+}
+.pivot-to {
+  padding: 8px 14px;
+  background: var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gold-lt);
+}
+.pivot-caption {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* ═══ CEO PROFILES ═════════════════════════════════════════ */
+.profiles-section {
+  background: var(--ink);
+  padding: 100px 64px;
+}
+.profiles-header {
+  max-width: 1300px;
+  margin: 0 auto 64px;
+}
+.profiles-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  color: var(--ivory);
+  margin-top: 16px;
+}
+
+.profiles-grid {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.profile-card {
+  background: var(--ink2);
+  padding: 52px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+  transition: background .25s;
+}
+.profile-card:hover { background: var(--ink3); }
+
+/* dramatic gold top accent */
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt), transparent);
+}
+
+/* watermark return number */
+.profile-card::after {
+  content: attr(data-return);
+  position: absolute;
+  bottom: -10px; right: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  font-weight: 900;
+  color: rgba(200,150,46,.06);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.profile-photo-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold);
+  background: var(--ink3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--gold-lt);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.company-logo-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px; height: 34px;
+  background: var(--ivory);
+  padding: 4px 8px;
+}
+.company-logo-pill img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain;
+}
+.logo-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.profile-content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profile-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ivory);
+  line-height: 1.1;
+}
+.profile-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--gold);
+  margin-top: 6px;
+}
+
+/* stock return block — the STAR visual */
+.return-block {
+  margin-top: 24px;
+  background: rgba(200,150,46,.07);
+  border: 1px solid rgba(200,150,46,.2);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: minmax(118px, 166px) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+}
+.return-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: var(--gold-lt);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+.return-details { min-width: 0; }
+.return-from {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.return-arrow { color: var(--gold); }
+.return-bar-wrap {
+  height: 4px;
+  background: rgba(200,150,46,.15);
+  margin-top: 10px;
+}
+.return-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+}
+
+/* dna match pills */
+.dna-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+.dna-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  padding: 4px 10px;
+  border: 1px solid rgba(200,150,46,.35);
+  color: var(--gold-pale);
+}
+.dna-pill.check::before { content: '✓ '; color: var(--teal-lt); }
+.dna-pill.miss { border-color: rgba(107,126,150,.3); color: var(--muted); }
+.dna-pill.miss::before { content: '△ '; }
+
+/* ═══ TIMING — the window ══════════════════════════════════ */
+.timing-section {
+  background: var(--white);
+  padding: 100px 64px;
+}
+.timing-inner { max-width: 1300px; margin: 0 auto; }
+.timing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 16px;
+  margin-bottom: 72px;
+}
+
+/* horizontal timeline */
+.timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 40px; left: 40px; right: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt), var(--rose));
+}
+
+.tl-step {
+  padding: 0 24px;
+  position: relative;
+}
+
+.tl-dot-wrap {
+  position: relative;
+  height: 80px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 28px;
+}
+.tl-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  z-index: 1;
+  position: relative;
+}
+.tl-dot.filled { background: var(--gold); color: var(--white); }
+
+.tl-body { padding-top: 16px; }
+.tl-step-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.tl-step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.tl-step-visual {
+  margin-bottom: 12px;
+}
+.tl-step-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* STEP 1 — scan visual: news source icons */
+.scan-sources {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.scan-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 3px 8px;
+  background: var(--parchment);
+  border: 1px solid rgba(13,27,46,.15);
+  color: var(--ink2);
+  letter-spacing: .05em;
+}
+
+/* STEP 2 — timing window bar */
+.window-viz {
+  height: 36px;
+  background: var(--parchment);
+  position: relative;
+  overflow: hidden;
+}
+.window-fill {
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, rgba(200,150,46,.25), rgba(200,150,46,.5));
+  width: 55%;
+}
+.window-marker {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--gold);
+}
+.window-marker.ceo  { left: 12%; }
+.window-marker.move { left: 55%; background: var(--rose-lt); }
+.window-label {
+  position: absolute;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.window-label.l1 { left: 13%; bottom: 4px; }
+.window-label.l2 { left: 56%; bottom: 4px; color: var(--rose-lt); }
+
+/* STEP 3 — verify checklist */
+.verify-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.verify-item {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.4;
+}
+.verify-icon { color: var(--teal-lt); font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+
+/* STEP 4 — price action mini chart */
+.price-chart {
+  height: 48px;
+  position: relative;
+}
+.price-chart svg { width: 100%; height: 100%; }
+
+/* ═══ MARKET SCAN CARDS ════════════════════════════════════ */
+.scan-section {
+  background: var(--parchment);
+  padding: 100px 64px;
+}
+.scan-inner { max-width: 1300px; margin: 0 auto; }
+.scan-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 16px;
+  margin-bottom: 64px;
+}
+
+.scan-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.scan-card {
+  background: var(--white);
+  padding: 46px 36px 40px;
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid transparent;
+  transition: border-color .2s;
+}
+.scan-card.hot   { border-top-color: var(--gold); }
+.scan-card.warm  { border-top-color: var(--teal-lt); }
+.scan-card.watch { border-top-color: var(--muted); }
+.scan-card:hover { background: var(--ivory); }
+
+.scan-status-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .2em;
+  padding: 4px 10px;
+  position: absolute;
+  top: 28px; right: 28px;
+}
+.scan-card.hot   .scan-status-badge { background: rgba(200,150,46,.15); color: var(--gold); }
+.scan-card.warm  .scan-status-badge { background: rgba(46,168,140,.1); color: var(--teal); }
+.scan-card.watch .scan-status-badge { background: rgba(107,126,150,.1); color: var(--muted); }
+
+.scan-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-right: 88px;
+  min-height: 58px;
+}
+.sc-logo {
+  width: 48px; height: 48px;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.sc-logo img { width: 90%; height: 90%; object-fit: contain; }
+.sc-logo .logo-text {
+  color: var(--ivory);
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+.sc-logo[style*="ivory"] .logo-text { color: var(--ink); }
+
+.sc-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.sc-ticker {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.sc-ceo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.sc-ceo-row span { font-weight: 400; color: var(--muted); }
+
+.sc-return-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin: 20px 0 4px;
+}
+.sc-return-big.tbd { font-size: 24px; color: var(--muted); }
+.sc-return-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.sc-mini-bar-wrap { height: 6px; background: rgba(13,27,46,.08); margin-bottom: 20px; }
+.sc-mini-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+
+.sc-signal {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.sc-signal strong { color: var(--ink2); }
+
+/* ═══ CLOSING STATEMENT ════════════════════════════════════ */
+.closing {
+  background: var(--ink);
+  padding: 120px 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,150,46,.08), transparent);
+}
+.closing-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--ivory);
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.4;
+  position: relative;
+}
+.closing-quote em { color: var(--gold-lt); font-style: normal; }
+.closing-attr {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .3em;
+  color: rgba(200,150,46,.4);
+  margin-top: 36px;
+  position: relative;
+}
+
+/* ═══ FOOTER ════════════════════════════════════════════════ */
+footer {
+  background: var(--ink);
+  border-top: 1px solid rgba(200,150,46,.12);
+  padding: 36px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold-lt);
+}
+.footer-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: rgba(200,150,46,.3);
+}
+
+/* ═══ RESPONSIVE ════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .dna-grid { grid-template-columns: repeat(2, 1fr); }
+  .profiles-grid { grid-template-columns: 1fr; }
+  .scan-cards { grid-template-columns: repeat(2, 1fr); }
+  .timeline { grid-template-columns: 1fr 1fr; gap: 40px 0; }
+  .timeline::before { display: none; }
+}
+@media (max-width: 640px) {
+  .page-nav { left: 14px; right: 14px; top: 14px; }
+  .nav-pill { font-size: 9px; letter-spacing: .08em; padding: 7px 9px; }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { border-right: none; border-bottom: 1px solid rgba(200,150,46,.2); }
+  .dna-grid { grid-template-columns: 1fr; }
+  .profiles-section, .timing-section, .scan-section { padding: 80px 24px; }
+  .profiles-grid { grid-template-columns: 1fr; }
+  .profile-card { grid-template-columns: 1fr; }
+  .return-block { grid-template-columns: 1fr; }
+  .scan-cards { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+/* entry animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-kicker  { animation: fadeUp .7s ease both; }
+.hero-headline{ animation: fadeUp .7s .1s ease both; }
+.hero-sub     { animation: fadeUp .7s .25s ease both; }
+.hero-stats   { animation: fadeUp .7s .4s ease both; }
+</style>
+</head>
+<body>
+
+<nav class="page-nav" aria-label="页面导航">
+  <span class="nav-pill">发布 2026.06.22 · Alpha Framework</span>
+  <a class="nav-pill" href="https://ai98.club/">← 回到主页</a>
+</nav>
+
+<!-- ══════════════ HERO ═══════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">
+      <div class="hero-kicker-line"></div>
+      <span>ALPHA FRAMEWORK · 2026</span>
+      <div class="hero-kicker-line"></div>
+    </div>
+
+    <h1 class="hero-headline">
+      AI时代<br>
+      <em>创业者型 CEO</em>
+    </h1>
+    <p class="hero-sub">
+      当企业必须再创业，唯有经历过生死的创始人才有魄力动刀。
+      人事变动是公开信息，市场定价的滞后，是最大的机会。
+    </p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">+3200%</div>
+        <div class="hero-stat-label">Cadence · 陈立武12年</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">+240%</div>
+        <div class="hero-stat-label">Lattice · Ford Tamer 14个月</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">6-18mo</div>
+        <div class="hero-stat-label">CEO换人→市场定价 时滞窗口</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">×4</div>
+        <div class="hero-stat-label">必要条件 缺一不可</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <svg width="18" height="24" fill="none" viewBox="0 0 18 24">
+      <path d="M9 4v16M3 14l6 7 6-7" stroke="rgba(200,150,46,.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════ 4 CONDITIONS ═══════════════════════════ -->
+<section class="dna-section">
+  <div class="dna-header">
+    <div class="eyebrow">FRAMEWORK · 识别框架</div>
+    <h2 class="dna-title">四项<em style="font-style:italic;color:var(--gold)">缺一不可</em>的条件</h2>
+  </div>
+
+  <div class="dna-grid">
+
+    <!-- CONDITION 1 -->
+    <div class="dna-card">
+      <div class="dna-icon-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" stroke="#C8962E" stroke-width="1.5"/>
+          <path d="M20 32l8 8 16-16" stroke="#C8962E" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="32" cy="14" r="4" fill="#C8962E" opacity=".4"/>
+          <circle cx="50" cy="32" r="4" fill="#C8962E" opacity=".4"/>
+          <circle cx="32" cy="50" r="4" fill="#C8962E" opacity=".4"/>
+          <circle cx="14" cy="32" r="4" fill="#C8962E" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="dna-condition">CONDITION 01</div>
+      <div class="dna-name">成功过的创业者</div>
+      <div class="dna-visual">
+        <div class="track-record">
+          <div class="track-item"><div class="track-dot green"></div><span>创立公司 / 做到规模</span></div>
+          <div class="track-item"><div class="track-dot gold"></div><span>IPO 或 大额并购退出</span></div>
+          <div class="track-item"><div class="track-dot red"></div><span>失败过——知道死亡线在哪</span></div>
+          <div class="track-item"><div class="track-dot green"></div><span>再次成功——有校准能力</span></div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;">
+        不是"做过高管"，是<strong style="color:var(--ink)">亲历过从零到退出</strong>的全程。
+        这给予他真实的风险嗅觉。
+      </p>
+    </div>
+
+    <!-- CONDITION 2 -->
+    <div class="dna-card">
+      <div class="dna-icon-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="4" width="56" height="56" stroke="#C8962E" stroke-width="1.5"/>
+          <path d="M4 32h56" stroke="#C8962E" stroke-width="1" stroke-dasharray="4 4"/>
+          <rect x="10" y="36" width="10" height="20" fill="#C8962E" opacity=".6"/>
+          <rect x="27" y="28" width="10" height="28" fill="#C8962E" opacity=".8"/>
+          <rect x="44" y="18" width="10" height="38" fill="#C8962E"/>
+          <path d="M10 15l44 0" stroke="#7D2027" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="5" y="13" font-size="8" fill="#7D2027" font-family="monospace">前12个月</text>
+        </svg>
+      </div>
+      <div class="dna-condition">CONDITION 02</div>
+      <div class="dna-name">破坏性重组意愿</div>
+      <div class="dna-visual" style="margin-top:8px;">
+        <div style="display:flex;gap:8px;align-items:flex-end;height:48px;">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="background:rgba(200,150,46,.3);width:100%;height:20px;"></div>
+            <span style="font-family:monospace;font-size:8px;color:var(--muted)">D0</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="background:rgba(200,150,46,.6);width:100%;height:32px;"></div>
+            <span style="font-family:monospace;font-size:8px;color:var(--muted)">Q1</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="background:var(--gold);width:100%;height:44px;"></div>
+            <span style="font-family:monospace;font-size:8px;color:var(--muted)">Q2</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="background:var(--rose-lt);width:100%;height:38px;"></div>
+            <span style="font-family:monospace;font-size:8px;color:var(--muted)">Q3</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;">
+        裁员、剥离、砍预算——<strong style="color:var(--ink)">主动在第一年把坏账清干净</strong>。
+        传统CEO最怕上任就背坏消息。
+      </p>
+    </div>
+
+    <!-- CONDITION 3 -->
+    <div class="dna-card">
+      <div class="dna-icon-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <!-- center node -->
+          <circle cx="32" cy="32" r="7" fill="#C8962E"/>
+          <!-- spokes -->
+          <line x1="32" y1="25" x2="32" y2="10" stroke="#C8962E" stroke-width="1" opacity=".6"/>
+          <line x1="32" y1="39" x2="32" y2="54" stroke="#C8962E" stroke-width="1" opacity=".6"/>
+          <line x1="25" y1="32" x2="10" y2="32" stroke="#C8962E" stroke-width="1" opacity=".6"/>
+          <line x1="39" y1="32" x2="54" y2="32" stroke="#C8962E" stroke-width="1" opacity=".6"/>
+          <line x1="27" y1="27" x2="16" y2="16" stroke="#C8962E" stroke-width="1" opacity=".4"/>
+          <line x1="37" y1="27" x2="48" y2="16" stroke="#C8962E" stroke-width="1" opacity=".4"/>
+          <line x1="27" y1="37" x2="16" y2="48" stroke="#C8962E" stroke-width="1" opacity=".4"/>
+          <line x1="37" y1="37" x2="48" y2="48" stroke="#C8962E" stroke-width="1" opacity=".4"/>
+          <!-- outer nodes -->
+          <circle cx="32" cy="8"  r="4" fill="rgba(200,150,46,.5)"/>
+          <circle cx="32" cy="56" r="4" fill="rgba(200,150,46,.5)"/>
+          <circle cx="8"  cy="32" r="4" fill="rgba(200,150,46,.5)"/>
+          <circle cx="56" cy="32" r="4" fill="rgba(200,150,46,.5)"/>
+          <circle cx="14" cy="14" r="3" fill="rgba(200,150,46,.3)"/>
+          <circle cx="50" cy="14" r="3" fill="rgba(200,150,46,.3)"/>
+          <circle cx="14" cy="50" r="3" fill="rgba(200,150,46,.3)"/>
+          <circle cx="50" cy="50" r="3" fill="rgba(200,150,46,.3)"/>
+        </svg>
+      </div>
+      <div class="dna-condition">CONDITION 03</div>
+      <div class="dna-name">关系网络是独立资产</div>
+      <div class="dna-visual" style="margin-top:8px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--muted);">客户关系</span>
+            <div style="width:60%;height:4px;background:rgba(13,27,46,.08);">
+              <div style="width:90%;height:100%;background:var(--gold);"></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--muted);">并购网络</span>
+            <div style="width:60%;height:4px;background:rgba(13,27,46,.08);">
+              <div style="width:75%;height:100%;background:var(--gold-lt);"></div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;color:var(--muted);">VC生态</span>
+            <div style="width:60%;height:4px;background:rgba(13,27,46,.08);">
+              <div style="width:95%;height:100%;background:var(--gold);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;">
+        本身就是生态节点——<strong style="color:var(--ink)">不依赖公司资源也能带来客户和合作伙伴</strong>。
+      </p>
+    </div>
+
+    <!-- CONDITION 4 -->
+    <div class="dna-card">
+      <div class="dna-icon-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <!-- two boxes connected by arrow -->
+          <rect x="4" y="20" width="22" height="24" stroke="#6B7E96" stroke-width="1.5"/>
+          <text x="8" y="34" font-size="8" fill="#6B7E96" font-family="monospace">传统</text>
+          <text x="8" y="42" font-size="8" fill="#6B7E96" font-family="monospace">企业</text>
+          <!-- arrow -->
+          <path d="M26 32h12" stroke="#C8962E" stroke-width="2"/>
+          <path d="M34 27l6 5-6 5" stroke="#C8962E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="38" y="14" width="22" height="36" fill="rgba(200,150,46,.1)" stroke="#C8962E" stroke-width="1.5"/>
+          <text x="42" y="30" font-size="8" fill="#C8962E" font-family="monospace">AI</text>
+          <text x="42" y="40" font-size="8" fill="#C8962E" font-family="monospace">基建</text>
+          <!-- glow effect -->
+          <rect x="38" y="14" width="22" height="36" fill="url(#glow)" opacity=".3"/>
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#C8962E" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#C8962E" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="dna-condition">CONDITION 04</div>
+      <div class="dna-name">向AI基建转向</div>
+      <div class="dna-visual" style="margin-top:8px;">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="pivot-viz">
+            <div class="pivot-from">原业务</div>
+            <div class="pivot-arrow">→</div>
+            <div class="pivot-to">AI基建</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:10px;background:rgba(200,150,46,.1);color:var(--gold);padding:2px 8px;font-family:monospace;">数据中心</span>
+            <span style="font-size:10px;background:rgba(200,150,46,.1);color:var(--gold);padding:2px 8px;font-family:monospace;">光互联</span>
+            <span style="font-size:10px;background:rgba(200,150,46,.1);color:var(--gold);padding:2px 8px;font-family:monospace;">功率器件</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6;">
+        不是"用AI优化"，是把核心价值链<strong style="color:var(--ink)">接入超大规模算力资本支出</strong>。
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ CEO PROFILES ════════════════════════════ -->
+<section class="profiles-section">
+  <div class="profiles-header">
+    <div class="eyebrow" style="color:rgba(200,150,46,.7);">ARCHETYPES · 人物档案</div>
+    <h2 class="profiles-title">原型人物 · 已验证案例</h2>
+  </div>
+
+  <div class="profiles-grid">
+
+    <!-- LIP-BU TAN -->
+    <div class="profile-card" data-return="+3200%">
+      <div class="profile-photo-col">
+        <div class="profile-photo">
+          <img src="assets/lip-bu-tan.jpg" alt="陈立武">
+        </div>
+        <div class="company-logo-pill">
+          <span class="logo-text">INTEL</span>
+        </div>
+      </div>
+
+      <div class="profile-content">
+        <div class="profile-name">陈立武 Lip-Bu Tan</div>
+        <div class="profile-role">Intel CEO · 2025.3— · 原型验证者</div>
+
+        <div class="return-block">
+          <div class="return-num">+3200%</div>
+          <div class="return-details">
+            <div class="return-from">Cadence 任期 <span class="return-arrow">→</span> 2009—2021</div>
+            <div style="font-size:12px;color:var(--ivory);opacity:.7">Intel 2026年YTD +225%</div>
+            <div class="return-bar-wrap">
+              <div class="return-bar" style="width:100%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dna-pills">
+          <span class="dna-pill check">Walden Int'l 创始人</span>
+          <span class="dna-pill check">145次 IPO 经历</span>
+          <span class="dna-pill check">砍75,000人 · 德国厂停建</span>
+          <span class="dna-pill check">生态关系力 全行业#1</span>
+          <span class="dna-pill check">18A AI Foundry 转向</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORD TAMER -->
+    <div class="profile-card" data-return="+240%">
+      <div class="profile-photo-col">
+        <div class="profile-photo" style="background:var(--ink3);font-size:36px;">FT</div>
+        <div class="company-logo-pill">
+          <span class="logo-text">LATTICE</span>
+        </div>
+      </div>
+
+      <div class="profile-content">
+        <div class="profile-name">Ford Tamer</div>
+        <div class="profile-role">Lattice Semiconductor CEO · 2024.9— · 最完整验证</div>
+
+        <div class="return-block">
+          <div class="return-num">+240%</div>
+          <div class="return-details">
+            <div class="return-from">任职 2024.9 <span class="return-arrow">→</span> 14个月后股价启动</div>
+            <div style="font-size:12px;color:var(--ivory);opacity:.7">服务器收入 +85% YoY</div>
+            <div class="return-bar-wrap">
+              <div class="return-bar" style="width:78%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dna-pills">
+          <span class="dna-pill check">Agere 联合创始人</span>
+          <span class="dna-pill check">Inphi CEO → Marvell $10B 并购</span>
+          <span class="dna-pill check">Francisco Partners Operating Partner</span>
+          <span class="dna-pill check">Groq 董事 · MIT PhD</span>
+          <span class="dna-pill check">FPGA → AI数据中心 Companion Chip</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUSTIN HOTARD / NOKIA -->
+    <div class="profile-card" data-return="观察中">
+      <div class="profile-photo-col">
+        <div class="profile-photo" style="background:#124191;font-size:28px;">NOK</div>
+        <div class="company-logo-pill" style="background:var(--ivory);">
+          <span class="logo-text">NOKIA</span>
+        </div>
+      </div>
+
+      <div class="profile-content">
+        <div class="profile-name">Justin Hotard</div>
+        <div class="profile-role">Nokia CEO · 2025.4— · 窗口刚开</div>
+
+        <div class="return-block">
+          <div class="return-num" style="font-size:28px;color:var(--gold-pale);">进行中</div>
+          <div class="return-details">
+            <div class="return-from">任职 2025.4 <span class="return-arrow">→</span> 窗口仍开</div>
+            <div style="font-size:12px;color:var(--ivory);opacity:.7">Q4利润率 10年最佳 · AI网络叙事建立中</div>
+            <div class="return-bar-wrap">
+              <div class="return-bar" style="width:22%;background:linear-gradient(90deg,var(--teal),var(--teal-lt));"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dna-pills">
+          <span class="dna-pill check">前Intel DC & AI SVP</span>
+          <span class="dna-pill check">外部空降 · 产业技术型</span>
+          <span class="dna-pill check">5G设备 → AI数据中心网络</span>
+          <span class="dna-pill miss">创业退出经历 待验证</span>
+          <span class="dna-pill check">AI-RAN 核心技术资产</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEVE SANGHI -->
+    <div class="profile-card" data-return="回归型">
+      <div class="profile-photo-col">
+        <div class="profile-photo" style="background:#2C3E50;">SS</div>
+        <div class="company-logo-pill">
+          <span class="logo-text">MCHP</span>
+        </div>
+      </div>
+
+      <div class="profile-content">
+        <div class="profile-name">Steve Sanghi</div>
+        <div class="profile-role">Microchip Technology CEO · 2024.11 回归</div>
+
+        <div class="return-block">
+          <div class="return-num" style="font-size:36px;">$10M→$44B</div>
+          <div class="return-details">
+            <div class="return-from">首任期 1990—2020 <span class="return-arrow">→</span> 30年 · 121季度盈利</div>
+            <div style="font-size:12px;color:var(--ivory);opacity:.7">回归后6个月 +28% · 复苏早期</div>
+            <div class="return-bar-wrap">
+              <div class="return-bar" style="width:35%;background:linear-gradient(90deg,var(--teal),var(--teal-lt));"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dna-pills">
+          <span class="dna-pill check">公司创始人回归</span>
+          <span class="dna-pill check">30年 · 世界最长连续盈利</span>
+          <span class="dna-pill check">九点复苏计划 · 立即重组</span>
+          <span class="dna-pill miss">AI基建叙事偏弱（工业MCU）</span>
+          <span class="dna-pill check">2025.4 首次正向 Book-to-Bill</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ HOW TO USE ══════════════════════════════ -->
+<section class="timing-section">
+  <div class="timing-inner">
+    <div class="eyebrow">PLAYBOOK · 使用方法</div>
+    <h2 class="timing-title">四步找到入场时机</h2>
+
+    <div class="timeline">
+
+      <div class="tl-step">
+        <div class="tl-dot-wrap">
+          <div class="tl-dot filled">1</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-step-label">SCAN · 扫描</div>
+          <div class="tl-step-title">找到人事变动</div>
+          <div class="tl-step-visual">
+            <div class="scan-sources">
+              <span class="scan-tag">SEC Form 8-K</span>
+              <span class="scan-tag">Board Director Change</span>
+              <span class="scan-tag">Proxy Filing</span>
+              <span class="scan-tag">公司新闻稿</span>
+              <span class="scan-tag">LinkedIn</span>
+            </div>
+          </div>
+          <div class="tl-step-note">
+            <strong>董事会变动</strong>比CEO换人早6-18个月——是更早的前置信号。
+            新进独立董事背景是关键线索。
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-dot-wrap">
+          <div class="tl-dot filled">2</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-step-label">WINDOW · 时间窗口</div>
+          <div class="tl-step-title">CEO换人后 6-18个月</div>
+          <div class="tl-step-visual">
+            <div class="window-viz">
+              <div class="window-fill"></div>
+              <div class="window-marker ceo"></div>
+              <div class="window-marker move"></div>
+              <span class="window-label l1">CEO上任</span>
+              <span class="window-label l2">股价启动</span>
+            </div>
+          </div>
+          <div class="tl-step-note">
+            这是市场定价滞后产生的<strong>时滞窗口</strong>。
+            Lattice案例：2024.9任命 → 2025下半年大幅启动。
+            超过50%涨幅后窗口通常关闭。
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-dot-wrap">
+          <div class="tl-dot filled">3</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-step-label">VERIFY · 验证真实性</div>
+          <div class="tl-step-title">不是叙事，是行动</div>
+          <div class="tl-step-visual">
+            <div class="verify-list">
+              <div class="verify-item"><span class="verify-icon">✓</span>真实客户合同 / LTSA</div>
+              <div class="verify-item"><span class="verify-icon">✓</span>非核心资产已剥离</div>
+              <div class="verify-item"><span class="verify-icon">✓</span>资本支出重新定向AI</div>
+              <div class="verify-item"><span class="verify-icon">✓</span>数据中心/AI营收占比上升</div>
+            </div>
+          </div>
+          <div class="tl-step-note">
+            PPT叙事 ≠ 真转型。看<strong>钱往哪走</strong>，看<strong>什么被砍掉</strong>。
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-dot-wrap">
+          <div class="tl-dot filled">4</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-step-label">ENTRY · 进场时机</div>
+          <div class="tl-step-title">价格确认 · 不追高</div>
+          <div class="tl-step-visual">
+            <div class="price-chart">
+              <svg viewBox="0 0 200 48" preserveAspectRatio="none">
+                <!-- base flat line -->
+                <polyline points="0,40 60,38 80,42 100,36" stroke="rgba(200,150,46,.3)" stroke-width="1.5" fill="none"/>
+                <!-- breakout -->
+                <polyline points="100,36 110,30 125,22 150,14 180,6 200,4" stroke="#C8962E" stroke-width="2" fill="none"/>
+                <!-- base zone shading -->
+                <rect x="0" y="34" width="100" height="14" fill="rgba(200,150,46,.06)"/>
+                <!-- breakout marker -->
+                <line x1="100" y1="0" x2="100" y2="48" stroke="rgba(125,32,39,.6)" stroke-width="1" stroke-dasharray="3 3"/>
+                <!-- labels -->
+                <text x="20" y="48" font-size="8" fill="rgba(107,126,150,.7)" font-family="monospace">底部形成</text>
+                <text x="108" y="14" font-size="8" fill="#C8962E" font-family="monospace">突破进场</text>
+              </svg>
+            </div>
+          </div>
+          <div class="tl-step-note">
+            底部横盘形成 + RS开始上升 + 放量突破 = 进场。
+            <strong>已涨30-50%后不追。</strong>等下一个基部。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ MARKET SCAN ═════════════════════════════ -->
+<section class="scan-section">
+  <div class="scan-inner">
+    <div class="eyebrow">LIVE SCAN · 当前标的</div>
+    <h2 class="scan-title">现在盯住哪里</h2>
+
+    <div class="scan-cards">
+
+      <!-- INTEL -->
+      <div class="scan-card hot">
+        <span class="scan-status-badge">EXECUTING</span>
+        <div class="scan-card-header">
+          <div class="sc-logo">
+            <span class="logo-text">INTC</span>
+          </div>
+          <div>
+            <div class="sc-name">Intel</div>
+            <div class="sc-ticker">INTC · NASDAQ</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">陈立武 <span>2025.3—</span></div>
+        <div class="sc-return-big">+225%</div>
+        <div class="sc-return-label">2026年YTD涨幅</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:95%;"></div></div>
+        <div class="sc-signal">参考样本，验证框架有效。
+          <strong>持有者盯18A制程执行节奏</strong>，Q2 2026指引 $13.8-14.8B。</div>
+      </div>
+
+      <!-- LATTICE -->
+      <div class="scan-card hot">
+        <span class="scan-status-badge">EXECUTED</span>
+        <div class="scan-card-header">
+          <div class="sc-logo">
+            <span class="logo-text">LSCC</span>
+          </div>
+          <div>
+            <div class="sc-name">Lattice Semi</div>
+            <div class="sc-ticker">LSCC · NASDAQ</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">Ford Tamer <span>2024.9—</span></div>
+        <div class="sc-return-big">+240%</div>
+        <div class="sc-return-label">低点至今涨幅</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:85%;"></div></div>
+        <div class="sc-signal"><strong>最完整验证案例</strong>。CEO任命→大涨之间有14个月时滞。
+          服务器收入+85% YoY；收购AMI $16.5亿。</div>
+      </div>
+
+      <!-- NOKIA -->
+      <div class="scan-card warm">
+        <span class="scan-status-badge">WINDOW OPEN</span>
+        <div class="scan-card-header">
+          <div class="sc-logo" style="background:var(--ivory);">
+            <span class="logo-text">NOK</span>
+          </div>
+          <div>
+            <div class="sc-name">Nokia</div>
+            <div class="sc-ticker">NOK · NYSE</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">Justin Hotard <span>2025.4—</span></div>
+        <div class="sc-return-big tbd">窗口期</div>
+        <div class="sc-return-label">任职14个月 · 市场尚未充分定价</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:20%;background:linear-gradient(90deg,var(--teal),var(--teal-lt));"></div></div>
+        <div class="sc-signal">AI-RAN + 数据中心互联技术资产真实。
+          <strong>叙事切换刚开始，5G→AI网络定价滞后明显。</strong>
+          Q4 2024利润率10年最佳。</div>
+      </div>
+
+      <!-- STM -->
+      <div class="scan-card watch">
+        <span class="scan-status-badge">WAIT TRIGGER</span>
+        <div class="scan-card-header">
+          <div class="sc-logo" style="background:var(--ivory);">
+            <span class="logo-text">STM</span>
+          </div>
+          <div>
+            <div class="sc-name">STMicroelectronics</div>
+            <div class="sc-ticker">STM · NYSE</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">Chery <span>守成型 · 合约2027到期</span></div>
+        <div class="sc-return-big" style="color:var(--rose-lt);">-50%</div>
+        <div class="sc-return-label">vs 2021高点 · 估值压缩充分</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:10%;background:var(--rose-lt);"></div></div>
+        <div class="sc-signal">硅光子 + GaN AI服务器电源叙事刚启动。
+          <strong>触发信号：2026-27年外部CEO公告</strong> = 入场时机。
+          数据中心目标2026→$10亿，2027翻倍。</div>
+      </div>
+
+      <!-- MCHP -->
+      <div class="scan-card warm">
+        <span class="scan-status-badge">RECOVERY</span>
+        <div class="scan-card-header">
+          <div class="sc-logo" style="background:var(--ivory);">
+            <span class="logo-text">MCHP</span>
+          </div>
+          <div>
+            <div class="sc-name">Microchip Technology</div>
+            <div class="sc-ticker">MCHP · NASDAQ</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">Steve Sanghi 回归 <span>2024.11—</span></div>
+        <div class="sc-return-big" style="font-size:32px;">+28%</div>
+        <div class="sc-return-label">回归后6个月 · 复苏早期</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:30%;background:linear-gradient(90deg,var(--teal),var(--teal-lt));"></div></div>
+        <div class="sc-signal">创始人回归 + 三年首次正向Book-to-Bill。
+          AI叙事偏弱（工业MCU为主），适合作为
+          <strong>周期复苏配置</strong>，非核心AI基建赌注。</div>
+      </div>
+
+      <!-- ams OSRAM -->
+      <div class="scan-card warm">
+        <span class="scan-status-badge">PHOTONICS BET</span>
+        <div class="scan-card-header">
+          <div class="sc-logo" style="background:var(--ivory);">
+            <span class="logo-text">AMS</span>
+          </div>
+          <div>
+            <div class="sc-name">ams OSRAM</div>
+            <div class="sc-ticker">AMS · SIX Swiss Exchange</div>
+          </div>
+        </div>
+        <div class="sc-ceo-row">Aldo Kamper <span>2023— · 重组进行中</span></div>
+        <div class="sc-return-big" style="font-size:32px;">+80%</div>
+        <div class="sc-return-label">52周涨幅 · 市值€784M</div>
+        <div class="sc-mini-bar-wrap"><div class="sc-mini-bar" style="width:45%;background:linear-gradient(90deg,var(--teal),var(--gold));"></div></div>
+        <div class="sc-signal">剥离非光学传感器业务€570M。
+          AR智能眼镜 + 汽车高分辨率大灯 + AI数据中心光源。
+          <strong>欧洲低机构覆盖，光子学叙事独特。</strong></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CLOSING ══════════════════════════════════ -->
+<section class="closing">
+  <div class="closing-quote">
+    人事变动是<em>公开信息</em>，<br>
+    股价重新定价是<em>慢的</em>。<br>
+    这个时滞，就是机会所在。
+  </div>
+  <div class="closing-attr">SERENITY · ROPPEL · ALPHA HUNTER FRAMEWORK · 2026</div>
+</section>
+
+<footer>
+  <div class="footer-brand">AI时代 · 创业者型CEO框架</div>
+  <div class="footer-note">仅供研究参考 · 不构成投资建议 · 数据截止 2026.06</div>
+</footer>
+
+</body>
+</html>
