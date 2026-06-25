@@ -133,6 +133,21 @@ nav .gen{margin-left:auto;color:var(--ink3);font-size:11px;letter-spacing:.08em}
 .acol li{list-style:none;font-size:13px;color:#d9d2c2;line-height:1.65;padding:5px 0}
 .acol li .tk{font-size:17px}
 .acol.dont li{color:#b8b09e}
+
+/* ── 今日选股 ── */
+.pk{padding:18px 0;border-top:1px solid var(--line);}
+.pk-top{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;}
+.pk-tk{font-family:var(--num);font-weight:800;font-size:1.35rem;letter-spacing:-.01em;color:var(--ink);}
+.pk-nm{font-size:.9rem;color:var(--ink3);}
+.pk-px{font-family:var(--num);font-size:.8rem;color:var(--ink3);}
+.pk-tag{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.08em;padding:3px 9px;border:1px solid var(--line);margin-left:auto;white-space:nowrap;}
+.pk-tag.buy{color:var(--green);border-color:var(--green);}
+.pk-tag.watch{color:var(--red);border-color:var(--red);}
+.pk-act{font-size:.95rem;color:var(--ink);margin-top:9px;line-height:1.6;max-width:72ch;}
+.pk-meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:10px;}
+.pk-meta div{font-size:.8rem;color:var(--ink2);line-height:1.5;max-width:42ch;}
+.pk-meta b{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--ink3);margin-bottom:2px;text-transform:uppercase;}
+.pk-meta .risk b{color:var(--red);}
 .lessons{border-top:1px solid #3a352b;margin-top:20px;padding-top:14px;font-size:12.5px;color:#a59d8a;line-height:1.85}
 .lessons b{color:var(--yellow);font-weight:600}
 
@@ -237,6 +252,12 @@ footer{margin-top:42px;border-top:9px solid var(--ink);padding:18px 0 56px}
       <div class="acts" id="actZone"></div>
       <div class="lessons" id="lessons"></div>
     </div>
+  </section>
+
+  <!-- 今日选股 -->
+  <section id="picks">
+    <div class="shead"><span class="big">今日选股</span><span class="sub">随推演轮动 · 卡位 × 不对称</span><span class="ln"></span></div>
+    <div id="picksZone"></div>
   </section>
 
   <!-- 他是谁 -->
@@ -361,6 +382,18 @@ $('edition').textContent = D0.edition || '';
     <div class="acol dont"><h4>DON'T — 不碰</h4>
       ${a.dont.map(x=>`<li>✕ ${x}</li>`).join('')}</div>`;
   $('lessons').innerHTML = (D0.lessons||[]).map(l=>`<b>▍</b>${l}`).join('<br>');
+})();
+
+// 今日选股 —— 渲染 picks(随推演轮动)
+(()=>{
+  const ps = D0.picks||[];
+  const px = t => { const q=SA.quotes[t]; if(!q) return ''; return `<span class="pk-px">$${q.last.toLocaleString()} ${q.chg||''}</span>`; };
+  $('picksZone').innerHTML = ps.length ? ps.map(p=>`
+    <div class="pk">
+      <div class="pk-top"><span class="pk-tk">${p.ticker}</span><span class="pk-nm">${p.name||''}</span>${px(p.ticker)}<span class="pk-tag ${p.tone||'watch'}">${p.tag||''}</span></div>
+      <p class="pk-act">${p.action||''}</p>
+      <div class="pk-meta">${p.unpriced?`<div><b>预期差</b>${p.unpriced}</div>`:''}${p.risk?`<div class="risk"><b>风险</b>${p.risk}</div>`:''}</div>
+    </div>`).join('') : '<div class="pk" style="border:none;color:var(--ink3)">今日无选股。</div>';
 })();
 
 // 实盘代表作
