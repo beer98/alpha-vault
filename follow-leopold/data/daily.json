@@ -1,5 +1,210 @@
 [
  {
+  "date": "2026-06-27",
+  "edition": "周末前瞻 · 行情为周五(06-26)实际收盘 · 美股周末休市无新价 · 押下周(06-29~07-02,07-03 独立日休市=缩短周)",
+  "headline": "电力接力没接住:周五整个拥挤 AI 复合体一起 de-risk(纳指 5 连阴、周 −4.6%),我 06-26『卡点下移电力买 VST』被证伪——VST −2.55%、CEG −1.74%、LEU −2.85% 同跌,钱没去电力,去了黄金($4,092、PCE 转凉)和被错杀的比特币矿工(HIVE +6.3%/BTDR +4.6%)。但 BE −18.49%(Jefferies 升级对手 FCEL、一纸 380MW 数据中心 baseload 合同)告诉你真信号:市场开始只为『已签约 firm MW』和『基本面完好的超跌』付钱。修正——把变量从『电力』收窄到『已签约 baseload』:押 CEG(签约核电、washout 里相对强;BE −18% 反衬)+ MU(兑现回吐但 Q4 指引 $50B/HBM 售罄,不破 $1,000 则是机会);别抄 BE、别追周五暴动的矿工。VIX 18.4、SPX −0.05% = rotation 不是 breakdown。",
+  "judgment": {
+   "tone": "周末前瞻 · 电力接力被证伪/修正为『只买签约 baseload』· rotation 非 breakdown",
+   "light": "🟡",
+   "line": "周五(06-26)收盘:标普 7,354.02(−0.05%)、纳指 25,297.62(−0.24%,5 连阴、周 −4.6%)、道指 −0.09%、VIX 18.41(−2.54%);PCE 环比低于预期(转凉)→ 黄金 $4,092。半导体领跌:SMH −3.97%、MU −6.69% 到 $1,132(从周四峰 $1,214 回吐)、SNDK −10.46%、AVGO −3.67%、ON Semi −22.58%($7B 收 Synaptics)。电力同跌:VST $163.49(−2.55%)、CEG $264.02(−1.74%)、TLN −3.05%、GEV −3.71%;BE −18.49% 到 $252.02(对手 FCEL 拿 380MW 数据中心 baseload 合同 + Jefferies 升级)。钱去向:黄金 + 比特币矿工逆势绿(HIVE +6.33%/BTDR +4.64%/RIOT +2.92%)。这是季末薄量 + 假日前(07-03 休市)从最拥挤 AI 减仓的 rotation,不是 breakdown(VIX 仅 18.4)。",
+   "drivers": [
+    "周五收盘:标普 7,354.02(−0.05%)、纳指 25,297.62(−0.24%,5 连阴;周 −4.6%、标普周 −2%)、VIX 18.41(−2.54%);PCE 环比低于预期(转凉)、黄金 $4,092",
+    "美光兑现兑成了:MU −6.69% 到 $1,132(从周四峰 $1,214 回吐)、SNDK −10.46% 到 $2,091、WDC −6%;但纯 positioning flush(MU 月涨 35%/SNDK 月涨 47%借口止盈),基本面未破——MU Q4 指引 $50B±1/EPS ~$31、HBM 售罄、Q3 rev $41.46B +346% YoY",
+    "BE −18.49% 到 $252.02:Jefferies(Julien Dumoulin-Smith)把对手 FuelCell(FCEL)Hold→Buy、称『深度估值折让 vs Bloom』,FCEL 拿下 Fit Energy 380MW 数据中心 baseload 合同;数据中心选电菜单变宽(燃气轮机 + DOE 核电 + FCEL)→ Bloom『默认解决方案』叙事溢价蒸发",
+    "我 06-26『卡点下移电力 VST』被证伪:VST −2.55%/CEG −1.74%/LEU −2.85% 同跌,电力没接住 rotation;但 BE −18% vs CEG −1.74% 的相对强=市场已在分辨『签约 firm baseload(核电 PPA)』与『燃料电池叙事』;ON Semi −22.58%($7B 收 Synaptics)、报道 OpenAI IPO 延迟拖科技情绪"
+   ]
+  },
+  "today_call": {
+   "line": "诚实先认错:06-26『下移电力买 VST』周五被证伪(VST −2.55%、电力整体被拥挤 AI 的 beta 带下,钱去了黄金 + 矿工)。但 avoid ORCL 对了(−2.58% 再腿)。修正不是弃电力,是把变量从『电力』收窄到『已签约 firm baseload MW』——BE −18%(被 FCEL 380MW 合同打掉叙事)vs CEG −1.74% 的相对强就是证据。下周指向:买 CEG(签约核电、washout 里相对强);MU 兑现回吐但基本面完好(Q4 $50B/HBM 售罄),不破 $1,000 是机会侧;别抄 BE、别追周五暴动的矿工。",
+   "long": {
+    "ticker": "CEG",
+    "name": "Constellation · 已签约 firm baseload 核电卡点",
+    "dir": "买 · 回踩加",
+    "text": "把『电力接力』从被证伪的泛电力(VST 周五 −2.55%)收窄到『已签约 firm baseload』:周五 BE −18.49%(燃料电池叙事被 FCEL 一纸 380MW 合同打掉)、而 CEG 仅 −1.74%——同是电力,市场只给『锁定 MW 的核电 PPA』溢价、不给『optionality 叙事』。FCEL 拿到 380MW 数据中心 baseload 合同恰恰证明数据中心电力需求是真的(不是见顶),只是付费对象转向已签约 baseload。CEG 是最大美国核电机队 + 数据中心 PPA 龙头,是这次电力重定价里的相对强卡点。",
+    "level": "$264.02(−1.74%,washout 里相对强);别追,回踩 $255 加;若电力整体补跌 >8% 则承认电力 beta 仍未止"
+   },
+   "avoid": {
+    "ticker": "BE",
+    "name": "Bloom Energy · 燃料电池叙事被签约合同证伪",
+    "dir": "避 / 别抄底",
+    "text": "所有人会把 BE −18.49% 当抄底机会——这正是反共识要避的反射。它不是普通超跌:FCEL 一纸 380MW 数据中心 baseload 合同 + Jefferies 升级,结构性打掉了 Bloom『AI 数据中心默认电源』的叙事溢价。在 BE 拿出自己的签约 MW 证据前,卡点未定、别在恐慌里接刀。要 firm baseload 就买已签约的核电(CEG),别赌叙事的反弹。",
+    "level": "$252.02(−18.49%);别在 $250 接刀,等它自己的签约 MW 落地再看"
+   }
+  },
+  "rotation": {
+   "in": [
+    {
+     "ticker": "CEG",
+     "why": "把『电力接力』从被证伪的泛电力收窄到『已签约 firm baseload』:周五 BE −18% vs CEG −1.74% 的相对强=市场只为锁定 MW 的核电 PPA 付溢价;CEG 是最大美国核电机队 + 数据中心 PPA 龙头"
+    },
+    {
+     "ticker": "MU",
+     "why": "兑现回吐(−6.69% 到 $1,132、从峰 $1,214)是纯 positioning flush 非 thesis break(Q4 指引 $50B/HBM 售罄/+346% YoY);从『别追抛物线』移到『超跌机会侧』,不破 $1,000 则是再上车点"
+    }
+   ],
+   "out": [
+    {
+     "ticker": "VST",
+     "why": "06-26 作为『电力接力 long』——周五被证伪(−2.55%,没接住 rotation、被拥挤 AI 的 beta 带下);不是看空,是承认它不是这次接力赢家(merchant power + 商品/利率敏感),从今日指向降级为 hold"
+    },
+    {
+     "ticker": "BE",
+     "why": "从无→进 avoid:叙事被 FCEL 380MW 合同 + Jefferies 升级打掉(−18.49%);移入『别抄底』侧,等它自己签约 MW"
+    }
+   ],
+   "flip": [
+    {
+     "ticker": "电力组",
+     "why": "从『买泛电力接力(VST)』翻为『只买已签约 firm baseload(CEG/核电 PPA)、避燃料电池叙事(BE)』——周五 BE −18% vs CEG −1.7% 的分化逼出的修正"
+    }
+   ],
+   "hold": [
+    {
+     "ticker": "VST",
+     "why": "接力 long 降级:不弃,但回踩观察;merchant power 比核电 PPA 更吃商品/利率,这次没领涨"
+    },
+    {
+     "ticker": "ORCL",
+     "why": "06-26 avoid ORCL 周五兑现对了(−2.58% 到 $148.53、再腿);继续避、别在 $148 抄底"
+    },
+    {
+     "ticker": "SMH-PUT",
+     "why": "他 13F 的 $8.46B PUT 墙(SMH/NVDA/AVGO…):周五半导体 SMH −3.97% 友好其空头侧——拥挤一线半导体的回吐正在付他的 puts"
+    }
+   ],
+   "note": "今日真换手=认错并修正:VST(泛电力接力,被证伪)出/CEG(已签约 firm baseload)进;BE 进 avoid;MU 从『别追抛物线』移到『超跌机会侧』。周末无新价,押下周(06-29~07-02,07-03 独立日休市缩短周)。"
+  },
+  "conclusions": [
+   {
+    "n": "01",
+    "statement": "诚实自我证伪(头条):我 06-26『卡点下移电力、买 VST』周五被市场证伪。VST −2.55%、CEG −1.74%、LEU −2.85% 全跟跌,电力没接住 rotation;钱去了黄金($4,092、PCE 转凉)和被错杀的比特币矿工(HIVE +6.33%/BTDR +4.64%/RIOT +2.92%)。教训:我把『资金沿算力→电力依赖图下移』当成了确定的接力,低估了一个更大的力——当整个拥挤 AI 复合体一起 de-risk(纳指 5 连阴、周 −4.6%),电力作为 AI 衍生需求也被同一个 beta 带下,单靠『下移到电力』不足以对冲这个 beta。修正:把变量从『电力』收窄到『已签约 firm baseload MW』(见 02)。注:同日 avoid ORCL 对了(−2.58% 再腿)。",
+    "blindspot": "大家(包括我上一卡)把『卡点下移到电力』当成跌不到的避风港(一阶);真相是电力是 AI 的衍生需求,拥挤 AI 整体 de-risk 时它一起被带下——避风港得是『现金流已被合同锁死』的那一小撮,不是整个电力板块。",
+    "chain": "拥挤 AI 周 −4.6% 整体 de-risk→电力作为 AI 衍生需求被同一 beta 带下→单『下移电力』不足以对冲→须叠加『只买已签约 firm MW』的 alpha 筛子",
+    "falsify": "若下周电力组(CEG/VST/TLN)集体反弹跑赢 SMH,则『电力只是被 beta 错杀、整体可买』成立,我这条修正(只买签约 baseload)就过度收窄了",
+    "window": "06-29~07-02(07-03 休市)",
+    "conviction": "中(自我批判)"
+   },
+   {
+    "n": "02",
+    "statement": "周五真正的信号是 BE −18.49%:市场开始只为『已签约 baseload MW』付钱,不为燃料电池叙事。导火索=Jefferies 把对手 FuelCell(FCEL)Hold→Buy、称『深度估值折让 vs Bloom』,FCEL 拿下 Fit Energy 380MW 数据中心 baseload 合同。关键不是『AI 电力见顶』——FCEL 能签 380MW 恰恰证明数据中心电力需求是真的;关键是数据中心选电菜单变宽(燃气轮机 + DOE 核电 + 燃料电池),Bloom『默认解决方案』的叙事溢价被打掉。同是电力,CEG 仅 −1.74% vs BE −18%——市场已在用相对强分辨『锁定 MW 的核电 PPA』与『optionality 叙事』。指向:买 CEG(签约 firm baseload),避抄 BE 直到它拿出自己的签约 MW。",
+    "blindspot": "多数人两种误读:① 把 BE −18% 读成『AI 电力顶了』(其实是需求真、付费对象变);② 把 BE −18% 当无脑抄底(其实叙事被结构性打掉、卡点未定)。真信号在两者之间:需求真但只奖励已签约 baseload。",
+    "chain": "FCEL 签 380MW→证明 DC 电力需求真实(非见顶)→但单名 hero 的叙事溢价蒸发→现金流转向已签 PPA 的 baseload(CEG/核电)→BE −18% vs CEG −1.7% 的分化",
+    "falsify": "若下周 CEG/TLN 也补跌 >8%、或某 hyperscaler 弃核电 PPA→电力是整体 de-rate(不只 BE 个体),则『只买签约 baseload』也不成立",
+    "window": "下周(看 CEG 能否守住相对强)",
+    "conviction": "中高"
+   },
+   {
+    "n": "03",
+    "statement": "美光兑现兑成了 + 基本面完好 = 最高质量的错杀。MU −6.69% 到 $1,132(从周四峰 $1,214)、SNDK −10.46%、WDC −6% = 纯 positioning flush:月涨 35%/47% 的票,叠加亚洲内存补跌、季末薄量 + 07-03 假日前减仓,给了对冲基金止盈最热交易的借口。但 thesis 没破——MU Q4 指引 $50B±1/EPS ~$31、HBM 2026 售罄、Q3 rev $41.46B +346% YoY。指向:MU 从『别追抛物线』移到『超跌机会侧』,不破 $1,000 则是再上车点;跌破 $1,000(−12% 再腿)或 HBM4 定价松动才是 thesis 受损。VIX 仅 18.4、PCE 转凉=这是 rotation 不是 risk-off。",
+    "blindspot": "市场把 MU/SNDK 的 −7~−10% 读成『内存超级周期结束』(一阶恐慌);真相是基本面零损、纯仓位洗盘——最高质量的错杀往往长这样(故事没变、只是涨太多太快被止盈)。",
+    "chain": "月涨 35-47%+亚洲内存补跌+季末薄量+假日前→对冲基金止盈最热交易→链式 flush→但 Q4 $50B 指引/HBM 售罄未变→超跌机会而非趋势反转",
+    "falsify": "若下周 MU 跌破 $1,000 或出现 HBM4 定价/订单松动的实锤→thesis 受损,这条作废;否则 flush 后企稳反弹",
+    "window": "06-29~07-02",
+    "conviction": "中高"
+   }
+  ],
+  "action": {
+   "do": {
+    "ticker": "CEG(回踩加)",
+    "text": "把电力接力收窄到『已签约 firm baseload』:买 CEG(签约核电、周五 washout 里相对强 −1.74% vs BE −18%;数据中心 PPA 龙头),别追、回踩 $255 加。MU 移到机会侧(超跌但 Q4 $50B/HBM 售罄基本面完好,不破 $1,000 则再上车)。ORCL 继续避。"
+   },
+   "wait": [
+    {
+     "ticker": "MU",
+     "text": "兑现回吐 −6.69% 到 $1,132、基本面完好;等 flush 企稳信号,不破 $1,000 则超跌机会、跌破才是 thesis 腿"
+    },
+    {
+     "ticker": "VST",
+     "text": "电力接力被证伪后降级为 watch:merchant power 比核电 PPA 更吃商品/利率,这次没领涨;回踩观察、别再盲目加倍"
+    }
+   ],
+   "dont": [
+    "别把 06-26『下移电力』盲目再加倍——周五 VST −2.55% 已证伪它没接住 rotation,修正是收窄到签约 baseload(CEG),不是死扛 VST",
+    "别抄底 BE($252、−18.49%)——叙事被 FCEL 380MW 合同结构性打掉,等它自己签约 MW;要 firm baseload 就买已签约的核电(CEG)",
+    "别追周五暴动的比特币矿工(HIVE +6.3%/BTDR +4.6%)——刚被买上去=已拥挤的反射性追高,不是低拥挤卡点",
+    "别把纳指 5 连阴当趋势反转去裸空 AI——VIX 仅 18.4、SPX −0.05%、PCE 转凉,这是季末薄量 rotation 不是 breakdown"
+   ]
+  },
+  "picks": [
+   {
+    "group": "tenbagger",
+    "ticker": "CEG",
+    "name": "Constellation · 已签约 firm baseload 核电",
+    "tag": "签约 baseload · 买回踩",
+    "tone": "buy",
+    "action": "$264.02(−1.74%,washout 里相对强):把电力接力从被证伪的泛电力收窄到『已签约 firm baseload』——周五 BE −18% vs CEG −1.74%,市场只给锁定 MW 的核电 PPA 溢价;最大美国核电机队 + 数据中心 PPA 龙头,别追、回踩 $255 加",
+    "chain": "DC 选电菜单变宽→单名叙事溢价蒸发→现金流转向已签 PPA baseload→CEG 相对强",
+    "unpriced": "市场把 BE −18% 读成『AI 电力顶了』;真相是需求真、只奖励签约 baseload——CEG 的相对强是钱已在分辨的早信号",
+    "risk": "若电力整体补跌 >8% 或 hyperscaler 弃核 PPA,则电力是整体 de-rate、CEG 也难独善"
+   },
+   {
+    "group": "tenbagger",
+    "ticker": "MU",
+    "name": "Micron · 兑现回吐但基本面完好",
+    "tag": "超跌机会 · 不破千则上",
+    "tone": "watch",
+    "action": "$1,132.33(−6.69%,从周四峰 $1,214):纯 positioning flush(月涨 35%+亚洲内存补跌+假日前止盈),thesis 未破——Q4 指引 $50B±1/EPS ~$31/HBM 2026 售罄/Q3 rev +346% YoY;从『别追抛物线』移到机会侧,不破 $1,000 则再上车点",
+    "chain": "月涨 35%+季末薄量→止盈最热交易→链式 flush→但 Q4 $50B 指引/HBM 售罄未变",
+    "unpriced": "市场把 −7% 读成超级周期结束;真相是基本面零损的仓位洗盘=最高质量错杀",
+    "risk": "跌破 $1,000(−12% 再腿)或 HBM4 定价/订单松动=thesis 受损,这条作废"
+   },
+   {
+    "group": "next13f",
+    "ticker": "BE",
+    "name": "Bloom Energy · 叙事被签约合同证伪",
+    "tag": "避/别抄 · 卡点未定",
+    "tone": "watch",
+    "action": "$252.02(−18.49%):所有人想抄底——这正是要避的反射。FCEL 一纸 380MW 数据中心 baseload 合同 + Jefferies 升级,结构性打掉 Bloom『默认电源』叙事溢价;在它拿出自己的签约 MW 前别接刀,要 firm baseload 就买已签约的核电(CEG)",
+    "chain": "FCEL 签 380MW→DC 需求真但付费转向签约 baseload→Bloom optionality 溢价蒸发",
+    "unpriced": "市场把 −18% 当抄底;真相是叙事被结构性打掉、卡点未定——别赌叙事反弹",
+    "risk": "超跌反弹随时来;若 BE 自己拿下大额签约 MW 则这条避险作废、需翻多"
+   }
+  ],
+  "lessons": [
+   "避风港不是『整个电力板块』,是『现金流已被合同锁死』的那一小撮。06-26 我把『卡点下移电力』当跌不到的接力,周五被证伪——当拥挤 AI 整体 de-risk,电力作为 AI 衍生需求一起被 beta 带下。真正抗跌的是已签约 firm baseload(核电 PPA:CEG −1.74%),不是 merchant power(VST −2.55%)、更不是燃料电池叙事(BE −18%)。",
+   "最高质量的错杀长得像『超级周期结束』。MU −6.7%/SNDK −10.5% 看着像 thesis 破,实则 Q4 $50B 指引/HBM 售罄零损、纯仓位洗盘。区分『仓位 flush』与『thesis break』的唯一办法是回到基本面数字:故事没变 + 涨太多太快被止盈=机会;故事变了(定价/订单松动)=该跑。"
+  ],
+  "facts": [
+   {
+    "t": "周五(06-26)收盘:标普 7,354.02(−0.05%)、纳指 25,297.62(−0.24%,5 连阴;周 −4.6%、标普周 −2%)、道指 −0.09%、VIX 18.41(−2.54%);PCE 环比低于预期(转凉)→ 黄金 ~$4,092",
+    "src": "CNBC 行情(data.js quotesAsof 06-26)/ TheStreet 06-26 / Trading Economics"
+   },
+   {
+    "t": "美光兑现:MU −6.69% 到 $1,132(从周四峰 $1,214)、SNDK −10.46% 到 $2,091、WDC −6%;月涨 MU 35%/SNDK 47%;Q4 指引 $50B±1/EPS ~$31、HBM 2026 售罄、Q3 rev $41.46B +346% YoY",
+    "src": "CNBC 行情 / 24-7 Wall St 06-26 / Investing.com"
+   },
+   {
+    "t": "BE −18.49% 到 $252.02:Jefferies(Julien Dumoulin-Smith)把对手 FuelCell(FCEL)Hold→Buy、称『深度估值折让 vs Bloom』;FCEL 拿下 Fit Energy 380MW 数据中心 baseload 合同;数据中心选电菜单变宽(燃气轮机 + DOE 核电 + 燃料电池)",
+    "src": "TipRanks / Yahoo Finance / GuruFocus 06-26"
+   },
+   {
+    "t": "电力同跌但分化:VST $163.49(−2.55%)、CEG $264.02(−1.74%,相对强)、TLN $404.09(−3.05%)、GEV $1,045.17(−3.71%)、LEU $165.52(−2.85%);ORCL $148.53(−2.58% 再腿)",
+    "src": "CNBC 行情(data.js quotesAsof 06-26)"
+   },
+   {
+    "t": "半导体领跌:SMH −3.97%、NVDA $192.53(−1.64%)、AVGO −3.67%、ON Semi −22.58%($7B 收 Synaptics);报道 OpenAI IPO 延迟;矿工逆势绿:HIVE +6.33%/BTDR +4.64%/RIOT +2.92%/CLSK +2.90%",
+    "src": "TheStreet 06-26 / CNBC 行情"
+   }
+  ],
+  "lens": "Situational Awareness 框架读法(周末前瞻,行情=周五 06-26 收盘):本周是 rotation 不是 breakdown——标普周 −2%/纳指周 −4.6%、5 连阴,但 SPX 周五仅 −0.05%、VIX 18.4、PCE 转凉、黄金 $4,092。资金从最拥挤 AI(半导体/内存)季末薄量减仓,去黄金 + 被错杀矿工。① 自我证伪:06-26『卡点下移电力买 VST』被证伪——电力作为 AI 衍生需求被同一 beta 带下(VST −2.55%/CEG −1.74%/LEU −2.85% 同跌),钱没去电力。② 修正(核心二阶):BE −18.49%(对手 FCEL 拿 380MW 数据中心 baseload 合同 + Jefferies 升级)逼出真信号——市场只为『已签约 firm baseload MW』付钱、不为燃料电池叙事;FCEL 能签 380MW 证明 DC 电力需求是真的,只是付费对象转向已锁 PPA 的 baseload。CEG −1.74% vs BE −18% 的相对强=钱已在分辨。③ 最高质量错杀:MU −6.7%/SNDK −10.5% 是纯仓位 flush(Q4 $50B/HBM 售罄基本面零损),不破 $1,000 则机会。对跟他的人:买 CEG(已签约核电、回踩 $255 加);MU 移机会侧、不破 $1,000 再上车;别抄 BE、别追矿工、别裸空 AI;他 13F 的 SMH PUT 墙正被周五半导体 −4% 喂养。",
+  "orders": [
+   {
+    "level": "一阶(拥挤·回避)",
+    "text": "抄底 BE($252、−18.49%,叙事被 FCEL 380MW 合同打掉);追周五暴动的矿工(HIVE +6.3%/BTDR +4.6% 刚被买上=拥挤反射);把 5 连阴当趋势反转裸空 AI(VIX 仅 18.4)"
+   },
+   {
+    "level": "二阶(甜区)",
+    "text": "把电力接力收窄到『已签约 firm baseload』:买 CEG(核电 PPA 龙头、washout 里相对强 −1.74%),回踩 $255 加;MU 超跌机会侧(基本面零损、不破 $1,000 再上车)"
+   },
+   {
+    "level": "三阶(前瞻·低拥挤)",
+    "text": "BE −18% 不是 AI 电力见顶,是付费从『燃料电池 optionality』转向『已签约 baseload』:盯哪些电力名字能拿出签约 firm MW(CEG/核电 PPA);区分『仓位 flush』(MU,可买)与『thesis break』(定价/订单松动才算)"
+   }
+  ],
+  "review": "Review:① 行情用 06-26 实际收盘(CNBC,data.js quotesAsof 06-26);今天是周六、美股周末休市无新价,本卡=周末前瞻、押下周(06-29~07-02,07-03 独立日休市缩短周),不编新价、rotation 据周五真实价。② 主动自我证伪结论 01:06-26『下移电力买 VST』周五被证伪(VST −2.55%、电力没接住 rotation),诚实认错并修正为『只买已签约 firm baseload(CEG)』;若下周电力组集体反弹跑赢 SMH,则我这条修正过度收窄(已标 falsify)。③ 主动写 CEG 反面证据:若电力整体补跌 >8% 或 hyperscaler 弃核 PPA,CEG 也难独善,故 long 写回踩加 + 失效线。④ BE −18%/FCEL 380MW 合同据 TipRanks/Yahoo/GuruFocus;MU 数字据 24-7 Wall St/Investing.com;PCE/黄金据 TheStreet/Trading Economics。⑤ 周末 + 假日缩短周,无新价驱动,rotation 标注为基于周五收盘的前瞻、非新价换手;『别抄底/别追』是事后纪律,不怂恿追涨杀跌。",
+  "stance": "参考姿态(非建议):周末前瞻,行情=周五 06-26 收盘。本周是 rotation 不是 breakdown(VIX 18.4/PCE 转凉)。诚实认错:06-26『下移电力买 VST』被证伪(VST −2.55%、电力被拥挤 AI 的 beta 带下)。修正——把变量收窄到『已签约 firm baseload』:买 CEG(核电 PPA 龙头、washout 里相对强 −1.74% vs BE −18%、回踩 $255 加);MU 移机会侧(兑现回吐但 Q4 $50B/HBM 售罄基本面完好,不破 $1,000 再上车);别抄 BE(叙事被 FCEL 380MW 合同打掉)、别追周五暴动矿工、别裸空 AI。他 13F 的 SMH PUT 墙正被周五半导体 −4% 喂养。"
+ },
+ {
   "date": "2026-06-26",
   "edition": "周五盘前 · 行情为周四(06-25)实际收盘 · 美光兑现日",
   "headline": "美光兑现日:6/25 收盘 +15.7% 到 52 周高 $1,213、SNDK 同步 +22%——但真正的信号不是『AI 全面 risk-on』。同一天 Apple −6%、纳指 4 连跌、神算云 IREN −5%、ORCL 再 −3%,道指却创历史新高。市场在按『现金流质量』重定价 AI:有锁单+定价权的供给卡口(MU/SNDK)赢,靠债务堆需求的一侧(ORCL/神算云)输。一线内存已跑到高位别追;最不拥挤的结构卡点已下移到电力——VST 在 −0.46% 的纳指日逆势 +3%。",
