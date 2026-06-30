@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBRS · Cerebras Systems - Investment Thesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F4EE;
+    --panel:#FFFCF7;
+    --panel-2:#F0ECE4;
+    --line:#D8D1C7;
+    --line-2:#BDB3A6;
+    --coral:#F15A29;
+    --coral-2:#FF7447;
+    --coral-deep:#C83F22;
+    --ink:#111317;
+    --body:#404852;
+    --mute:#67727E;
+    --mute-2:#9EA6B0;
+    --steel:#5A718A;
+    --steel-dim:#C6D2DD;
+    --good:#1F8C63;
+    --chip-off:#E5DED3;
+    --chip-line:#CEC4B7;
+    --bar-neutral:#8994A3;
+    --bar-neutral-soft:#D7DDE4;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      linear-gradient(135deg,rgba(241,90,41,.13),transparent 28%),
+      linear-gradient(180deg,#FBF8F2 0%,var(--bg) 42%,#FAF8F3 100%);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-weight:400;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .disp{font-family:"Space Grotesk",sans-serif}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+  /* ---- header ---- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,248,242,.88);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .hbar{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .logo{display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
+  .brand-logo{display:block;width:108px;height:auto}
+  .htag{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:1px;color:var(--mute);text-transform:uppercase;white-space:nowrap}
+  nav a{color:var(--mute);text-decoration:none;font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.4px;margin-left:20px;transition:color .2s}
+  nav a:hover,nav a:focus-visible{color:var(--coral)}
+  nav a.home-link{color:var(--ink);font-weight:600}
+  nav{display:none}
+  @media(min-width:880px){nav{display:block}}
+
+  /* ---- hero ---- */
+  .hero{position:relative;padding:72px 0 60px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;position:relative;z-index:2}
+  .hero-grid>*{min-width:0}
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.05fr .95fr}}
+  .eyebrow{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);margin-bottom:22px}
+  .eyebrow .dot{color:var(--mute-2)}
+  .return-chip{display:none}
+  h1{font-family:"Space Grotesk";font-weight:600;font-size:clamp(34px,5.4vw,56px);line-height:1.04;letter-spacing:-1.5px;margin-bottom:20px}
+  h1 .hl{color:var(--coral)}
+  .lede{font-size:16.5px;color:var(--body);max-width:30em;font-weight:400;line-height:1.65}
+  .statrow{display:flex;flex-wrap:wrap;gap:0;margin-top:34px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.72);box-shadow:0 18px 50px rgba(83,66,44,.08)}
+  .stat{flex:1 1 0;min-width:120px;padding:15px 16px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .k{font-family:"IBM Plex Mono";font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+  .stat .v{font-family:"IBM Plex Mono";font-size:18px;font-weight:500;color:var(--ink)}
+  .stat .v small{font-size:12px;color:var(--mute)}
+  .asym{margin-top:18px;display:inline-flex;align-items:center;gap:14px;padding:12px 18px;border:1px solid rgba(200,63,34,.32);border-radius:10px;background:linear-gradient(100deg,rgba(241,90,41,.13),rgba(255,255,255,.58))}
+  .asym .lbl{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:1px;color:var(--coral-2);text-transform:uppercase}
+  .asym .big{font-family:"Space Grotesk";font-weight:600;font-size:22px;color:var(--coral)}
+  .asym .arw{color:var(--mute);font-family:"IBM Plex Mono"}
+
+  /* wafer */
+  .wafer-box{position:relative;aspect-ratio:1;max-width:460px;margin:0 auto;width:100%}
+  #wafer{width:100%;height:100%;display:block}
+  .wafer-cap{position:absolute;bottom:-2px;left:0;right:0;text-align:center;font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:1px;color:var(--mute)}
+  .hero-glow{position:absolute;top:0;right:0;width:52%;height:100%;background:linear-gradient(115deg,transparent,rgba(241,90,41,.12));z-index:1;pointer-events:none}
+
+  /* ---- sections ---- */
+  section.blk{padding:74px 0;border-top:1px solid var(--line)}
+  .sec-head{margin-bottom:42px}
+  .sec-eye{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+  .sec-eye b{color:var(--coral);font-weight:600}
+  .sec-eye .ln{height:1px;flex:1;max-width:60px;background:var(--line-2)}
+  h2{font-family:"Space Grotesk";font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-1px;line-height:1.1;max-width:18em}
+  .sec-sub{color:var(--mute);font-size:15px;margin-top:14px;max-width:40em;line-height:1.6}
+
+  .panel{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:0 18px 48px rgba(58,50,39,.07)}
+  .panel-t{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+  .panel-d{font-size:13.5px;color:var(--body);margin-top:14px;line-height:1.6}
+
+  /* edge cards */
+  .edge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:24px}
+  .edge{background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:13px;padding:22px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s}
+  .edge:hover{border-color:rgba(200,63,34,.46);transform:translateY(-3px);box-shadow:0 16px 34px rgba(58,50,39,.08)}
+  .edge .no{font-family:"IBM Plex Mono";font-size:11px;color:var(--coral);letter-spacing:1px}
+  .edge h3{font-family:"Space Grotesk";font-weight:600;font-size:18px;margin:12px 0 8px;letter-spacing:-.3px}
+  .edge p{font-size:13.5px;color:var(--body);line-height:1.55}
+  .edge .glyph{position:absolute;right:-12px;top:-12px;opacity:.10}
+
+  .spec{display:flex;flex-wrap:wrap;gap:0;margin-top:22px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel-2)}
+  .spec div{flex:1 1 0;min-width:130px;padding:14px 18px;border-right:1px solid var(--line);font-family:"IBM Plex Mono"}
+  .spec div:last-child{border-right:none}
+  .spec .sv{font-size:17px;color:var(--coral);font-weight:500}
+  .spec .sk{font-size:10px;color:var(--mute);letter-spacing:.5px;text-transform:uppercase;margin-top:3px}
+
+  /* value chain diagram */
+  .vc{margin-top:8px}
+  .vc-row{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+  .vc-node{flex:1 1 0;min-width:88px;border:1px solid var(--line);border-radius:10px;padding:14px 10px;text-align:center;background:var(--panel-2);position:relative}
+  .vc-node .nn{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--mute);letter-spacing:.5px}
+  .vc-node .ns{font-size:11px;color:var(--mute-2);margin-top:4px}
+  .vc-node.own{border-color:rgba(241,90,41,.56);background:linear-gradient(160deg,rgba(241,90,41,.14),rgba(255,255,255,.28))}
+  .vc-node.own .nn{color:var(--coral)}
+  .vc-node.skip{border-style:dashed;border-color:var(--steel-dim);opacity:.65}
+  .vc-node.skip .nn{color:var(--steel)}
+  .vc-node .strike{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--steel);opacity:.5}
+  .vc-span{margin-top:12px;display:flex;gap:8px;font-family:"IBM Plex Mono";font-size:11px}
+  .vc-span .seg{padding:7px 10px;border-radius:7px;letter-spacing:.5px}
+  .vc-span .cb{background:rgba(241,90,41,.12);color:var(--coral-deep);border:1px solid rgba(200,63,34,.34);flex:2}
+  .vc-span .ot{background:var(--panel-2);color:var(--mute);border:1px solid var(--line);flex:1;text-align:center}
+  .tax{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  @media(max-width:640px){.tax{grid-template-columns:1fr}}
+  .tax .tc{border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .tax .tc.win{border-color:rgba(200,63,34,.34);background:rgba(241,90,41,.07)}
+  .tax .tt{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+  .tax .tax-li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--body);margin-top:6px}
+  .tax .tax-li .ic{font-family:"IBM Plex Mono";font-weight:600}
+  .tax .tax-li .no{color:var(--good)}
+  .tax .tax-li .yes{color:var(--coral)}
+
+  /* charts */
+  .chart-grid{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:820px){.chart-grid.two{grid-template-columns:1.25fr 1fr}}
+  svg.chart{width:100%;height:auto;display:block;overflow:visible}
+  .axis{stroke:var(--line);stroke-width:1}
+  .gl{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+  .axlbl{fill:var(--mute);font-family:"IBM Plex Mono";font-size:11px}
+  .barlbl{fill:var(--ink);font-family:"IBM Plex Mono";font-size:11px;font-weight:500}
+  .tag{fill:var(--coral);font-family:"IBM Plex Mono";font-size:10.5px}
+
+  .flip{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .flip span{font-family:"IBM Plex Mono";font-size:11.5px;letter-spacing:.5px;padding:8px 13px;border:1px solid var(--line);border-radius:20px;color:var(--body);background:rgba(255,255,255,.78)}
+  .flip span b{color:var(--coral);font-weight:600;margin-right:5px}
+
+  .ctx{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:22px}
+  .ctx .ci{border:1px solid var(--line);border-radius:11px;padding:18px;background:rgba(255,255,255,.78)}
+  .ctx .cv{font-family:"Space Grotesk";font-weight:600;font-size:26px;color:var(--coral);letter-spacing:-.5px}
+  .ctx .cv small{font-size:13px;color:var(--mute);font-weight:400}
+  .ctx .cl{font-size:12.5px;color:var(--body);margin-top:7px;line-height:1.5}
+
+  /* scenario */
+  .scen{display:flex;flex-direction:column;gap:14px;margin-top:26px;position:relative}
+  .scbar{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:center}
+  .scbar .sn{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.5px;text-transform:uppercase;text-align:right}
+  .scbar .track{position:relative;height:42px;background:var(--panel-2);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .scbar .fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:8px 0 0 8px;display:flex;align-items:center;padding-left:14px;transition:width 1.1s cubic-bezier(.2,.7,.3,1)}
+  .scbar .fill .fv{font-family:"IBM Plex Mono";font-size:13px;font-weight:600;color:var(--ink)}
+  .scbar.bear .sn{color:var(--steel)}
+  .scbar.base .sn{color:var(--mute)}
+  .scbar.bull .sn{color:var(--coral)}
+  .nowline{position:absolute;top:-2px;bottom:-2px;left:calc(92px + (100% - 92px) * 0.425);width:1px;background:var(--coral-2);opacity:.55;pointer-events:none;z-index:3}
+  .nowline span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:"IBM Plex Mono";font-size:10px;color:var(--coral-2)}
+  .band{margin-top:22px;padding:14px 18px;border:1px dashed var(--line-2);border-radius:10px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+  .band .bk{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
+  .band .bv{font-family:"Space Grotesk";font-weight:600;font-size:18px;color:var(--ink)}
+  .band .bv span{color:var(--coral)}
+
+  .caveat{margin-top:18px;font-size:13px;color:var(--body);line-height:1.6;border-left:2px solid var(--coral-deep);padding-left:16px}
+  .caveat b{color:var(--ink);font-weight:500}
+
+  /* entry */
+  .entry-note{background:rgba(255,255,255,.82);border:1px solid rgba(200,63,34,.38);border-radius:13px;padding:20px 24px;margin-bottom:34px;display:flex;gap:16px;align-items:flex-start}
+  .entry-note .x{font-family:"Space Grotesk";font-weight:700;font-size:15px;color:var(--coral);letter-spacing:1px;flex-shrink:0;border:1px solid var(--coral-deep);border-radius:7px;padding:4px 10px;white-space:nowrap}
+  .entry-note p{font-size:14px;color:var(--body);line-height:1.6}
+
+  .timeline{position:relative;margin:34px 0 30px;padding-top:8px}
+  #tlsvg{width:100%;height:auto;display:block;overflow:visible}
+
+  .entries{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+  .ent{background:rgba(255,255,255,.78);border:1px solid var(--line);border-radius:13px;padding:22px;position:relative;transition:border-color .25s,transform .25s,box-shadow .25s}
+  .ent:hover{border-color:rgba(200,63,34,.46);transform:translateY(-3px);box-shadow:0 16px 34px rgba(58,50,39,.08)}
+  .ent .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .ent .en{font-family:"Space Grotesk";font-weight:700;font-size:26px;color:var(--line-2);line-height:1}
+  .ent .when{font-family:"IBM Plex Mono";font-size:10.5px;letter-spacing:.5px;color:var(--coral);border:1px solid var(--coral-deep);border-radius:6px;padding:4px 9px;text-transform:uppercase}
+  .ent .when.cond{color:var(--mute);border-color:var(--line-2)}
+  .ent h4{font-family:"Space Grotesk";font-weight:600;font-size:17px;margin-bottom:9px;letter-spacing:-.2px;line-height:1.25}
+  .ent .trig{font-size:13px;color:var(--body);line-height:1.55;margin-bottom:12px}
+  .ent .conf{font-family:"IBM Plex Mono";font-size:11px;color:var(--mute);letter-spacing:.3px;border-top:1px solid var(--line);padding-top:11px;line-height:1.5}
+  .ent .conf b{color:var(--coral-2);font-weight:500}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 50px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:18px;align-items:center}
+  .foot .fnote{font-family:"IBM Plex Mono";font-size:11px;color:var(--mute);letter-spacing:.3px;max-width:36em;line-height:1.6}
+  .foot .brand-logo{width:108px}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+  @media(max-width:640px){
+    .wrap{padding:0 28px}
+    .htag{display:none}
+    .brand-logo{width:104px}
+    .hero{padding:58px 0 52px}
+    .hero-grid{gap:30px;grid-template-columns:minmax(0,1fr);width:100%;max-width:100%}
+    .return-chip{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:7px 12px;margin-bottom:18px;color:var(--ink);text-decoration:none;font-family:"IBM Plex Mono";font-size:11px;font-weight:600;background:rgba(255,255,255,.55)}
+    .eyebrow{font-size:10.5px;letter-spacing:1.7px;line-height:1.7}
+    h1{letter-spacing:-.9px}
+    .hero .rv{max-width:calc(100vw - 56px)}
+    .lede{width:calc(100vw - 56px);max-width:calc(100vw - 56px);overflow-wrap:anywhere}
+    .statrow{display:grid;grid-template-columns:1fr 1fr;width:100%}
+    .stat{min-width:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .stat:nth-child(2n){border-right:none}
+    .stat:nth-last-child(-n+2){border-bottom:none}
+    .asym{display:grid;grid-template-columns:1fr auto 1fr;width:100%;max-width:calc(100vw - 56px);gap:10px}
+    .asym .big{font-size:20px}
+    .wafer-box{width:calc(100vw - 84px);max-width:calc(100vw - 84px)}
+    .wafer-cap{font-size:9.5px;line-height:1.45;padding:0 6px;white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hbar">
+    <a class="logo" href="https://www.cerebras.ai/" aria-label="Cerebras Systems">
+      <img class="brand-logo" src="assets/cerebras-official-logo.svg" alt="Cerebras Systems logo">
+    </a>
+    <nav>
+      <a class="home-link" href="https://ai98.club/">回主页</a>
+      <a href="#edge">优势</a>
+      <a href="#breakout">爆发点</a>
+      <a href="#tam">TAM</a>
+      <a href="#value">未来价值</a>
+      <a href="#entry">入场点</a>
+    </nav>
+    <div class="htag">Nasdaq: CBRS</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap hero-grid">
+    <div class="rv in">
+      <a class="return-chip" href="https://ai98.club/">回主页</a>
+      <div class="eyebrow">研究日期 2026.07.01 <span class="dot">/</span> Cerebras Systems</div>
+      <h1>唯一绕开瓶颈的<br><span class="hl">wafer-scale</span> 推理产能</h1>
+      <p class="lede">在结构性的 AI 推理短缺里,一个垂直整合、不付英伟达税、也不付 HBM 溢价的差异化产能提供方。</p>
+
+      <div class="statrow">
+        <div class="stat"><div class="k">现价</div><div class="v">~$216</div></div>
+        <div class="stat"><div class="k">市值</div><div class="v">~$51<small>B</small></div></div>
+        <div class="stat"><div class="k">锁定 Backlog</div><div class="v">$25<small>B</small></div></div>
+        <div class="stat"><div class="k">FY26 增速</div><div class="v">+69<small>%</small></div></div>
+      </div>
+
+      <div class="asym">
+        <div><div class="lbl">趋势路径 · 2028</div><div class="big">~$111B 市值</div></div>
+        <div class="arw">→</div>
+        <div><div class="lbl">vs 当前 ~$51B</div><div class="big">+~115%</div></div>
+      </div>
+    </div>
+
+    <div class="rv in">
+      <div class="wafer-box">
+        <svg id="wafer" viewBox="0 0 460 460" aria-label="Wafer-Scale Engine die map"></svg>
+        <div class="wafer-cap">WSE-3 · 4T 晶体管 · 单片晶圆 · 900,000 核</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 EDGE -->
+<section class="blk" id="edge">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-eye">结构性优势 <span class="ln"></span></div>
+      <h2>护城河:垂直整合的「双重免税」</h2>
+      <p class="sec-sub">它自己造芯片、且不用 HBM。所以在短缺里,它同时绕开了别人都要付的两道抽水:英伟达的硬件毛利,和 HBM 的短缺溢价。</p>
+    </div>
+
+    <div class="panel rv">
+      <div class="panel-t">价值链定位: Cerebras 横跨芯片+云,并跳过 HBM 节点</div>
+      <div class="vc">
+        <div class="vc-row">
+          <div class="vc-node"><div class="nn">TSMC 晶圆</div><div class="ns">N5 · 成熟节点</div></div>
+          <div class="vc-node skip"><div class="nn">HBM</div><div class="ns">售罄 / 溢价</div><div class="strike">⁄</div></div>
+          <div class="vc-node own"><div class="nn">芯片 WSE-3</div><div class="ns">自有</div></div>
+          <div class="vc-node own"><div class="nn">推理云</div><div class="ns">自营 token</div></div>
+          <div class="vc-node"><div class="nn">模型层</div><div class="ns">OpenAI=客户</div></div>
+        </div>
+        <div class="vc-span">
+          <div class="seg cb">CEREBRAS: 自有芯片 + 自营云(两段毛利)</div>
+          <div class="seg ot">客户</div>
+        </div>
+      </div>
+
+      <div class="tax">
+        <div class="tc win">
+          <div class="tt">Cerebras</div>
+          <div class="tax-li"><span class="ic no">✓ 免</span> 英伟达硬件税(自造芯片)</div>
+          <div class="tax-li"><span class="ic no">✓ 免</span> HBM 短缺溢价(用片上 SRAM)</div>
+          <div class="tax-li"><span class="ic no">✓</span> 短缺越深,投入成本越稳</div>
+        </div>
+        <div class="tc">
+          <div class="tt">纯 GPU-Neocloud</div>
+          <div class="tax-li"><span class="ic yes">✗ 付</span> 英伟达 ~75% 毛利(买 GPU)</div>
+          <div class="tax-li"><span class="ic yes">✗ 付</span> HBM 溢价(GPU 随短缺涨价)</div>
+          <div class="tax-li"><span class="ic yes">✗</span> 成本随短缺加深而上升</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="edge-grid">
+      <div class="edge rv"><div class="no">EDGE 01</div><h3>唯一 wafer-scale</h3><p>全球唯一商业化量产的整片晶圆处理器。专吃推理里串行、带宽受限的 decode 段,速度最快的那条窄道。</p></div>
+      <div class="edge rv"><div class="no">EDGE 02</div><h3>绕开瓶颈</h3><p>N5 晶圆,不要 HBM、不要 CoWoS。那条卡死 GPU 和所有 HBM-ASIC 的三重瓶颈,它一个都不沾。</p></div>
+      <div class="edge rv"><div class="no">EDGE 03</div><h3>免双重抽水</h3><p>自有芯片(免英伟达税)+ 无 HBM(免内存溢价),这是产能提供方里独有的成本结构。</p></div>
+      <div class="edge rv"><div class="no">EDGE 04</div><h3>$25B 锁定订单</h3><p>OpenAI 750MW、多年期、$20B+。Backlog ≈ 29× 当年营收,需求已锁死,问题在交付。</p></div>
+    </div>
+
+    <div class="spec rv">
+      <div><div class="sv">4T</div><div class="sk">晶体管</div></div>
+      <div><div class="sv">900K</div><div class="sk">AI 核</div></div>
+      <div><div class="sv">44GB</div><div class="sk">片上 SRAM</div></div>
+      <div><div class="sv">21 PB/s</div><div class="sk">内存带宽</div></div>
+      <div><div class="sv">~7,000×</div><div class="sk">vs H100 带宽</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 BREAKOUT -->
+<section class="blk" id="breakout">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-eye">爆发点 <span class="ln"></span></div>
+      <h2>增长后置,2027-2028 踩油门</h2>
+      <p class="sec-sub">现在「慢」不是需求弱,是交付被数据中心部署 gate 住。$25B 已锁定,随自有产能上线 + OpenAI 满产 + AWS(2027)逐步释放,毛利谷底回升是爆发的前置信号。</p>
+    </div>
+
+    <div class="chart-grid two">
+      <div class="panel rv">
+        <div class="panel-t">营收轨迹: 核心收入(US$M),后置型加速</div>
+        <svg id="revchart" class="chart" viewBox="0 0 600 320"></svg>
+        <div class="panel-d">$25B RPO 仅 15% 在 2027 年底前转化。剩余摊在后续多年,随部署逐步确认。2028 共识路径 ~$7.4B。</div>
+      </div>
+      <div class="panel rv">
+        <div class="panel-t">核心毛利率: 谷底到回升</div>
+        <svg id="marginchart" class="chart" viewBox="0 0 440 320"></svg>
+        <div class="panel-d">Q2 36-38% 是「租回硬件」造成的谷底。自有产能替换租回,回升至 ~60%(2027 目标)。</div>
+      </div>
+    </div>
+
+    <div class="flip rv">
+      <span><b>↗</b>自有产能上线(2026下半年-2027)</span>
+      <span><b>↗</b>OpenAI 750MW 满产</span>
+      <span><b>↗</b>AWS 收入(2027 起)</span>
+      <span><b>↗</b>WSE-4(可选,未计入)</span>
+    </div>
+  </div>
+</section>
+
+<!-- 03 TAM -->
+<section class="blk" id="tam">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-eye">最大 TAM <span class="ln"></span></div>
+      <h2>推理:板块里增速最快的需求</h2>
+      <p class="sec-sub">训练是一次性的;推理是随采用持续放大的。Cerebras 占的「低延迟快推理」是其中增速最快的一段,reasoning 模型每个查询多吃 150× 算力,几乎全是它最快的串行 decode。</p>
+    </div>
+
+    <div class="panel rv">
+      <div class="panel-t">推理市场规模(US$B): 总盘 vs 低延迟快推理(Cerebras 的切片)</div>
+      <svg id="tamchart" class="chart" viewBox="0 0 600 330"></svg>
+    </div>
+
+    <div class="ctx">
+      <div class="ci rv"><div class="cv">28<small>% CAGR</small></div><div class="cl">推理市场 $251B(2025)→ $672B(2029)。</div></div>
+      <div class="ci rv"><div class="cv">65-70<small>%</small></div><div class="cl">到 2030,推理占数据中心算力的比重(超过训练)。</div></div>
+      <div class="ci rv"><div class="cv">150<small>×</small></div><div class="cl">reasoning 模型相对传统推理的算力倍数,全是串行生成。</div></div>
+      <div class="ci rv"><div class="cv">供不应求</div><div class="cl">短缺真实:Google 已对 Meta 限供推理产能(2026/3)。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 FUTURE VALUE -->
+<section class="blk" id="value">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-eye">基于趋势的未来价值 <span class="ln"></span></div>
+      <h2>趋势 → 短缺持续 → 差异化产能赢</h2>
+      <p class="sec-sub">推理短缺是结构性的(物理约束多年才能扩,需求复利)。在产能提供方里,Cerebras 的差异化(免双重抽水 + 供给绕开)决定它能捕获的那一片质量更高。</p>
+    </div>
+
+    <div class="panel rv">
+      <div class="panel-t">情景与估值: 市值(US$B),相对当前 ~$51B</div>
+      <div class="scen">
+        <div class="scbar bear"><div class="sn">Bear</div><div class="track"><div class="fill" data-w="21" style="background:linear-gradient(90deg,var(--steel-dim),var(--steel))"><span class="fv">~$25B</span></div></div></div>
+        <div class="scbar base"><div class="sn">Base</div><div class="track"><div class="fill" data-w="50" style="background:linear-gradient(90deg,var(--bar-neutral-soft),var(--bar-neutral))"><span class="fv">~$60B</span></div></div></div>
+        <div class="scbar bull"><div class="sn">Bull</div><div class="track"><div class="fill" data-w="92" style="background:linear-gradient(90deg,var(--coral-deep),var(--coral))"><span class="fv">~$111B</span></div></div></div>
+        <div class="nowline"><span>当前 ~$51B</span></div>
+      </div>
+
+      <div class="band">
+        <div><div class="bk">2028 趋势路径</div><div class="bv">~$7.4B 营收 × 15× → <span>+~115%</span></div></div>
+        <div><div class="bk">12 个月分析师中位</div><div class="bv">$300 <span style="font-size:13px">(区间 $250-340)</span></div></div>
+      </div>
+
+      <div class="caveat rv">
+        <b>但加速已被 56× 销售定价。</b> 达标(加速如预期)→ 估值熬成合理倍数,股价大致平;超预期(部署更快 / 新增非 OpenAI anchor / WSE-4)→ 向上 re-rate;miss(部署 slip / OpenAI 转向)→ 暴力压缩。上行要的是「比已定价的更快」。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ENTRY -->
+<section class="blk" id="entry">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-eye">入场点 <span class="ln"></span></div>
+      <h2>不是现在满仓,等 4 个更干净的窗口</h2>
+      <p class="sec-sub">当前是叙事反弹撞进 11 月供给悬崖,毛利与部署的 inflection 还没兑现,接近最差的 lump-in 点。买在反弹,不等于买在底部结构。</p>
+    </div>
+
+    <div class="entry-note rv">
+      <div class="x">现在 = 等</div>
+      <p>5.12 beta + 持续解锁供给 + 基本面未转向。Book A 想要架构期权的,可放极小 tracker、把主仓分批穿过下面的窗口;Book B 想做波段的,现在无信号。下面 4 个是更高胜率的承接点。</p>
+    </div>
+
+    <div class="timeline rv">
+      <svg id="tlsvg" viewBox="0 0 1000 150"></svg>
+    </div>
+
+    <div class="entries">
+      <div class="ent rv">
+        <div class="top"><div class="en">01</div><div class="when">9月2日 · Q2财报</div></div>
+        <h4>毛利谷底确认 + 部署 on-track</h4>
+        <div class="trig">下一个基本面催化。看 Q2 是否就是 36-38% 的谷底、自有产能部署是否按计划推进。</div>
+        <div class="conf">确认信号 · <b>毛利环比触底回升迹象 + 部署时间表兑现</b></div>
+      </div>
+
+      <div class="ent rv">
+        <div class="top"><div class="en">02</div><div class="when">11月中 · 锁定期</div></div>
+        <h4>锁定期供给出尽,底部成形</h4>
+        <div class="trig">单一最大的已知供给事件(CEO/CTO 合计 ~$29B 纸面)。跌下来的 IPO 常在锁定期供给出尽附近/之后筑底。</div>
+        <div class="conf">确认信号 · <b>解锁供给被吸收、无放量破位、底部结构成形</b></div>
+      </div>
+
+      <div class="ent rv">
+        <div class="top"><div class="en">03</div><div class="when cond">条件 · 信风 G2</div></div>
+        <h4>真底部上放量突破</h4>
+        <div class="trig">底部成形后(大概率在锁定期之后),出现干净的启动:价格突破 + 量能 ≥1.5× + 真催化 + 强收。</div>
+        <div class="conf">确认信号 · <b>G2 启动扳机触发(Book B 真正入场点)</b></div>
+      </div>
+
+      <div class="ent rv">
+        <div class="top"><div class="en">04</div><div class="when cond">持续 · 洗盘</div></div>
+        <h4>Beta 5.12 暴力回撤里分批</h4>
+        <div class="trig">这个名字必然给出 -30% 级别的回撤。Book A satellite(无价格止损)在洗盘里分批,改善均价,不猜精确底。</div>
+        <div class="conf">执行 · <b>小仓、total-loss-sized、thesis 证伪才退出</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="fnote">Thesis snapshot: 研究日期 2026.07.01。随执行(部署 / 毛利 / OpenAI)与价格更新,不是静态判断。证伪触发器:wafer-scale 在快推理输掉,anchor 自研化快于云拓宽,部署持续 slip。</div>
+    <a class="logo" href="https://www.cerebras.ai/" aria-label="Cerebras Systems">
+      <img class="brand-logo" src="assets/cerebras-official-logo.svg" alt="Cerebras Systems logo">
+    </a>
+  </div>
+</footer>
+
+<script>
+const SVGNS="http://www.w3.org/2000/svg";
+function el(n,a){const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
+const reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* ---------- WAFER ---------- */
+(function(){
+  const svg=document.getElementById("wafer");
+  const N=15, pad=18, size=460-pad*2, cell=size/N, gap=2.4;
+  // deterministic "lit" map: heat from center + a few hot spots
+  const cx=(N-1)/2, cy=(N-1)/2;
+  const lit=[];
+  let seed=7;
+  const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  for(let r=0;r<N;r++){for(let c=0;c<N;c++){
+    const dx=c-cx,dy=r-cy,d=Math.sqrt(dx*dx+dy*dy);
+    if(d>N/2+0.3){continue;} // round-ish wafer mask
+    const heat=Math.max(0,1-d/(N/2));
+    const on=rnd()<heat*0.55+0.04;
+    lit.push({r,c,on,heat});
+  }}
+  lit.forEach((t,i)=>{
+    const x=pad+t.c*cell+gap/2, y=pad+t.r*cell+gap/2, w=cell-gap;
+    const rect=el("rect",{x,y,width:w,height:w,rx:1.5,
+      fill:t.on?"var(--coral)":"var(--chip-off)",
+      stroke:t.on?"none":"var(--chip-line)","stroke-width":1,
+      opacity:t.on?(0.45+t.heat*0.55):1});
+    if(t.on&&!reduce){
+      const an=el("animate",{attributeName:"opacity",
+        values:`${0.4+t.heat*0.5};${0.85+t.heat*0.15};${0.4+t.heat*0.5}`,
+        dur:`${2.6+rnd()*2.4}s`,begin:`${rnd()*2}s`,repeatCount:"indefinite"});
+      rect.appendChild(an);
+    }
+    svg.appendChild(rect);
+  });
+  // reticle frame
+  const f=el("rect",{x:pad-3,y:pad-3,width:size+6,height:size+6,rx:6,fill:"none",stroke:"var(--line-2)","stroke-width":1});
+  svg.appendChild(f);
+})();
+
+/* ---------- helpers for reveal-driven animation ---------- */
+const animQueue=[];
+function whenVisible(node,fn){
+  if(reduce){fn();return;}
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){fn();io.disconnect();}})},{threshold:.25});
+  io.observe(node);
+}
+
+/* ---------- REVENUE BARS ---------- */
+(function(){
+  const svg=document.getElementById("revchart");
+  const W=600,H=320,L=46,R=18,T=24,B=44;
+  const data=[{y:"2024",v:290,e:false},{y:"2025",v:510,e:false},{y:"2026E",v:860,e:false},{y:"2027E",v:2800,e:true},{y:"2028E",v:7400,e:true}];
+  const max=8000, pw=W-L-R, ph=H-T-B;
+  const bw=pw/data.length*0.52;
+  // gridlines
+  [0,2000,4000,6000,8000].forEach(g=>{
+    const y=T+ph-(g/max)*ph;
+    svg.appendChild(el("line",{x1:L,y1:y,x2:W-R,y2:y,class:"gl"}));
+    svg.appendChild(el("text",{x:L-8,y:y+3,"text-anchor":"end",class:"axlbl"})).textContent=g===0?"0":(g/1000)+"k";
+  });
+  data.forEach((d,i)=>{
+    const cxp=L+pw/data.length*(i+0.5);
+    const hFull=(d.v/max)*ph, x=cxp-bw/2, yFull=T+ph-hFull;
+    const rect=el("rect",{x,y:T+ph,width:bw,height:0,rx:3,
+      fill:d.e?"var(--coral)":"var(--bar-neutral)"});
+    if(d.e){rect.setAttribute("fill","url(#coralg)");}
+    svg.appendChild(rect);
+    // label
+    const lbl=el("text",{x:cxp,y:yFull-8,"text-anchor":"middle",class:"barlbl",opacity:0});
+    lbl.textContent="$"+(d.v>=1000?(d.v/1000).toFixed(1)+"B":d.v+"M");
+    svg.appendChild(lbl);
+    svg.appendChild(el("text",{x:cxp,y:H-22,"text-anchor":"middle",class:"axlbl"})).textContent=d.y;
+    animQueue.push(()=>{rect.style.transition="height .9s cubic-bezier(.2,.7,.3,1), y .9s cubic-bezier(.2,.7,.3,1)";rect.setAttribute("height",hFull);rect.setAttribute("y",yFull);setTimeout(()=>{lbl.style.transition="opacity .4s";lbl.setAttribute("opacity",1);},600+i*60);});
+  });
+  // gradient def
+  const defs=el("defs",{});
+  const lg=el("linearGradient",{id:"coralg",x1:"0",y1:"1",x2:"0",y2:"0"});
+  lg.appendChild(el("stop",{offset:"0","stop-color":"var(--coral-deep)"}));
+  lg.appendChild(el("stop",{offset:"1","stop-color":"var(--coral-2)"}));
+  defs.appendChild(lg);svg.appendChild(defs);
+  // accel annotation
+  const ax=L+pw/data.length*3.5;
+  svg.appendChild(el("text",{x:ax,y:T+30,"text-anchor":"middle",class:"tag"})).textContent="部署 ramp ↑";
+  whenVisible(svg,()=>animQueue.forEach(f=>f()));
+})();
+
+/* ---------- MARGIN LINE ---------- */
+(function(){
+  const svg=document.getElementById("marginchart");
+  const W=440,H=320,L=42,R=46,T=24,B=44;
+  const pts=[{x:"’25",v:42,e:false},{x:"Q1",v:47,e:false},{x:"Q2",v:37,trough:true},{x:"Q3",v:44,e:true},{x:"Q4",v:51,e:true},{x:"’27",v:60,e:true}];
+  const pw=W-L-R,ph=H-T-B,minV=30,maxV=65;
+  const X=i=>L+pw/(pts.length-1)*i;
+  const Y=v=>T+ph-((v-minV)/(maxV-minV))*ph;
+  [30,40,50,60].forEach(g=>{
+    const y=Y(g);
+    svg.appendChild(el("line",{x1:L,y1:y,x2:W-R,y2:y,class:"gl"}));
+    svg.appendChild(el("text",{x:W-R+8,y:y+3,"text-anchor":"start",class:"axlbl"})).textContent=g+"%";
+  });
+  // split solid (actual) vs dashed (target)
+  let dSolid="",dDash="";
+  pts.forEach((p,i)=>{const cmd=(i===0?"M":"L")+X(i)+" "+Y(p.v);if(i<=2)dSolid+=cmd;if(i>=2)dDash+=(i===2?"M":"L")+X(i)+" "+Y(p.v);});
+  const pathS=el("path",{d:dSolid,fill:"none",stroke:"var(--coral)","stroke-width":2.5,"stroke-linecap":"round"});
+  const pathD=el("path",{d:dDash,fill:"none",stroke:"var(--coral)","stroke-width":2,"stroke-dasharray":"4 5","stroke-linecap":"round",opacity:.7});
+  svg.appendChild(pathS);svg.appendChild(pathD);
+  pts.forEach((p,i)=>{
+    svg.appendChild(el("text",{x:X(i),y:H-22,"text-anchor":"middle",class:"axlbl"})).textContent=p.x;
+    const c=el("circle",{cx:X(i),cy:Y(p.v),r:p.trough?5:3.5,fill:p.e&&i>2?"var(--bg)":"var(--coral)",stroke:"var(--coral)","stroke-width":2});
+    svg.appendChild(c);
+    const tv=el("text",{x:X(i),y:Y(p.v)-(p.trough?14:12),"text-anchor":"middle",fill:p.trough?"var(--coral)":"var(--ink)","font-family":"IBM Plex Mono","font-size":p.trough?"11":"10","font-weight":p.trough?"600":"400"});
+    tv.textContent=p.v+"%";svg.appendChild(tv);
+  });
+  // trough + target labels
+  svg.appendChild(el("text",{x:X(2),y:Y(37)+26,"text-anchor":"middle",class:"axlbl",fill:"var(--steel)"})).textContent="谷底·租回";
+  svg.appendChild(el("text",{x:X(5),y:Y(60)+4,"text-anchor":"start",class:"tag",dx:6})).textContent="目标";
+  // stroke-draw animation
+  if(!reduce){
+    [pathS,pathD].forEach(p=>{const len=p.getTotalLength();p.style.strokeDasharray=p===pathD?"4 5":len;if(p===pathS){p.style.strokeDashoffset=len;}});
+    whenVisible(svg,()=>{pathS.style.transition="stroke-dashoffset 1.1s ease";pathS.style.strokeDashoffset=0;});
+  }
+})();
+
+/* ---------- TAM AREA ---------- */
+(function(){
+  const svg=document.getElementById("tamchart");
+  const W=600,H=330,L=46,R=18,T=24,B=46;
+  const data=[{y:"2025",t:251,f:80},{y:"2026",t:321,f:112},{y:"2027",t:411,f:156},{y:"2028",t:526,f:215},{y:"2029",t:672,f:290}];
+  const max=720,pw=W-L-R,ph=H-T-B;
+  const X=i=>L+pw/(data.length-1)*i;
+  const Y=v=>T+ph-(v/max)*ph;
+  [0,200,400,600].forEach(g=>{const y=Y(g);svg.appendChild(el("line",{x1:L,y1:y,x2:W-R,y2:y,class:"gl"}));svg.appendChild(el("text",{x:L-8,y:y+3,"text-anchor":"end",class:"axlbl"})).textContent="$"+g;});
+  // total area
+  let topPath="",botPath="";
+  data.forEach((d,i)=>{topPath+=(i===0?"M":"L")+X(i)+" "+Y(d.t);});
+  let areaT=topPath+"L"+X(data.length-1)+" "+Y(0)+"L"+X(0)+" "+Y(0)+"Z";
+  // fast inference sub-area
+  let fastTop="";data.forEach((d,i)=>{fastTop+=(i===0?"M":"L")+X(i)+" "+Y(d.f);});
+  let areaF=fastTop+"L"+X(data.length-1)+" "+Y(0)+"L"+X(0)+" "+Y(0)+"Z";
+
+  const defs=el("defs",{});
+  const g1=el("linearGradient",{id:"tamtot",x1:"0",y1:"0",x2:"0",y2:"1"});
+  g1.appendChild(el("stop",{offset:"0","stop-color":"var(--bar-neutral)","stop-opacity":".42"}));
+  g1.appendChild(el("stop",{offset:"1","stop-color":"var(--bar-neutral)","stop-opacity":".06"}));
+  const g2=el("linearGradient",{id:"tamfast",x1:"0",y1:"0",x2:"0",y2:"1"});
+  g2.appendChild(el("stop",{offset:"0","stop-color":"var(--coral)","stop-opacity":".55"}));
+  g2.appendChild(el("stop",{offset:"1","stop-color":"var(--coral)","stop-opacity":".06"}));
+  defs.appendChild(g1);defs.appendChild(g2);svg.appendChild(defs);
+
+  const at=el("path",{d:areaT,fill:"url(#tamtot)",opacity:0});
+  const lt=el("path",{d:topPath,fill:"none",stroke:"var(--bar-neutral)","stroke-width":2,opacity:0});
+  const af=el("path",{d:areaF,fill:"url(#tamfast)",opacity:0});
+  const lf=el("path",{d:fastTop,fill:"none",stroke:"var(--coral)","stroke-width":2.5,opacity:0});
+  [at,lt,af,lf].forEach(p=>svg.appendChild(p));
+
+  data.forEach((d,i)=>{svg.appendChild(el("text",{x:X(i),y:H-22,"text-anchor":"middle",class:"axlbl"})).textContent=d.y;});
+  // endpoint labels
+  svg.appendChild(el("text",{x:X(0),y:Y(251)-10,class:"axlbl",fill:"var(--mute)"})).textContent="$251B";
+  const e1=el("text",{x:X(4),y:Y(672)-10,"text-anchor":"end",class:"barlbl"});e1.textContent="$672B";svg.appendChild(e1);
+  const e2=el("text",{x:X(4),y:Y(290)-8,"text-anchor":"end",class:"tag"});e2.textContent="快推理 ↑";svg.appendChild(e2);
+  // legend
+  svg.appendChild(el("rect",{x:L+6,y:T-2,width:10,height:10,rx:2,fill:"var(--bar-neutral)"}));
+  svg.appendChild(el("text",{x:L+22,y:T+7,class:"axlbl"})).textContent="推理总盘";
+  svg.appendChild(el("rect",{x:L+96,y:T-2,width:10,height:10,rx:2,fill:"var(--coral)"}));
+  svg.appendChild(el("text",{x:L+112,y:T+7,class:"axlbl"})).textContent="低延迟快推理 (Cerebras)";
+
+  whenVisible(svg,()=>{if(reduce){[at,lt,af,lf].forEach(p=>p.setAttribute("opacity",1));return;}
+    at.style.transition=lt.style.transition="opacity .7s";at.setAttribute("opacity",1);lt.setAttribute("opacity",1);
+    setTimeout(()=>{af.style.transition=lf.style.transition="opacity .8s";af.setAttribute("opacity",1);lf.setAttribute("opacity",1);},280);});
+})();
+
+/* ---------- SCENARIO bars ---------- */
+(function(){
+  document.querySelectorAll(".scbar .fill").forEach((f,i)=>{
+    const w=f.getAttribute("data-w");
+    if(reduce){f.style.width=w+"%";return;}
+    whenVisible(f,()=>setTimeout(()=>{f.style.width=w+"%";},i*140));
+  });
+})();
+
+/* ---------- ENTRY TIMELINE ---------- */
+(function(){
+  const svg=document.getElementById("tlsvg");
+  const W=1000,H=150,L=20,R=20,axisY=78;
+  const months=["Jul’26","Aug","Sep","Oct","Nov","Dec","’27","Feb","Mar","Apr"];
+  const pw=W-L-R;
+  const X=i=>L+pw/(months.length-1)*i;
+  // washout band
+  const band=el("rect",{x:L,y:axisY-22,width:pw,height:44,rx:8,fill:"none",stroke:"var(--line-2)","stroke-width":1,"stroke-dasharray":"3 5"});
+  svg.appendChild(band);
+  svg.appendChild(el("text",{x:W-R,y:axisY-28,"text-anchor":"end","font-family":"IBM Plex Mono","font-size":"10","fill":"var(--mute)"})).textContent="④ Beta 5.12 洗盘区: 全程分批";
+  // axis
+  svg.appendChild(el("line",{x1:L,y1:axisY,x2:W-R,y2:axisY,stroke:"var(--line-2)","stroke-width":1.5}));
+  months.forEach((m,i)=>{
+    svg.appendChild(el("line",{x1:X(i),y1:axisY-4,x2:X(i),y2:axisY+4,stroke:"var(--mute-2)","stroke-width":1}));
+    svg.appendChild(el("text",{x:X(i),y:axisY+22,"text-anchor":"middle","font-family":"IBM Plex Mono","font-size":"10.5","fill":"var(--mute)"})).textContent=m;
+  });
+  // markers: Sep(2) earnings, mid-Nov(4.5) lockup, ~Feb(7) G2 conditional
+  const marks=[
+    {i:2,lab:"① Q2 财报",sub:"9/2",solid:true,up:true},
+    {i:4.5,lab:"② 锁定期",sub:"11月中",solid:true,up:false},
+    {i:7,lab:"③ 信风 G2",sub:"条件",solid:false,up:true}
+  ];
+  marks.forEach((mk,k)=>{
+    const x=X(mk.i);
+    const yc=mk.up?axisY-44:axisY+44;
+    const c=el("circle",{cx:x,cy:axisY,r:6,fill:mk.solid?"var(--coral)":"var(--bg)",stroke:"var(--coral)","stroke-width":2});
+    svg.appendChild(el("line",{x1:x,y1:axisY,x2:x,y2:yc+(mk.up?10:-10),stroke:"var(--coral-deep)","stroke-width":1,"stroke-dasharray":mk.solid?"0":"2 3"}));
+    const t1=el("text",{x:x,y:yc,"text-anchor":"middle","font-family":"Space Grotesk","font-weight":"600","font-size":"13","fill":mk.solid?"var(--coral)":"var(--mute)"});t1.textContent=mk.lab;
+    const t2=el("text",{x:x,y:yc+(mk.up?-15:15),"text-anchor":"middle","font-family":"IBM Plex Mono","font-size":"9.5","fill":"var(--mute)"});t2.textContent=mk.sub;
+    svg.appendChild(c);svg.appendChild(t1);svg.appendChild(t2);
+    if(!reduce){c.setAttribute("r",0);whenVisible(svg,()=>setTimeout(()=>{c.style.transition="r .4s cubic-bezier(.3,1.4,.5,1)";c.setAttribute("r",6);},300+k*180));}
+  });
+})();
+
+/* ---------- generic reveal ---------- */
+(function(){
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.12,rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".rv:not(.in)").forEach(n=>io.observe(n));
+})();
+</script>
+</body>
+</html>
