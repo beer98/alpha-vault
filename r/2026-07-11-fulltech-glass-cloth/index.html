@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从 PCB 涨价与高阶材料认证信号，追踪 AI 服务器如何把利润迁往 Low-Dk、Low-CTE 与 Q-glass，并收敛到富乔 1815.TWO。">
+  <meta name="date" content="2026-07-11">
+  <title>高阶玻纤布利润迁移 · 2026-07-11 — ALPHA VAULT</title>
+  <style>
+    :root {
+      --ink: #111214;
+      --ink-2: #202326;
+      --paper: #f3f4ef;
+      --white: #fff;
+      --muted: #686d72;
+      --line: #cfd3ce;
+      --lime: #d9ff45;
+      --blue: #4f7cff;
+      --cyan: #5fe1d2;
+      --red: #ff5a5f;
+      --yellow: #f6c344;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    a { color: inherit; text-underline-offset: 3px; }
+    a:hover { color: #2b57d7; }
+    button { font: inherit; letter-spacing: 0; }
+    .shell { width: min(1320px, calc(100% - 40px)); margin: 0 auto; }
+
+    .topbar {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1320px, calc(100% - 40px));
+      height: 66px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      color: var(--white);
+      border-bottom: 1px solid rgba(255,255,255,.36);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .brand { color: inherit; font-size: 15px; font-weight: 950; text-decoration: none; }
+    .topbar nav { display: flex; gap: 20px; }
+    .topbar nav a { color: rgba(255,255,255,.72); text-decoration: none; }
+    .asof { text-align: right; color: rgba(255,255,255,.72); }
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 0 4px rgba(217,255,69,.16);
+    }
+
+    .hero {
+      min-height: 680px;
+      height: calc(100dvh - 34px);
+      max-height: 820px;
+      position: relative;
+      overflow: hidden;
+      color: var(--white);
+      background-color: #111820;
+      background-image: url("assets/fulltech-glass-cloth.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(4,8,11,.78);
+    }
+    .hero-inner {
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      padding-top: 98px;
+      padding-bottom: 26px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 24px;
+    }
+    .hero-copy { align-self: center; max-width: 1080px; }
+    .signal {
+      width: fit-content;
+      padding: 8px 10px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: var(--radius);
+      color: rgba(255,255,255,.82);
+      font: 800 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    h1 {
+      max-width: 1040px;
+      margin: 0;
+      font-size: 72px;
+      line-height: 1.03;
+      font-weight: 950;
+    }
+    .hero-copy p {
+      max-width: 800px;
+      margin: 22px 0 0;
+      color: rgba(255,255,255,.78);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    .hero-copy p strong { color: var(--lime); }
+    .hero-rail {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.15fr;
+      border-top: 1px solid rgba(255,255,255,.38);
+      border-bottom: 1px solid rgba(255,255,255,.38);
+      background: rgba(7,10,12,.82);
+    }
+    .rail-item {
+      min-height: 108px;
+      padding: 16px 18px;
+      display: grid;
+      align-content: center;
+      gap: 6px;
+      border-right: 1px solid rgba(255,255,255,.2);
+    }
+    .rail-item:last-child { border-right: 0; }
+    .rail-item span { color: rgba(255,255,255,.56); font-size: 11px; font-weight: 800; }
+    .rail-item strong { font-size: 22px; line-height: 1.12; }
+    .rail-item em { color: rgba(255,255,255,.65); font-size: 12px; font-style: normal; line-height: 1.4; }
+    .rail-item.decision { color: var(--ink); background: var(--lime); }
+    .rail-item.decision span,
+    .rail-item.decision em { color: rgba(17,18,20,.66); }
+
+    .verdict { background: var(--lime); border-bottom: 1px solid #9caf28; }
+    .verdict-grid {
+      min-height: 214px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 62px;
+      padding: 46px 0;
+    }
+    .verdict h2 { margin: 0 0 12px; font-size: 48px; line-height: 1.03; }
+    .verdict p { max-width: 760px; margin: 0; font-size: 16px; line-height: 1.6; }
+    .verdict-side { border-left: 2px solid var(--ink); padding-left: 24px; }
+    .verdict-side strong { display: block; margin-bottom: 8px; font-size: 24px; }
+    .verdict-side span { color: rgba(17,18,20,.7); font-size: 13px; line-height: 1.55; }
+
+    .section { padding: 82px 0; border-bottom: 1px solid var(--line); }
+    .section.white { background: var(--white); }
+    .section.dark { color: var(--white); background: var(--ink); border-bottom-color: #34383b; }
+    .section.blue { color: var(--white); background: var(--blue); border-bottom-color: #315ac8; }
+    .section-head { max-width: 900px; margin-bottom: 40px; }
+    .eyebrow {
+      margin-bottom: 12px;
+      color: var(--blue);
+      font: 850 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-transform: uppercase;
+    }
+    .dark .eyebrow { color: var(--lime); }
+    .blue .eyebrow { color: #dfe7ff; }
+    .section-head h2 { margin: 0; font-size: 52px; line-height: 1.05; }
+    .section-head p { max-width: 760px; margin: 16px 0 0; color: var(--muted); font-size: 16px; line-height: 1.65; }
+    .dark .section-head p { color: #aeb3b6; }
+    .blue .section-head p { color: #e2e8ff; }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: 56px;
+      align-items: start;
+    }
+    .sensor-list { border-top: 2px solid var(--ink); }
+    .sensor-row {
+      display: grid;
+      grid-template-columns: 96px 1fr auto;
+      gap: 18px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .sensor-row time { color: var(--muted); font: 750 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .sensor-row strong { display: block; margin-bottom: 5px; font-size: 16px; }
+    .sensor-row p { margin: 0; color: #555a5e; font-size: 13px; line-height: 1.55; }
+    .sensor-row a { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .filter-note {
+      padding: 24px;
+      border: 2px solid var(--red);
+      background: #fff7f7;
+    }
+    .filter-note strong { display: block; margin-bottom: 9px; color: #b92d35; font-size: 20px; }
+    .filter-note p { margin: 0; color: #5d4d4f; font-size: 14px; line-height: 1.6; }
+    .material-photo {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      background: #dbe6f0;
+    }
+    .material-photo img { width: 100%; aspect-ratio: 4.82 / 1; display: block; object-fit: cover; }
+    .material-photo figcaption { padding: 11px 13px; color: var(--muted); background: var(--white); font-size: 11px; line-height: 1.45; }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 2px solid var(--white);
+      border-bottom: 2px solid var(--white);
+    }
+    .chain-step {
+      min-height: 252px;
+      padding: 22px;
+      display: grid;
+      align-content: space-between;
+      gap: 34px;
+      border-right: 1px solid #4b5054;
+    }
+    .chain-step:last-child { border-right: 0; }
+    .chain-step .num { color: var(--lime); font: 800 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .chain-step strong { display: block; margin-bottom: 9px; font-size: 20px; line-height: 1.2; }
+    .chain-step p { margin: 0; color: #aeb3b6; font-size: 13px; line-height: 1.55; }
+    .chain-step.final { color: var(--ink); background: var(--lime); }
+    .chain-step.final .num,
+    .chain-step.final p { color: rgba(17,18,20,.68); }
+
+    .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+    .proof {
+      min-height: 238px;
+      padding: 24px 20px 24px 0;
+      border-right: 1px solid var(--line);
+      display: grid;
+      align-content: space-between;
+      gap: 26px;
+    }
+    .proof:not(:first-child) { padding-left: 20px; }
+    .proof:last-child { border-right: 0; }
+    .proof span { color: var(--muted); font: 800 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .proof strong { display: block; font-size: 38px; line-height: 1; }
+    .proof p { margin: 10px 0 0; color: #565b60; font-size: 13px; line-height: 1.55; }
+
+    .company-table { border-top: 2px solid var(--ink); }
+    .company-row {
+      display: grid;
+      grid-template-columns: 1.15fr .8fr .8fr 1.2fr .9fr;
+      min-height: 112px;
+      border-bottom: 1px solid var(--line);
+      align-items: stretch;
+    }
+    .company-row > div { padding: 17px 14px; border-right: 1px solid var(--line); display: grid; align-content: center; }
+    .company-row > div:first-child { padding-left: 0; }
+    .company-row > div:last-child { border-right: 0; }
+    .company-row.header { min-height: 48px; color: var(--muted); font-size: 11px; font-weight: 850; }
+    .company-row .name strong { font-size: 19px; }
+    .company-row .name span { color: var(--muted); font-size: 12px; }
+    .company-row p { margin: 0; color: #565b60; font-size: 12px; line-height: 1.5; }
+    .tag { width: fit-content; padding: 6px 8px; border: 1px solid currentColor; border-radius: var(--radius); font-size: 11px; font-weight: 850; }
+    .tag.win { color: #4f7500; background: #efffc0; }
+    .tag.watch { color: #2450c6; background: #edf2ff; }
+    .tag.reject { color: #a82f35; background: #fff0f0; }
+
+    .stock-band {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .quote-block { border-top: 2px solid var(--white); }
+    .price-line { padding: 26px 0; border-bottom: 1px solid #454a4e; }
+    .price-line span { display: block; margin-bottom: 8px; color: #9da2a6; font-size: 11px; font-weight: 850; }
+    .price-line strong { font-size: 76px; line-height: 1; }
+    .price-line em { margin-left: 12px; color: #b7bcc0; font-size: 13px; font-style: normal; }
+    .market-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .market-cell { min-height: 108px; padding: 18px 0; border-bottom: 1px solid #454a4e; }
+    .market-cell:nth-child(odd) { border-right: 1px solid #454a4e; }
+    .market-cell:nth-child(even) { padding-left: 20px; }
+    .market-cell span { display: block; color: #92979b; font-size: 11px; }
+    .market-cell strong { display: block; margin-top: 8px; font-size: 24px; }
+    .market-cell small { color: #92979b; font-size: 11px; }
+    .range { margin-top: 26px; }
+    .range-track { height: 12px; position: relative; background: #3a3e41; }
+    .range-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 65%; background: var(--blue); }
+    .range-dot { position: absolute; left: 65%; top: 50%; width: 18px; height: 18px; transform: translate(-50%,-50%); border: 3px solid var(--white); border-radius: 50%; background: var(--red); }
+    .range-labels { display: flex; justify-content: space-between; margin-top: 9px; color: #a5aaae; font-size: 11px; }
+    .news-list { border-top: 2px solid var(--white); }
+    .news-item { padding: 19px 0; border-bottom: 1px solid #454a4e; }
+    .news-item time { color: var(--cyan); font: 800 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .news-item strong { display: block; margin: 8px 0 6px; font-size: 16px; }
+    .news-item p { margin: 0; color: #aeb3b6; font-size: 12px; line-height: 1.52; }
+
+    .model-grid { display: grid; grid-template-columns: .82fr 1.18fr; gap: 54px; align-items: start; }
+    .segments { display: grid; grid-template-columns: repeat(4, 1fr); border: 2px solid var(--ink); }
+    .segments button {
+      min-height: 50px;
+      border: 0;
+      border-right: 1px solid var(--ink);
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .segments button:last-child { border-right: 0; }
+    .segments button.active { color: var(--white); background: var(--ink); }
+    .model-output { padding-top: 28px; }
+    .model-output .case-label { color: var(--blue); font: 850 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .model-output h3 { margin: 10px 0 12px; font-size: 40px; line-height: 1.05; }
+    .model-output p { margin: 0; color: #565b60; font-size: 14px; line-height: 1.6; }
+    .model-numbers { display: grid; grid-template-columns: 1fr 1fr; margin-top: 28px; border-top: 1px solid var(--line); }
+    .model-number { padding: 18px 12px 18px 0; border-bottom: 1px solid var(--line); }
+    .model-number:nth-child(odd) { border-right: 1px solid var(--line); }
+    .model-number:nth-child(even) { padding-left: 18px; }
+    .model-number span { display: block; color: var(--muted); font-size: 11px; }
+    .model-number strong { display: block; margin-top: 6px; font-size: 25px; }
+    .chart-wrap { min-width: 0; border-top: 2px solid var(--ink); padding-top: 20px; }
+    #profitChart { width: 100%; height: 360px; display: block; }
+    .chart-note { margin-top: 10px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .gate-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--white); }
+    .gate { min-height: 250px; padding: 24px 22px 24px 0; border-right: 1px solid #454a4e; }
+    .gate:not(:first-child) { padding-left: 22px; }
+    .gate:last-child { border-right: 0; }
+    .gate span { color: var(--lime); font: 800 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .gate h3 { margin: 14px 0 12px; font-size: 24px; line-height: 1.15; }
+    .gate p { margin: 0; color: #aeb3b6; font-size: 13px; line-height: 1.58; }
+    .gate.kill span { color: var(--red); }
+
+    .source-list { border-top: 2px solid var(--ink); }
+    .source {
+      display: grid;
+      grid-template-columns: 84px 1fr auto;
+      gap: 18px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+    .source-type { font: 800 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .source-type.primary { color: #3f6900; }
+    .source-type.community { color: #9c3d00; }
+    .source-type.secondary { color: #315ac8; }
+    .source strong { font-size: 14px; }
+    .source a { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .method-note { margin-top: 28px; padding: 18px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.6; }
+    footer { padding: 28px 0 44px; color: var(--muted); background: var(--paper); font-size: 11px; line-height: 1.6; }
+
+    @media (max-width: 1050px) {
+      h1 { font-size: 58px; }
+      .hero-rail { grid-template-columns: 1fr 1fr; }
+      .rail-item:nth-child(2) { border-right: 0; }
+      .rail-item:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.2); }
+      .chain { grid-template-columns: 1fr 1fr; }
+      .chain-step { min-height: 190px; border-bottom: 1px solid #4b5054; }
+      .chain-step:nth-child(even) { border-right: 0; }
+      .chain-step:last-child { grid-column: 1 / -1; border-bottom: 0; }
+      .proof-grid { grid-template-columns: 1fr 1fr; }
+      .proof:nth-child(2) { border-right: 0; }
+      .proof:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .company-row { grid-template-columns: 1.1fr .85fr .8fr 1.15fr; }
+      .company-row > div:nth-child(4) { border-right: 0; }
+      .company-row > div:last-child { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+      .company-row.header > div:last-child { display: none; }
+      .stock-band, .model-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .shell, .topbar { width: min(100% - 26px, 1320px); }
+      .topbar { grid-template-columns: 1fr auto; }
+      .topbar nav { display: none; }
+      h1 { font-size: 44px; }
+      .hero { min-height: 820px; height: auto; max-height: none; }
+      .hero-inner { min-height: 820px; padding-top: 92px; }
+      .hero-copy p { font-size: 15px; }
+      .hero-rail { grid-template-columns: 1fr; }
+      .rail-item { min-height: 88px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.2); }
+      .rail-item:last-child { border-bottom: 0; }
+      .verdict-grid, .split { grid-template-columns: 1fr; gap: 28px; }
+      .verdict h2 { font-size: 38px; }
+      .section { padding: 60px 0; }
+      .section-head h2 { font-size: 38px; }
+      .sensor-row { grid-template-columns: 78px 1fr; }
+      .sensor-row a { grid-column: 2; }
+      .chain { grid-template-columns: 1fr; }
+      .chain-step, .chain-step:nth-child(even) { border-right: 0; }
+      .chain-step:last-child { grid-column: auto; }
+      .proof-grid, .gate-grid { grid-template-columns: 1fr; }
+      .proof, .proof:not(:first-child), .gate, .gate:not(:first-child) { padding: 22px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .dark .gate { border-bottom-color: #454a4e; }
+      .company-row, .company-row.header { grid-template-columns: 1fr 1fr; }
+      .company-row.header > div:nth-child(n+3) { display: none; }
+      .company-row > div, .company-row > div:first-child { padding: 14px 10px 14px 0; border-bottom: 1px solid var(--line); }
+      .company-row > div:nth-child(even) { padding-left: 10px; border-right: 0; }
+      .company-row > div:last-child { grid-column: 1 / -1; border-top: 0; border-bottom: 0; padding-left: 0; }
+      .price-line strong { font-size: 62px; }
+      .segments { grid-template-columns: 1fr 1fr; }
+      .segments button:nth-child(2) { border-right: 0; }
+      .segments button:nth-child(-n+2) { border-bottom: 1px solid var(--ink); }
+      .model-numbers { grid-template-columns: 1fr; }
+      .model-number:nth-child(odd) { border-right: 0; }
+      .model-number:nth-child(even) { padding-left: 0; }
+      .source { grid-template-columns: 76px 1fr; }
+      .source a { grid-column: 2; }
+    }
+
+    @media (max-width: 430px) {
+      h1 { font-size: 38px; }
+      .asof { font-size: 10px; }
+      .verdict h2, .section-head h2 { font-size: 34px; }
+      .company-row { grid-template-columns: 1fr; }
+      .company-row > div:nth-child(even) { padding-left: 0; }
+      .company-row.header > div:not(:first-child) { display: none; }
+      .company-row > div:last-child { grid-column: auto; }
+      .market-grid { grid-template-columns: 1fr; }
+      .market-cell:nth-child(odd) { border-right: 0; }
+      .market-cell:nth-child(even) { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../../index.html" aria-label="返回 Alpha Vault 首页">← ALPHA VAULT / 2026.07.11</a>
+    <nav aria-label="页面导航">
+      <a href="#signal">异常</a>
+      <a href="#chain">因果</a>
+      <a href="#ticket">股票</a>
+      <a href="#model">模型</a>
+      <a href="#sources">证据</a>
+    </nav>
+    <div class="asof"><span class="live-dot"></span>PUBLISHED · 2026-07-11</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-inner">
+        <div class="hero-copy">
+          <div class="signal">NEW TREND · HIGH-END ELECTRONIC GLASS CLOTH</div>
+          <h1>极客看到 PCB 变贵，利润正在迁往高阶玻纤布。</h1>
+          <p>我剥掉了战争造成的 PPE 树脂一次性冲击。留下来的结构变化是：AI 服务器把板层、频率和封装尺寸同时推高，普通 E-glass 产能被 Low-Dk、Low-CTE 和 Q-glass 抽走。<strong>主票不再是讲故事的整机厂，而是富乔 1815.TWO。</strong></p>
+        </div>
+        <div class="hero-rail" aria-label="核心结论">
+          <div class="rail-item">
+            <span>具体趋势</span>
+            <strong>PCB 价值由数量转向材料等级</strong>
+            <em>低损耗、低膨胀、长认证</em>
+          </div>
+          <div class="rail-item">
+            <span>主票</span>
+            <strong>富乔 · 1815.TWO</strong>
+            <em>玻纤纱布垂直整合，高阶占比上升</em>
+          </div>
+          <div class="rail-item">
+            <span>最新可核对收盘</span>
+            <strong>NT$95.0</strong>
+            <em>2026-07-09 · 市值约 NT$555 亿</em>
+          </div>
+          <div class="rail-item decision">
+            <span>我会不会买</span>
+            <strong>会，但只买验证仓</strong>
+            <em>加仓靠 Low-CTE 放量，不靠股价形态</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="verdict">
+      <div class="shell verdict-grid">
+        <div>
+          <h2>这次不是“相关”，而是利润表已经被改写。</h2>
+          <p>2025 年富乔营收增长 40.7%，毛利率升至 28%；2026 年一季度毛利率再到 36%，净利 NT$4.58 亿。公司披露电子级应用已占 69%，高阶 Low-Dk / Low-CTE 收入目标由 45% 升到 60%。这四个数字必须同时成立，才配叫趋势股。</p>
+        </div>
+        <div class="verdict-side">
+          <strong>但 NT$95 已经不是“没人知道”。</strong>
+          <span>按 25 倍利润估值，现价隐含年净利约 NT$22.2 亿，高于一季度年化的 NT$18.3 亿。剩余赔率只来自 Low-Dk2、Low-CTE 和 Q-glass 继续兑现，不来自普通 PCB 景气。</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="signal">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">01 / COMMUNITY SENSOR</div>
+          <h2>社区是报警器，不是证据终点。</h2>
+          <p>先看极客和小厂的真实痛感，再把新闻事件和结构趋势拆开。近期 PCB 涨价是真实的，但不能把所有涨价都硬塞给同一家上游公司。</p>
+        </div>
+        <div class="split">
+          <div class="sensor-list">
+            <div class="sensor-row">
+              <time>07 / 10</time>
+              <div><strong>PCB 从业者：今年报价约涨 20%，材料短缺难避</strong><p>评论者称部分工厂已出现 laminate 和 copper foil 短缺，社区信号从爱好者扩散到供应商。</p></div>
+              <a href="https://www.reddit.com/r/PCB/comments/1usamxh/pcb_prices_really_went_up_so_annoying/">Reddit</a>
+            </div>
+            <div class="sensor-row">
+              <time>07 / 09</time>
+              <div><strong>PCBA 小单成本在两个月内增加约 50%</strong><p>小客户先承受被动涨价与交付压力，符合“边缘客户先被挤出”的传感器模式。</p></div>
+              <a href="https://www.reddit.com/r/PCB/comments/1us0zib/jlcpcb_basic_parts_crazy_price_increases_over_the/">Reddit</a>
+            </div>
+            <div class="sensor-row">
+              <time>07 / 08</time>
+              <div><strong>主板与工作站成本抱怨形成跨社区讨论</strong><p>Hacker News 讨论里出现树脂、内存、SSD 与服务器级材料对消费硬件的挤压。</p></div>
+              <a href="https://news.ycombinator.com/item?id=48050540">HN</a>
+            </div>
+            <div class="sensor-row">
+              <time>05 / 01</time>
+              <div><strong>松下把普通 CCL 提价 30%，低损耗 CCL 提价 20%</strong><p>工业端正式确认板材涨价不是单个 PCB 厂的报价噪声。</p></div>
+              <a href="https://industrial.panasonic.com/sa/electronic-materials/news/2026-04-09-em-ccl">Panasonic</a>
+            </div>
+          </div>
+          <div>
+            <div class="filter-note">
+              <strong>已剔除：把“PCB 一个月涨 40%”直接归因给日东纺。</strong>
+              <p>四月的急涨很大一部分来自高纯 PPE 树脂停产和地缘事件。它能证明 PCB 供应脆弱，却不能证明 T-glass 是当月涨价的唯一原因。结构命题必须另用产品升级、产能迁移和利润率来证明。</p>
+            </div>
+            <figure class="material-photo">
+              <img src="assets/fulltech-glass-cloth.jpg" alt="富乔电子级玻纤布卷材">
+              <figcaption>真实产品：电子级玻纤布。玻纤纱织成布后与树脂、铜箔压合，成为 PCB 与封装基板的骨架。图片来源：富乔产品页。</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="chain">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">02 / CAUSAL CHAIN</div>
+          <h2>从极客抱怨到利润，必须穿过五道门。</h2>
+          <p>这里不使用均线、RSI 或短期涨跌。每一格都对应一段物理供给或已经出现的财务结果。</p>
+        </div>
+        <div class="chain">
+          <div class="chain-step">
+            <div class="num">01</div>
+            <div><strong>普通 PCB 用户先感到贵</strong><p>小单、主板、DIY 与 PCBA 客户议价弱，最先承受材料与交期变化。</p></div>
+          </div>
+          <div class="chain-step">
+            <div class="num">02</div>
+            <div><strong>AI 板卡变成高层高速系统</strong><p>Rubin 与 ASIC 板设计把材料推进 Low-Dk2、Q-glass 与 HVLP4，单位板材价值上升。</p></div>
+          </div>
+          <div class="chain-step">
+            <div class="num">03</div>
+            <div><strong>纺纱、织布和认证不能瞬间复制</strong><p>高阶玻纤要求成分、细度、均匀性、处理与客户认证同时过关，扩产后仍有良率爬坡。</p></div>
+          </div>
+          <div class="chain-step">
+            <div class="num">04</div>
+            <div><strong>产线向高阶品迁移</strong><p>供应商提高 Low-Dk / Low-CTE 比重，普通材料供给更紧；第二供应商得到订单外溢。</p></div>
+          </div>
+          <div class="chain-step final">
+            <div class="num">05</div>
+            <div><strong>富乔毛利率 14% → 28% → 36%</strong><p>产品组合变化已经进入利润表，Low-CTE 尚处小量出货，未来弹性仍待验证。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">03 / HARD PROOF</div>
+          <h2>四个数字让它从故事变成趋势。</h2>
+          <p>社区热度只负责把问题送到桌上；真正决定是否继续研究的是业务纯度、利润弹性和下一代产品进度。</p>
+        </div>
+        <div class="proof-grid">
+          <div class="proof"><span>BUSINESS PURITY</span><div><strong>69%</strong><p>2025 年前三季电子级应用占比，上一年同期为 53%。</p></div></div>
+          <div class="proof"><span>HIGH-END MIX</span><div><strong>45% → 60%</strong><p>Low-Dk 加 Low-CTE 从 2025 年末占比走向 2026 年公司目标。</p></div></div>
+          <div class="proof"><span>Q1 GROSS MARGIN</span><div><strong>36%</strong><p>2025 全年为 28%；产品升级正在提高单位利润。</p></div></div>
+          <div class="proof"><span>UNPRICED OPTION</span><div><strong>Low-CTE</strong><p>2025 Q4 才开始少量出货，仍在扩大认证与优化学习曲线。</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">04 / WHY THIS TICKET</div>
+          <h2>不是最有名的公司，而是利润暴露最合适的公司。</h2>
+          <p>日东纺拥有最硬的稀缺性，三井金属拥有高频铜箔份额；但主票要同时满足业务纯度、利润拐点和下一阶段尚未完全兑现。</p>
+        </div>
+        <div class="company-table" role="table" aria-label="候选公司对比">
+          <div class="company-row header" role="row">
+            <div>公司</div><div>控制环节</div><div>利润暴露</div><div>现在缺什么</div><div>结论</div>
+          </div>
+          <div class="company-row" role="row">
+            <div class="name"><strong>富乔</strong><span>1815.TWO · Taiwan</span></div>
+            <div><p>玻纤纱 + 玻纤布垂直整合</p></div>
+            <div><p>电子应用 69%；高阶目标 60%</p></div>
+            <div><p>Low-CTE 规模出货与客户认证</p></div>
+            <div><span class="tag win">主票 / 验证仓</span></div>
+          </div>
+          <div class="company-row" role="row">
+            <div class="name"><strong>日东纺</strong><span>3110.T · Japan</span></div>
+            <div><p>T-glass、NE/NER-glass</p></div>
+            <div><p>电子材料贡献约 84% 分部利润</p></div>
+            <div><p>现市值已计入 FY2027 计划的程度</p></div>
+            <div><span class="tag watch">质量标杆</span></div>
+          </div>
+          <div class="company-row" role="row">
+            <div class="name"><strong>三井金属</strong><span>5706.T · Japan</span></div>
+            <div><p>HVLP4/5 VSP 与 MicroThin</p></div>
+            <div><p>HVLP2+ 公司估计份额 60%</p></div>
+            <div><p>铜箔利润被金属与其他业务稀释</p></div>
+            <div><span class="tag watch">次级候选</span></div>
+          </div>
+          <div class="company-row" role="row">
+            <div class="name"><strong>松下 / CCL 厂</strong><span>6752.T 等</span></div>
+            <div><p>高阶覆铜板与预浸料</p></div>
+            <div><p>涨价 15% 至 30%</p></div>
+            <div><p>上游玻纤、树脂和铜箔同时涨价</p></div>
+            <div><span class="tag reject">非主票</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="ticket">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">05 / LIVE TICKET</div>
+          <h2>富乔 1815.TWO：现价、基本面与最新进展。</h2>
+          <p>过去涨了多少不参与否决；但当前市值已经要求未来赚到多少，必须算清楚。价格数据与业务数据分开标注日期。</p>
+        </div>
+        <div class="stock-band">
+          <div class="quote-block">
+            <div class="price-line"><span>LATEST VERIFIED CLOSE</span><strong>NT$95.0</strong><em>2026-07-09</em></div>
+            <div class="market-grid">
+              <div class="market-cell"><span>市值</span><strong>约 NT$555 亿</strong><small>按最新价与约 5.85 亿股</small></div>
+              <div class="market-cell"><span>52 周区间</span><strong>33.85 — 129.50</strong><small>只做背景，不做趋势判断</small></div>
+              <div class="market-cell"><span>TTM P/E</span><strong>约 45×</strong><small>历史利润口径</small></div>
+              <div class="market-cell"><span>Q1 年化 P/E</span><strong>约 30×</strong><small>95 ÷ (0.79 × 4)</small></div>
+            </div>
+            <div class="range" aria-label="52周价格位置">
+              <div class="range-track"><span class="range-dot"></span></div>
+              <div class="range-labels"><span>NT$33.85</span><span>现价 NT$95.0</span><span>NT$129.50</span></div>
+            </div>
+          </div>
+          <div class="news-list">
+            <div class="news-item"><time>2026 / 06 / 23</time><strong>Low-Dk2 下半年提高出货比重；M9 石英布研制完成</strong><p>公司同时承认 Low-CTE 仍在优化生产学习曲线。这是最重要的正反两面信息。</p></div>
+            <div class="news-item"><time>2026 / Q1</time><strong>营收 NT$18.8 亿，毛利率 36%，净利 NT$4.58 亿</strong><p>营收同比增长 36%，利润率继续高于 2025 全年。</p></div>
+            <div class="news-item"><time>2026 / 02 / 25</time><strong>继续投入泰国子公司</strong><p>扩产增加供给能力，也带来资本开支、爬坡和潜在稀释风险。</p></div>
+            <div class="news-item"><time>2025 / Q4</time><strong>Low-CTE 开始少量出货并扩大认证</strong><p>这部分是未来利润池的关键变量，目前不能按满产计入。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="model">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">06 / PROFIT POOL</div>
+          <h2>现价已经买了什么，剩余赔率还在哪里。</h2>
+          <p>模型从当前利润反推，而不是随手填增长率。所有未来数字都是情景假设，不是公司指引；切换情景可看到利润与估值要求。</p>
+        </div>
+        <div class="model-grid">
+          <div>
+            <div class="segments" role="tablist" aria-label="利润情景">
+              <button type="button" data-case="failure" role="tab">失败</button>
+              <button type="button" data-case="runrate" role="tab">当前年化</button>
+              <button type="button" data-case="trend" role="tab" class="active">趋势兑现</button>
+              <button type="button" data-case="bull" role="tab">全面成功</button>
+            </div>
+            <div class="model-output" aria-live="polite">
+              <div class="case-label" id="caseLabel">TREND CASE</div>
+              <h3 id="caseTitle">Low-Dk2 放量，Low-CTE 成为可见收入</h3>
+              <p id="caseText">收入升至 NT$110 亿，净利率 25%。这不是行业自然增长，而是高阶品占比继续上升并通过认证的结果。</p>
+              <div class="model-numbers">
+                <div class="model-number"><span>收入</span><strong id="caseRevenue">NT$110 亿</strong></div>
+                <div class="model-number"><span>净利润</span><strong id="caseNet">NT$27.5 亿</strong></div>
+                <div class="model-number"><span>EPS</span><strong id="caseEps">NT$4.70</strong></div>
+                <div class="model-number"><span>25× 对应价值</span><strong id="caseValue">NT$118</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="profitChart" width="840" height="360" aria-label="富乔利润情景图"></canvas>
+            <div class="chart-note">已观察：2024 净利 NT$0.63 亿；2025 净利 NT$8.57 亿；2026 Q1 年化 NT$18.32 亿。情景估值统一使用约 5.85 亿股；失败情景使用 20×，其余使用 25×。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section blue">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">07 / INVESTOR ANSWER</div>
+          <h2>我会买验证仓，但不会因为“PCB 缺货”直接买满。</h2>
+          <p>现价已经高于一季度利润年化对应的 25 倍价值。要把研究仓升级为主仓，必须看到下一段利润，而不是看到更多媒体标题。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark">
+      <div class="shell">
+        <div class="gate-grid">
+          <div class="gate"><span>ADD GATE</span><h3>Low-CTE 从“小量”变成“规模”</h3><p>下一份季报或公司沟通必须出现更清楚的出货占比、认证客户或产能利用证据。</p></div>
+          <div class="gate"><span>PROFIT GATE</span><h3>毛利率守住 33% 以上</h3><p>收入增长同时守住高毛利，才说明增长来自高阶组合，不是普通玻纤布的周期补库。</p></div>
+          <div class="gate kill"><span>KILL GATE</span><h3>认证延迟或毛利跌破 30%</h3><p>若 Low-CTE 两个报告期仍不显著，或扩产只带来库存、折旧和融资，主票资格撤销。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section white" id="sources">
+      <div class="shell">
+        <div class="section-head">
+          <div class="eyebrow">08 / SOURCE LEDGER</div>
+          <h2>结论后的证据，不用来源堆砌代替结论。</h2>
+          <p>公司文件和交易所文件负责证明业务与利润；社区只负责发现异常；行业资料负责交叉验证设计升级和供给结构。</p>
+        </div>
+        <div class="source-list">
+          <div class="source"><span class="source-type primary">PRIMARY</span><strong>富乔 2025 法人说明会：产品线、电子级占比、Low-Dk / Low-CTE 进度</strong><a href="https://www.ffg.com.tw/q/paper/114Q3.pdf">公司 PDF</a></div>
+          <div class="source"><span class="source-type primary">PRIMARY</span><strong>富乔官方投资者资料库</strong><a href="https://www.ffg.com.tw/en/finance-1.asp">Fulltech IR</a></div>
+          <div class="source"><span class="source-type primary">PRIMARY</span><strong>日东纺 FY2026 决算：电子材料收入与分部利润</strong><a href="https://www2.jpx.co.jp/disc/31100/140120260512525575.pdf">JPX PDF</a></div>
+          <div class="source"><span class="source-type primary">PRIMARY</span><strong>三井金属高阶铜箔：60% 份额估计、VSP 扩产与利润计划</strong><a href="https://www.mitsui-kinzoku.com/LinkClick.aspx?fileticket=FBZhYz20XWE%3D&mid=1027&tabid=204">公司 PDF</a></div>
+          <div class="source"><span class="source-type primary">PRIMARY</span><strong>松下 CCL / prepreg 提价 15% 至 30%</strong><a href="https://industrial.panasonic.com/sa/electronic-materials/news/2026-04-09-em-ccl">Panasonic</a></div>
+          <div class="source"><span class="source-type secondary">INDUSTRY</span><strong>Rubin 无缆架构推动 M8U、M9、Q-glass 与 HVLP4</strong><a href="https://www.trendforce.com/presscenter/news/20251120-12790.html">TrendForce</a></div>
+          <div class="source"><span class="source-type secondary">INDUSTRY</span><strong>台湾 PCB 协会：T-glass 与 Low-CTE 扩产、认证进度</strong><a href="https://www.tpca.org.tw/Message/MessageView?id=28359&mid=112">TPCA</a></div>
+          <div class="source"><span class="source-type secondary">RESULTS</span><strong>富乔 2026 Q1 毛利率、净利与 Low-Dk2 / Low-CTE 最新进度</strong><a href="https://www.ttv.com.tw/finance/view/06202623103907B7B28C611B4BFC9DED439E576C52BCA1CA/587">MoneyDJ / TTV</a></div>
+          <div class="source"><span class="source-type secondary">MARKET</span><strong>富乔最新成交价、市值与估值交叉核对</strong><a href="https://ww2.money-link.com.tw/TWStock/StockTick.aspx?SymId=1815">MoneyLink</a></div>
+          <div class="source"><span class="source-type secondary">MARKET</span><strong>富乔市值、企业价值与 TTM P/E 独立交叉核对</strong><a href="https://stockanalysis.com/quote/tpex/1815/market-cap/">StockAnalysis</a></div>
+          <div class="source"><span class="source-type community">COMMUNITY</span><strong>PCB 从业者与买家对涨价、缺料和小单成本的讨论</strong><a href="https://www.reddit.com/r/PCB/comments/1usamxh/pcb_prices_really_went_up_so_annoying/">Reddit</a></div>
+          <div class="source"><span class="source-type community">COMMUNITY</span><strong>主板与工作站硬件成本的跨社区讨论</strong><a href="https://news.ycombinator.com/item?id=48050540">Hacker News</a></div>
+        </div>
+        <div class="method-note">完整候选宇宙、淘汰原因和情景假设另存于 <a href="research-audit.md">research-audit.md</a>。价格截至页面注明日期；未来价值只是研究情景，不是收益承诺。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">ALPHA VAULT · 发布 2026-07-11 · @wen98 · 研究支持，不代替个人投资决策。主票资格由产品认证、利润率和高阶产品占比决定，不由技术图形决定。</div>
+  </footer>
+
+  <script>
+    const cases = {
+      failure: {
+        label: "FAILURE CASE",
+        title: "Low-CTE 认证拖延，高阶组合回落",
+        text: "收入 NT$70 亿、净利率 15%。扩产折旧和普通品竞争吞掉产品升级带来的利润。",
+        revenue: "NT$70 亿",
+        net: "NT$10.5 亿",
+        eps: "NT$1.80",
+        value: "NT$36",
+        netValue: 1.05,
+        multiple: "20× 对应价值"
+      },
+      runrate: {
+        label: "CURRENT RUN-RATE",
+        title: "只把 2026 Q1 乘以四，不奖励未来故事",
+        text: "收入 NT$75.2 亿、净利润 NT$18.32 亿。这个口径对应价值仍低于现价，说明市场已经购买了进一步改善。",
+        revenue: "NT$75.2 亿",
+        net: "NT$18.3 亿",
+        eps: "NT$3.16",
+        value: "NT$79",
+        netValue: 1.832,
+        multiple: "25× 对应价值"
+      },
+      trend: {
+        label: "TREND CASE",
+        title: "Low-Dk2 放量，Low-CTE 成为可见收入",
+        text: "收入升至 NT$110 亿，净利率 25%。这不是行业自然增长，而是高阶品占比继续上升并通过认证的结果。",
+        revenue: "NT$110 亿",
+        net: "NT$27.5 亿",
+        eps: "NT$4.70",
+        value: "NT$118",
+        netValue: 2.75,
+        multiple: "25× 对应价值"
+      },
+      bull: {
+        label: "BULL CASE",
+        title: "Low-CTE 与 Q-glass 两条认证曲线同时成功",
+        text: "收入 NT$140 亿、净利率 28%。只有在高阶产品成为利润主体时，才支持显著高于现价的价值。",
+        revenue: "NT$140 亿",
+        net: "NT$39.2 亿",
+        eps: "NT$6.70",
+        value: "NT$168",
+        netValue: 3.92,
+        multiple: "25× 对应价值"
+      }
+    };
+
+    let activeCase = "trend";
+    const buttons = [...document.querySelectorAll("[data-case]")];
+    const output = {
+      label: document.getElementById("caseLabel"),
+      title: document.getElementById("caseTitle"),
+      text: document.getElementById("caseText"),
+      revenue: document.getElementById("caseRevenue"),
+      net: document.getElementById("caseNet"),
+      eps: document.getElementById("caseEps"),
+      value: document.getElementById("caseValue")
+    };
+
+    function selectCase(key) {
+      activeCase = key;
+      const item = cases[key];
+      buttons.forEach((button) => {
+        const selected = button.dataset.case === key;
+        button.classList.toggle("active", selected);
+        button.setAttribute("aria-selected", String(selected));
+      });
+      output.label.textContent = item.label;
+      output.title.textContent = item.title;
+      output.text.textContent = item.text;
+      output.revenue.textContent = item.revenue;
+      output.net.textContent = item.net;
+      output.eps.textContent = item.eps;
+      output.value.textContent = item.value;
+      output.value.previousElementSibling.textContent = item.multiple;
+      drawChart();
+    }
+
+    buttons.forEach((button) => button.addEventListener("click", () => selectCase(button.dataset.case)));
+
+    function drawChart() {
+      const canvas = document.getElementById("profitChart");
+      const box = canvas.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = Math.max(320, Math.round(box.width * ratio));
+      canvas.height = Math.round(360 * ratio);
+      const ctx = canvas.getContext("2d");
+      ctx.scale(ratio, ratio);
+      const width = box.width;
+      const height = 360;
+      const pad = { left: 52, right: 18, top: 30, bottom: 58 };
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
+      const data = [
+        { label: "2024A", value: .063, color: "#9aa0a4" },
+        { label: "2025A", value: .857, color: "#4f7cff" },
+        { label: "Q1年化", value: 1.832, color: "#5fe1d2" },
+        { label: cases[activeCase].label.replace(" CASE", ""), value: cases[activeCase].netValue, color: activeCase === "failure" ? "#ff5a5f" : "#d9ff45" }
+      ];
+      const max = 4.2;
+
+      ctx.clearRect(0, 0, width, height);
+      ctx.font = "11px ui-monospace, SFMono-Regular, Menlo, monospace";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      for (let i = 0; i <= 4; i += 1) {
+        const y = pad.top + plotH - (i / 4) * plotH;
+        ctx.strokeStyle = "#d7dad5";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        ctx.fillStyle = "#73787d";
+        ctx.fillText(`${i * 10}亿`, pad.left - 8, y);
+      }
+
+      const gap = Math.max(12, plotW * .04);
+      const barW = Math.min(112, (plotW - gap * 3) / 4);
+      const totalW = barW * 4 + gap * 3;
+      const startX = pad.left + (plotW - totalW) / 2;
+      data.forEach((item, index) => {
+        const x = startX + index * (barW + gap);
+        const barH = (item.value / max) * plotH;
+        const y = pad.top + plotH - barH;
+        ctx.fillStyle = item.color;
+        ctx.fillRect(x, y, barW, barH);
+        ctx.fillStyle = "#111214";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.font = "800 12px ui-sans-serif, system-ui, sans-serif";
+        ctx.fillText(`NT$${(item.value * 10).toFixed(item.value < .1 ? 2 : 1)}亿`, x + barW / 2, Math.max(20, y - 8));
+        ctx.fillStyle = "#62676c";
+        ctx.textBaseline = "top";
+        ctx.font = "11px ui-monospace, SFMono-Regular, Menlo, monospace";
+        ctx.fillText(item.label, x + barW / 2, pad.top + plotH + 14);
+      });
+    }
+
+    window.addEventListener("resize", drawChart);
+    selectCase(activeCase);
+  </script>
+</body>
+</html>
